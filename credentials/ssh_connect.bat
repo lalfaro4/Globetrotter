@@ -1,0 +1,1 @@
+ssh -i server_ssh_key.pem azureuser@20.98.81.113

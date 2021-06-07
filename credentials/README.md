@@ -5,7 +5,7 @@
 2. SSH Username: root
 3. SSH Password: YE2n4qh4wV
 4. SSH Key: credentials/ssh-keys/ssdnodes_server_ssh_key.pem
-5. Database URL: 127.0.0.1 or locahost
+5. Database URL: 127.0.0.1 or localhost
 6. Database Port: 3306
 7. Database Username: team2
 8. Database Password: YE2n4qh4wV

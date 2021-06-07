@@ -1,26 +1,20 @@
 [![Work in Repl.it](https://classroom.github.com/assets/work-in-replit-14baed9a392b3a25080506f3b7b6d57f295ec2978f6f33ec97e36a161684cbe9.svg)](https://classroom.github.com/online_ide?assignment_repo_id=4846138&assignment_repo_type=AssignmentRepo)
-# csc648 Repository
+# CSC648 Repository - Team 2
 
-## Please when ready add your teams application URL or IP to the repository description. This will help with grading. Teams are expected to keep this value up to date.
-
-## Please do the following steps before completing Milestone 0.
-1. Change the name of the repository. All that needs to change is the NN to your respective team number. Team numbers whose value is less than 10, please pad with a 0. Ex team 1 is Team01 team 11 is Team11. Please make sure to also remove the username from the repository as well. Teams with incorrectly name repository will have points deducted from their milestone 0 grades.
-      - Please follow the naming convention assigned by your instructor.
-
-1. PLEASE REMOVE THE USERNAME FROM THE REPOSITORY NAME!!!
-
-2. Add ALL members of your team to this repository. For it to count, they must ACCEPT the invite.
-
-3. Fill out the table below
-
+## Milestone 0 task list
+- [x] Add application URL to the repo's About section
+- [x] Change name of repository
+- [x] Add all members to repository
+- [x] Fill out member list (see below)
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
-| member2      |               |                 |
-| member3      |               |                 |
-| member4      |               |                 |
-| member5      |               |                 |
-| member6      |               |                 |
+| Taylor Artunian	| tartunian@mail.sfsu.edu	| tartunian		|
+| Kajeme Cheneque	| kcheneque@mail.sfsu.edu	| kajeme1188		|
+| Luis Alfaro		| lalfaro4@mail.sfsu.edu	| lalfaro4		|
+| Ruja Rajbhandari      | rrajbhandari@mail.sfsu.edu	| rujarajbhandari	|
+| Yi Liu		| yliu22@mail.sfsu.edu		| alexliu724		|
+| Jesus Correa		| jcorrea2@mail.sfsu.edu	| correa9543		|
+| Robin Fernando	| rfernando1@mail.sfsu.edu	| robinfern94		|
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.

@@ -1,0 +1,1 @@
+ssh -i ssh-keys/ssdnodes_server_ssh_key.pem root@172.93.54.146

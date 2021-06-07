@@ -1,0 +1,11 @@
+<a href="/posts/{{id}}" style="text-decoration: none;">
+  <div id="post-{{id}}" class="box card">
+    <div>{{poster.username}}</div>
+    <div>{{FormatDate _ts}}</div>
+    <img src="/{{thumbnailpath}}" style="max-width: 100%">
+    <div class="card-body" style="max-width: 100%;">
+      <h3>{{title}}</h3>
+      <p>{{description}}</p>
+    </div>
+  </div>
+</a>

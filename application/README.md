@@ -7,3 +7,9 @@ You are free to organize the contents of the folder as you see fit. But remember
 
 ## Please use the rest of the README.md to store important information for your team's application.
 
+### Folder & File Structure
+* bin - holds the Node web server entry point
+* node_modules - holds packages installed with npm
+* routes - routers used by ExpressJS for handling URL's
+* views - contains Express-Handlebars layouts and partials
+* app.js - main application entry point

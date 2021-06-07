@@ -1,24 +1,18 @@
-# Credentials Folder
+# Credentials & Connection Info
 
-## The purpose of this folder is to store all credentials needed to log into your server and databases. This is important for many reasons. But the two most important reasons is
-    1. Grading , servers and databases will be logged into to check code and functionality of application. Not changes will be unless directed and coordinated with the team.
-    2. Help. If a class TA or class CTO needs to help a team with an issue, this folder will help facilitate this giving the TA or CTO all needed info AND instructions for logging into your team's server. 
+## SSDNodes
+1. Public IP: 172.93.54.146
+2. SSH Username: root
+3. SSH Password: YE2n4qh4wV
+4. SSH Key: credentials/ssh-keys/ssdnodes_server_ssh_key.pem
+5. Database URL: 127.0.0.1 or locahost
+6. Database Port: 3306
+7. Database Username: team2
+8. Database Password: YE2n4qh4wV
+9. Database Name: 
 
-
-# Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
-
-1. Server URL or IP
-2. SSH username
-3. SSH password or key.
-    <br> If a ssh key is used please upload the key to the credentials folder.
-4. Database URL or IP and port used.
-    <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
-5. Database username
-6. Database password
-7. Database name (basically the name that contains all your tables)
-8. Instructions on how to use the above information.
-
-# Most important things to Remember
-## These values need to kept update to date throughout the semester. <br>
-## <strong>Failure to do so will result it points be deducted from milestone submissions.</strong><br>
-## You may store the most of the above in this README.md file. DO NOT Store the SSH key or any keys in this README.md file.
+## Azure
+Setting up the MySQL database on the Azure VM took too long. The information below is just for records until we revisit deploying to Azure.
+1. Server Root Password:	CSC648Team2ProjectRoot!
+2. Non-root Username:		azureuser
+3. Non-root Password:		CSC648Team2Project!

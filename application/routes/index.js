@@ -9,6 +9,13 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/about/:membername', (req, res, next) => {
+  res.render(`member-bios/${req.params.membername}`, {
+    layout: 'member-bio',
+    membername: `${req.params.membername}`
+  });
+});
+
 // router.get('/', userIsNotLoggedIn, (req, res, next) => {
 //   res.render("login", {
 //     title: "Login"

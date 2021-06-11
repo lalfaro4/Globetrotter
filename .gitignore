@@ -1,0 +1,2 @@
+**/*.DS_Store	# Mac filesystem files
+**/~$*		# Windows temp files in any folder

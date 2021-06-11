@@ -1,3 +1,3 @@
-.DS_Store	# Mac filesystem files
-~$*.doc*	# Windows temp files in any folder
-.idea/		# IntelliJ
+**/.DS_Store	# Mac filesystem files
+**/~$*.doc*	# Windows temp files in any folder
+**/.idea/	# IntelliJ folder

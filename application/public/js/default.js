@@ -1,0 +1,1 @@
+// This is the client JS for the default layout. It will be active on every page.

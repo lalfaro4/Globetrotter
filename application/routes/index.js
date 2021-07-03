@@ -1,9 +1,20 @@
 var express = require('express');
+const { databaseModule } = require('../private/js/database');
 var router = express.Router();
 
 router.get('/', (req, res, next) => {
   res.render("welcome", {
     title: "Welcome"
+  });
+});
+
+router.get('/home', (req, res, next) => {
+  // Call the API's
+});
+
+router.get('/vp', (req, res, next) => {
+  res.render("verticalPrototype", {
+    title: "Vertical Prototype"
   });
 });
 

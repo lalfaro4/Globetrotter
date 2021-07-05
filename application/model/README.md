@@ -1,0 +1,2 @@
+## Model
+This folder is for files related to our data object model. Since JS does not have Classes, we wll need to figure out an equivalent way to write this code. The good thing is that we can use these files for both client and server.

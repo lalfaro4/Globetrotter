@@ -13,3 +13,12 @@ You are free to organize the contents of the folder as you see fit. But remember
 * routes - routers used by ExpressJS for handling URL's
 * views - contains Express-Handlebars layouts and partials
 * app.js - main application entry point
+
+### Node Modules
+| Module Name		| Purpose																	|
+|    :---:    		|     :---:																	|
+| express		| This is the main module for the web server. Most importantly it handles the routes and load other modules.					|
+| express-handlebars	| This allows us to templatize our HTML. More explanation can be found in 'Views/README.md'.							|
+| path			| Used for manipulating filepath strings. Not used very often.											|
+| cookie-parser		| *Not 100% sure*																|
+| express-session	| This one allows us to add extra info to the client requests so that the backend can check who the user is when they are making a request.	|

@@ -9,7 +9,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/home', (req, res, next) => {
-  // Call the API's
 });
 
 router.get('/vp', (req, res, next) => {

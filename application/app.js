@@ -36,7 +36,7 @@ app.set("view engine", "hbs");
 // app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(session({
   store: database.getSessionStore(),
   secret: "Don't tell",

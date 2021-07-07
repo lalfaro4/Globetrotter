@@ -8,7 +8,10 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/home', (req, res, next) => {
+router.get('/search', (req, res, next) => {
+  res.render("search",{
+    title: "Search"
+  });
 });
 
 router.get('/vp', (req, res, next) => {

@@ -69,15 +69,15 @@ var options = {
                 }, sessionConnection);
                 console.log("Created MySQL session store");
             } catch (error) {
-                console.log(`MySQL Error: ${err.code}`);
+                console.log(`MySQL Error: ${error.code}`);
                 console.log("Could not create MySQLStore. Database connection probably doesn't exist.");
             }
         } catch (error) {
-            console.log(`MySQL Error: ${err.code}`);
+            console.log(`MySQL Error: ${error.code}`);
             console.log("Error getting MySQL connection for session manager")
         }
     } catch (error) {
-        console.log(`MySQL Error: ${err.code}`);
+        console.log(`MySQL Error: ${error.code}`);
         console.log("Error creating MySQL connection pool");
     }
 

@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS `GlobetrotterV1`.`users` (
   UNIQUE INDEX `passwordHash_UNIQUE` (`passwordHash` ASC) VISIBLE)
 ENGINE = InnoDB;
 
-CREATE USER 'team2' IDENTIFIED BY 'YE2n4qh4wV';
+-- CREATE USER 'team2' IDENTIFIED BY 'YE2n4qh4wV';
+-- flush privileges;
+CREATE USER 'team2' IDENTIFIED WITH mysql_native_password BY 'YE2n4qh4wV';
 
 GRANT ALL ON `GlobetrotterV1`.* TO 'team2';
 

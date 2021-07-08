@@ -19,8 +19,8 @@ The account below is created during the database creation using the script in 'd
 1. Username: globetrotter
 2. Password: globetrotter
 
-~~## Azure
+## Azure
 Setting up the MySQL database on the Azure VM took too long. The information below is just for records until we revisit deploying to Azure.
 1. Server Root Password:	CSC648Team2ProjectRoot!
 2. Non-root Username:		azureuser
-3. Non-root Password:		CSC648Team2Project!~~
+3. Non-root Password:		CSC648Team2Project!

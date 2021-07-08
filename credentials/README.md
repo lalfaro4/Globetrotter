@@ -11,6 +11,11 @@
 8. Database Password: YE2n4qh4wV
 9. Database Name: 
 
+## Globetrotter Application/API
+The account below is created during the database creation using the script in 'database-setup/globetrotter-create-database'.
+1. Username: globetrotter
+2. Password: globetrotter
+
 ## Azure
 Setting up the MySQL database on the Azure VM took too long. The information below is just for records until we revisit deploying to Azure.
 1. Server Root Password:	CSC648Team2ProjectRoot!

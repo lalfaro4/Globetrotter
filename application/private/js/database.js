@@ -18,6 +18,21 @@ var sessionStore;
 
 
 /*************************************************************************************
+ * Logging function for database.js
+ *************************************************************************************/
+function log(message, type) {
+    if (type == 'success') {
+        console.log(`database.js:: ${message}`.bgBlue.white);
+    } else if (type == 'info') {
+        console.log(`database.js:: ${message}`.bgBlue.white);
+    } else if (type == 'fail') {
+        console.log(`database.js:: ${message}`.italic.bgRed.black);
+    }
+}
+
+
+
+/*************************************************************************************
  * MySQL Configuration
  *************************************************************************************/
 var options = {
@@ -43,15 +58,15 @@ var options = {
      * Create a pool of MySQL connections that can be reused.
      *************************************************************************************/
     try {
-        pool = mysql.createPool(options);
-        console.log("Created MySQL connection pool".green);
+        pool = await mysql.createPool(options);
+        log("Created MySQL connection pool", "success");
 
         /*************************************************************************************
         * Create one connection just for the session manager.
         *************************************************************************************/
         try {
             sessionConnection = await pool.awaitGetConnection();
-            console.log("Created MySQL session manager connection".green);
+            log("Created MySQL session manager connection", "success");
 
             /*************************************************************************************
             * Create the 'usersessions' table in the database.
@@ -69,18 +84,18 @@ var options = {
                         }
                     }
                 }, sessionConnection);
-                console.log("Created MySQL session store".green);
+                log("Created MySQL session store in database", "success");
             } catch (error) {
-                console.log(`MySQL Error: ${error.code}`.bgBlack.red);
-                console.log("Could not create MySQLStore. Database connection probably doesn't exist.".bgBlack.red);
+                log(`MySQL Error: ${error.code}`, "fail");
+                log("Could not create MySQLStore. Database connection probably doesn't exist.", "fail");
             }
         } catch (error) {
-            console.log(`MySQL Error: ${error.code}`.bgBlack.red);
-            console.log("Error getting MySQL connection for session manager".bgBlack.red)
+            log(`MySQL Error: ${error.code}`, "fail");
+            log("Error getting MySQL connection for session manager", "fail");
         }
     } catch (error) {
-        console.log(`MySQL Error: ${error.code}`.bgBlack.red);
-        console.log("Error creating MySQL connection pool".bgBlack.red);
+        log(`MySQL Error: ${error.code}`, "fail");
+        log("Error creating MySQL connection pool", "fail");
     }
 
 })();
@@ -101,19 +116,20 @@ function getSessionStore() {
  * Generic function for running a query against the MySQL database.
  *************************************************************************************/
 async function runQuery(query, params) {
-    console.log(`MySQL Query: ${query}, Params: ${params}`.bgBlue.yellow);
+    log(`MySQL Query: ${query}, Params: ${params}`, "success");
     var result = null;
     var connection;
     try {
         connection = await pool.awaitGetConnection();
         result = await connection.awaitQuery(query, params);
         connection.release();
+        log(`MySQL: Found ${result.length} result(s).`, "success");
+        return result;
     } catch (error) {
-        console.log(`MySQL Error: ${error.code}`.bgBlack.red);
-        console.log(`Message: ${error.sqlMessage}`.bgBlack.red);
-        console.log(`SQL: ${error.sql}`.bgBlack.red);
+        log(`MySQL Error: ${error.code}`, "fail");
+        log(`Message: ${error.sqlMessage}`, "fail");
+        log(`SQL: ${error.sql}`, "fail");
     }
-    return result;
 }
 
 
@@ -148,9 +164,9 @@ async function getAllUsers() {
 
 
 /*************************************************************************************
- * Get a user by their username from the database.
+ * Search for users with a username containing the searchString.
  *************************************************************************************/
- async function searchUsersByUsername(searchString) {
+async function searchUsersByUsername(searchString) {
     var query = `SELECT * FROM GlobetrotterV1.users WHERE username LIKE '%${searchString}%'`;
     var params = [];
     var result = await runQuery(query, params);
@@ -161,6 +177,11 @@ async function getAllUsers() {
     }
 }
 
+
+
+/*************************************************************************************
+ * Search for users with an email containing the searchString.
+ *************************************************************************************/
 async function searchUsersByEmail(searchString) {
     var query = `SELECT * FROM GlobetrotterV1.users WHERE email LIKE '%${searchString}%'`;
     var params = [];
@@ -195,11 +216,15 @@ async function getUserByUsername(username) {
 async function authenticate(username, password) {
     var user = await getUserByUsername(username);
     if (user) {
-        var passwordsMatched = await bcrypt.compare(password, user.passwordHash);
-        if (passwordsMatched) {
-            user.id = "";
-            user.passwordHash = "";
-            return user;
+        try {
+            var passwordsMatched = await bcrypt.compare(password, user.password_hashed);
+            if (passwordsMatched) {
+                user.id = "";
+                user.passwordHash = "";
+                return user;
+            }
+        } catch (error) {
+            console.log(`bcrypt Error: ${error.toString()}`.bgRed.black);
         }
     } else {
         return null;

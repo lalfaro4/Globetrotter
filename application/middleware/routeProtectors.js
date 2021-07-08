@@ -4,6 +4,21 @@ const WebTokens = require('../private/js/webTokens');
 
 
 /*************************************************************************************
+ * Logging function for routeProtector.js
+ *************************************************************************************/
+ function log(message, type) {
+    if (type == 'success') {
+        console.log(`routeProtector.js:: ${message}`.bgGreen.white);
+    } else if (type == "info") {
+        console.log(`routeProtector.js:: ${message}`.bgGreen.white);
+    } else if (type == 'fail') {
+        console.log(`routeProtector.js:: ${message}`.italic.bgRed.black);
+    }
+}
+
+
+
+/*************************************************************************************
  * Route Protector: Checks if a request has a token then yields back to the next 
  * route in the router that called it.
  * 
@@ -17,11 +32,14 @@ function authorization(req, res, next) {
             var decodedToken = WebTokens.decodeToken(token);
             // console.log(decodedToken);
             // console.log(req.originalUrl);
+            log("Authorization token validated.", "success");
             next();
         } catch (err) {
+            log("Invalid authorization token.", "Fail");
             res.send({ result: "Invalid authorization token." });
         }
     } else {
+        log("Missing authorization token.", "fail");
         res.send({ result: "Missing authorization token." });
     }
 }

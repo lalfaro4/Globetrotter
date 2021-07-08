@@ -10,6 +10,21 @@ var router = express.Router();
 
 
 /*************************************************************************************
+ * Logging function for api.js
+ *************************************************************************************/
+function log(message, type) {
+  if (type == 'success') {
+    console.log(`api.js:: ${message}`.bgBrightYellow.black);
+  } else if (type == "info") {
+    console.log(`api.js:: ${message}`.bgBrightYellow.black);
+  } else if (type == 'fail') {
+    console.log(`api.js:: ${message}`.italic.bgRed.black);
+  }
+}
+
+
+
+/*************************************************************************************
  * API Endpoint: GET /api/authenticate
  *************************************************************************************/
 router.get('/authenticate', async (req, res, next) => {
@@ -18,8 +33,10 @@ router.get('/authenticate', async (req, res, next) => {
   var user = await database.authenticate(username, password);
   if (user) {
     var token = WebTokens.getNewToken(user.username);
+    log("User authenticated successfully.", "success");
     res.send({ user: user, token: token });
   } else {
+    log("Username or password incorrect.", "fail");
     res.send({ result: "Username or password incorrect." });
   }
 });
@@ -31,31 +48,34 @@ router.get('/authenticate', async (req, res, next) => {
  *************************************************************************************/
 router.get('/users', authorization, async (req, res, next) => {
   var users = await database.getAllUsers();
-  res.send(users);
+  if (users.length > 0) {
+    log(`Found ${users.length} users.`, "success");
+    res.send(users);
+  } else {
+    log("No users found.", "success");
+    res.send({ result: "No users found." });
+  }
 });
 
 
 
 /*************************************************************************************
  * API Endpoint: GET /api/users/search
- * 
- * Todo: Check whether 
  *************************************************************************************/
- router.get('/users/search', authorization, async (req, res, next) => {
-  console.log("Searching for users...".cyan);
+router.get('/users/search', authorization, async (req, res, next) => {
   var username = req.query.username;
   var email = req.query.email;
-  var user;
-  if(username) {
+  var users;
+  if (username) {
     users = await database.searchUsersByUsername(username);
-    console.log(`Found ${users.length} users.`.green);
   } else if (email) {
     users = await database.searchUsersByEmail(email);
-    console.log(`Found ${users.length} users.`.green);
   }
-  if(users.length > 0) {
+  if (users && users.length > 0) {
+    log(`Found ${users.length} users.`, "success");
     res.send(JSON.stringify(users, null, 4));
   } else {
+    log("No users found.", "success");
     res.send({ result: "No users found." });
   }
 });
@@ -67,15 +87,23 @@ router.get('/users', authorization, async (req, res, next) => {
  *************************************************************************************/
 router.get('/users/me', authorization, async (req, res, next) => {
   var token = WebTokens.extractToken(req);
-  if(token) {
+  if (token) {
     try {
       var decodedToken = WebTokens.decodeToken(token);
       var user = await database.getUserByUsername(decodedToken.data);
-      res.send(user);
-    } catch(error) {
+      if (user) {
+        log("Found you!", "success");
+        res.send(user);
+      } else {
+        log("Could not find user.", "fail");
+        res.send({ result: "Could not find user." });
+      }
+    } catch (error) {
+      log("Invalid authorization token.", "fail");
       res.send({ result: "Invalid authorization token." });
     }
   } else {
+    log("Missing authorization token.", "fail");
     res.send({ result: "Missing authorization token." });
   }
 });
@@ -89,11 +117,18 @@ router.put('/users', authorization, async (req, res, next) => {
   var username = req.query.username;
   var password = req.query.password;
   var email = req.query.email;
-  var user = await database.createUser(username, password, email);
-  if (user) {
-    res.send({ result: "User created successfully."});
+  if (username && password && email) {
+    var user = await database.createUser(username, password, email);
+    if (user) {
+      log("User created successfully.", "success");
+      res.send({ result: "User created successfully." });
+    } else {
+      log("Error creating user.", "fail");
+      res.send({ result: "Error creating user." });
+    }
   } else {
-    res.send({ result: "Error creating user." });
+    log("Missing parameter(s).", "fail");
+    res.send({ result: "Missing parameter(s)." });
   }
 });
 
@@ -117,12 +152,14 @@ router.get('/flights', authorization, async (req, res, next) => {
       req.query.currencyCode,
       req.query.max);
     if (flights) {
-      console.log(`Found ${flights.length} flights from ${req.query.originLocationCode} to ${req.query.destinationLocationCode}`.green);
+      log("Retrieved flights.", "success");
       res.send(flights);
     } else {
-      res.send({ result: "Error retrieving flights" });
+      log("Error retrieving flights.", "fail");
+      res.send({ result: "Error retrieving flights." });
     }
   } else {
+    log("Missing parameters", "fail");
     res.send({ result: "Missing parameters" });
   }
 });
@@ -133,7 +170,7 @@ router.get('/flights', authorization, async (req, res, next) => {
  * Error trap for all invalid API requests.
  *************************************************************************************/
 router.use((req, res) => {
-  console.log(`api.js::errorTrap ${req.url}`.red);
+  log(`${req.url}`, "fail");
   res.redirect(404, "/");
 });
 

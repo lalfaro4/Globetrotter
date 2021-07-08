@@ -43,9 +43,16 @@ router.get('/users', authorization, async (req, res, next) => {
  *************************************************************************************/
  router.get('/users/search', authorization, async (req, res, next) => {
   console.log("Searching for users...".cyan);
-  var searchString = req.query.searchString;
-  var users = await database.searchUsersByUsername(searchString);
-  console.log(`Found ${users.length} users.`.green);
+  var username = req.query.username;
+  var email = req.query.email;
+  var user;
+  if(username) {
+    users = await database.searchUsersByUsername(username);
+    console.log(`Found ${users.length} users.`.green);
+  } else if (email) {
+    users = await database.searchUsersByEmail(email);
+    console.log(`Found ${users.length} users.`.green);
+  }
   if(users.length > 0) {
     res.send(JSON.stringify(users, null, 4));
   } else {
@@ -81,7 +88,8 @@ router.get('/users/me', authorization, async (req, res, next) => {
 router.put('/users', authorization, async (req, res, next) => {
   var username = req.query.username;
   var password = req.query.password;
-  var user = await database.createUser(username, password);
+  var email = req.query.email;
+  var user = await database.createUser(username, password, email);
   if (user) {
     res.send({ result: "User created successfully."});
   } else {

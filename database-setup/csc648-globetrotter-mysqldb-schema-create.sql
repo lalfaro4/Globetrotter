@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `GlobetrotterV1`.`users` (
   `address` VARCHAR(90) NULL,
   `phoneCountryCode` VARCHAR(2) NULL,
   `phoneNumber` VARCHAR(45) NULL,
+  `email` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,

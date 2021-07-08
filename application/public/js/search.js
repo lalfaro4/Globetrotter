@@ -21,9 +21,37 @@ async function authenticate() {
 
 
 
-async function searchUsers(token, searchString) {
-    var url = new URL("http://localhost:3000/api/users/search"),			/* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
-        params = { searchString: searchString }
+// async function searchUsers(token, searchString, searchType) {
+//     var url = new URL("http://localhost:3000/api/users/search"),			/* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+//         // params = {`${searchType}`: searchString }
+//         //params[searchType] = searchString
+//         var parameters;
+//     if(searchType == 'username') {
+//         parameters = { username: searchString };
+//     } else if(searchType == 'email') {
+//         parameters = { email: searchString };
+//     }
+//     var url = new URL("http://localhost:3000/api/users/search%22),            /* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+//         params = parameters
+//         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+//     var response = await fetch(url, {
+//         method: "GET",
+//         headers: new Headers({
+//             'Authorization': `Bearer ${token}`,
+//         })
+//     });
+//     return await response.text();
+// }
+
+async function searchUsers(token, searchString, searchType) {
+    var parameters;
+    if(searchType == 'username') {
+        parameters = { username: searchString };
+    } else if(searchType == 'email') {
+        parameters = { email: searchString };
+    }
+    var url = new URL("http://localhost:3000/api/users/search"),            /* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+        params = parameters
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     var response = await fetch(url, {
         method: "GET",
@@ -49,9 +77,11 @@ searchNextButton.addEventListener("click", () => {
 
 searchButton.addEventListener("click", async () => {
     var searchString = document.getElementById("searchParameterField").value;
+    var searchType = document.getElementById("search-choice").value.toLowerCase();
     var token = await authenticate();
     console.log(`Searching for users containing '${searchString}'`);
-    var result = await searchUsers(token, searchString);
+    console.log(`Searching for users containing '${searchType}'`);
+    var result = await searchUsers(token, searchString, searchType);
     var databaseDataTextArea = document.getElementById('database-data');
     databaseDataTextArea.innerText = result;
 });

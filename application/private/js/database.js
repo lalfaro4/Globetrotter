@@ -4,6 +4,7 @@ var mysql = require("mysql-await");
 var session = require('express-session');
 var MySQLStore = require("express-mysql-session")(session);
 var bcrypt = require('bcrypt');
+const e = require('express');
 
 
 
@@ -120,10 +121,10 @@ async function runQuery(query, params) {
 /*************************************************************************************
  * Create a user in the database.
  *************************************************************************************/
-async function createUser(username, password) {
+async function createUser(username, password, email) {
     var passwordHash = await bcrypt.hash(password, 10);
-    var query = 'INSERT INTO GlobetrotterV1.users (username, passwordHash) VALUES(?, ?)';
-    var params = [username, passwordHash];
+    var query = 'INSERT INTO GlobetrotterV1.users (username, password_hashed, email) VALUES(?, ?, ?)';
+    var params = [username, passwordHash, email];
     var result = await runQuery(query, params);
     return result;
 }
@@ -160,7 +161,17 @@ async function getAllUsers() {
     }
 }
 
+async function searchUsersByEmail(searchString) {
+    var query = `SELECT * FROM GlobetrotterV1.users WHERE email LIKE '%${searchString}%'`;
+    var params = [];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
 
+}
 
 /*************************************************************************************
  * Get a user by their username from the database.
@@ -204,5 +215,6 @@ module.exports.getSessionStore = getSessionStore;
 module.exports.createUser = createUser;
 module.exports.getAllUsers = getAllUsers;
 module.exports.searchUsersByUsername = searchUsersByUsername;
+module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
 module.exports.authenticate = authenticate;

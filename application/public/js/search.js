@@ -10,12 +10,23 @@ searchButton.id = "submit-button";
 
 
 /*************************************************************************************
+ * Grabs the current protocol, host, and port being used to access the website.
+ * 
+ * Use this in place of localhost:port
+ *************************************************************************************/
+function getURLBase() {
+    return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+}
+
+
+
+/*************************************************************************************
  * Authenticates the user with and returns the authorization token.
  *************************************************************************************/
 async function authenticate() {
-    var url = new URL("http://localhost:3000/api/authenticate"),			/* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+    var url = new URL(getURLBase() + "/api/authenticate"),
         params = { username: 'globetrotter', password: 'globetrotter' }
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     var response = await fetch(url, {
         method: "GET"
     });
@@ -31,16 +42,16 @@ async function authenticate() {
  *************************************************************************************/
 async function searchUsers(token, searchString, searchType) {
     var parameters;
-    if(searchType == 'username') {
+    if (searchType == 'username') {
         parameters = { username: searchString };
-    } else if(searchType == 'email') {
+    } else if (searchType == 'email') {
         parameters = { email: searchString };
     } else {
         return JSON.stringify({ result: "Invalid search type." });
     }
-    var url = new URL("http://localhost:3000/api/users/search"),            /* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+    var url = new URL(getURLBase() + "/api/users/search"),
         params = parameters
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     var response = await fetch(url, {
         method: "GET",
         headers: new Headers({

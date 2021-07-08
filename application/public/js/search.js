@@ -3,22 +3,55 @@ const infoField = document.createElement("div");
 const resultText = document.getElementById("result-text");
 const submitButton = document.getElementById("submit-btn");
 const dataBaseData = document.getElementById("database-data");
-const newButton = document.createElement("button");
-newButton.innerHTML = "Submit";
-newButton.id = "submit-button";
+const searchButton = document.createElement("button");
+searchButton.innerHTML = "Submit";
+searchButton.id = "submit-button";
 
 
 
-searchNextButton.addEventListener("click", () =>{
+async function authenticate() {
+    var url = new URL("http://localhost:3000/api/authenticate"),			/* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+        params = { username: 'user2', password: '1234' }
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    var response = await fetch(url, {
+        method: "GET"
+    });
+    return (await response.json()).token;
+}
+
+
+
+async function searchUsers(token, searchString) {
+    var url = new URL("http://localhost:3000/api/users/search"),			/* Hopefully we can find a way to write this without 'localhost' since the backend will not always be at localhost. */
+        params = { searchString: searchString }
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    var response = await fetch(url, {
+        method: "GET",
+        headers: new Headers({
+            'Authorization': `Bearer ${token}`,
+        })
+    });
+    return await response.text();
+}
+
+
+
+searchNextButton.addEventListener("click", () => {
     const userSearchOption = document.getElementById("search-choice").value;
-    const textField = document.createElement("input");
-    textField.type = "text";
+    const searchParameterField = document.createElement("input");
+    searchParameterField.id = 'searchParameterField';
+    searchParameterField.type = "text";
 
     resultText.innerText = `Enter the ${userSearchOption} to get the information: `;
-    resultText.appendChild(textField);
-    resultText.appendChild(newButton);
+    resultText.appendChild(searchParameterField);
+    resultText.appendChild(searchButton);
 })
 
-newButton.addEventListener("click", () => {
-    
+searchButton.addEventListener("click", async () => {
+    var searchString = document.getElementById("searchParameterField").value;
+    var token = await authenticate();
+    console.log(`Searching for users containing '${searchString}'`);
+    var result = await searchUsers(token, searchString);
+    var databaseDataTextArea = document.getElementById('database-data');
+    databaseDataTextArea.innerText = result;
 });

@@ -1,8 +1,10 @@
+var colors = require('colors');
 var express = require('express');
 var database = require('../private/js/database');
 const WebTokens = require('../private/js/webTokens');
 const amadeusConnector = require('../private/js/amadeusConnector');
 const { authorization } = require('../middleware/routeProtectors');
+var colors = require('colors');
 var router = express.Router();
 
 
@@ -35,6 +37,25 @@ router.get('/users', authorization, async (req, res, next) => {
 
 
 /*************************************************************************************
+ * API Endpoint: GET /api/users/search
+ * 
+ * Todo: Check whether 
+ *************************************************************************************/
+ router.get('/users/search', authorization, async (req, res, next) => {
+  console.log("Searching for users...".cyan);
+  var searchString = req.query.searchString;
+  var users = await database.searchUsersByUsername(searchString);
+  console.log(`Found ${users.length} users.`.green);
+  if(users.length > 0) {
+    res.send(JSON.stringify(users, null, 4));
+  } else {
+    res.send({ result: "No users found." });
+  }
+});
+
+
+
+/*************************************************************************************
  * API Endpoint: GET /api/users/me
  *************************************************************************************/
 router.get('/users/me', authorization, async (req, res, next) => {
@@ -62,7 +83,7 @@ router.put('/users', authorization, async (req, res, next) => {
   var password = req.query.password;
   var user = await database.createUser(username, password);
   if (user) {
-    res.send(user);
+    res.send({ result: "User created successfully."});
   } else {
     res.send({ result: "Error creating user." });
   }
@@ -88,7 +109,7 @@ router.get('/flights', authorization, async (req, res, next) => {
       req.query.currencyCode,
       req.query.max);
     if (flights) {
-      console.log(`Found ${flights.length} flights from ${req.query.originLocationCode} to ${req.query.destinationLocationCode}`);
+      console.log(`Found ${flights.length} flights from ${req.query.originLocationCode} to ${req.query.destinationLocationCode}`.green);
       res.send(flights);
     } else {
       res.send({ result: "Error retrieving flights" });
@@ -104,7 +125,7 @@ router.get('/flights', authorization, async (req, res, next) => {
  * Error trap for all invalid API requests.
  *************************************************************************************/
 router.use((req, res) => {
-  console.log(`api.js::errorTrap ${req.url}`);
+  console.log(`api.js::errorTrap ${req.url}`.red);
   res.redirect(404, "/");
 });
 

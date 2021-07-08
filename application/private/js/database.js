@@ -1,4 +1,5 @@
 const User = require('../../model/User');
+var colors = require('colors');
 var mysql = require("mysql-await");
 var session = require('express-session');
 var MySQLStore = require("express-mysql-session")(session);
@@ -42,14 +43,14 @@ var options = {
      *************************************************************************************/
     try {
         pool = mysql.createPool(options);
-        console.log("Created MySQL connection pool");
+        console.log("Created MySQL connection pool".green);
 
         /*************************************************************************************
         * Create one connection just for the session manager.
         *************************************************************************************/
         try {
             sessionConnection = await pool.awaitGetConnection();
-            console.log("Created MySQL session manager connection");
+            console.log("Created MySQL session manager connection".green);
 
             /*************************************************************************************
             * Create the 'usersessions' table in the database.
@@ -67,18 +68,18 @@ var options = {
                         }
                     }
                 }, sessionConnection);
-                console.log("Created MySQL session store");
+                console.log("Created MySQL session store".green);
             } catch (error) {
-                console.log(`MySQL Error: ${error.code}`);
-                console.log("Could not create MySQLStore. Database connection probably doesn't exist.");
+                console.log(`MySQL Error: ${error.code}`.bgBlack.red);
+                console.log("Could not create MySQLStore. Database connection probably doesn't exist.".bgBlack.red);
             }
         } catch (error) {
-            console.log(`MySQL Error: ${error.code}`);
-            console.log("Error getting MySQL connection for session manager")
+            console.log(`MySQL Error: ${error.code}`.bgBlack.red);
+            console.log("Error getting MySQL connection for session manager".bgBlack.red)
         }
     } catch (error) {
-        console.log(`MySQL Error: ${error.code}`);
-        console.log("Error creating MySQL connection pool");
+        console.log(`MySQL Error: ${error.code}`.bgBlack.red);
+        console.log("Error creating MySQL connection pool".bgBlack.red);
     }
 
 })();
@@ -99,14 +100,17 @@ function getSessionStore() {
  * Generic function for running a query against the MySQL database.
  *************************************************************************************/
 async function runQuery(query, params) {
+    console.log(`MySQL Query: ${query}, Params: ${params}`.bgBlue.yellow);
     var result = null;
     var connection;
     try {
         connection = await pool.awaitGetConnection();
         result = await connection.awaitQuery(query, params);
         connection.release();
-    } catch (err) {
-        console.log(`MySQL Error: ${err.code}`);
+    } catch (error) {
+        console.log(`MySQL Error: ${error.code}`.bgBlack.red);
+        console.log(`Message: ${error.sqlMessage}`.bgBlack.red);
+        console.log(`SQL: ${error.sql}`.bgBlack.red);
     }
     return result;
 }
@@ -131,6 +135,22 @@ async function createUser(username, password) {
  *************************************************************************************/
 async function getAllUsers() {
     var query = 'SELECT * FROM GlobetrotterV1.users';
+    var params = [];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get a user by their username from the database.
+ *************************************************************************************/
+ async function searchUsersByUsername(searchString) {
+    var query = `SELECT * FROM GlobetrotterV1.users WHERE username LIKE '%${searchString}%'`;
     var params = [];
     var result = await runQuery(query, params);
     if (result) {
@@ -183,5 +203,6 @@ async function authenticate(username, password) {
 module.exports.getSessionStore = getSessionStore;
 module.exports.createUser = createUser;
 module.exports.getAllUsers = getAllUsers;
+module.exports.searchUsersByUsername = searchUsersByUsername;
 module.exports.getUserByUsername = getUserByUsername;
 module.exports.authenticate = authenticate;

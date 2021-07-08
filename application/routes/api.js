@@ -112,6 +112,9 @@ router.get('/users/me', authorization, async (req, res, next) => {
 
 /*************************************************************************************
  * API Endpoint: PUT /api/users
+ * 
+ * Todo: Check if this is an update or creation (does user exist?)
+ * May need a new database method.
  *************************************************************************************/
 router.put('/users', authorization, async (req, res, next) => {
   var username = req.query.username;

@@ -1,0 +1,1 @@
+mysql -h "localhost" -u "root" "-pYE2n4qh4wV" "GlobetrotterV1" < globetrotter-destroy-database.sql

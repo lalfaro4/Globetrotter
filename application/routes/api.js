@@ -170,6 +170,21 @@ router.get('/flights', authorization, async (req, res, next) => {
 
 
 /*************************************************************************************
+ * API Endpoint: GET /api/trips
+ *************************************************************************************/
+ router.get('/trips', authorization, async (req, res, next) => {
+  var trips = await database.getAllTrips();
+  if(trips) {
+    res.send(trips);
+  } else {
+    log("Error getting trips.", "fail");
+    res.send({ result: "Error getting trips." });
+  }
+});
+
+
+
+/*************************************************************************************
  * Error trap for all invalid API requests.
  *************************************************************************************/
 router.use((req, res) => {

@@ -139,7 +139,7 @@ async function runQuery(query, params) {
  *************************************************************************************/
 async function createUser(username, password, email) {
     var passwordHash = await bcrypt.hash(password, 10);
-    var query = 'INSERT INTO GlobetrotterV1.users (username, password_hashed, email) VALUES(?, ?, ?)';
+    var query = 'INSERT INTO GlobetrotterV1.registered_user (username, password_hashed, email) VALUES(?, ?, ?)';
     var params = [username, passwordHash, email];
     var result = await runQuery(query, params);
     return result;
@@ -151,7 +151,7 @@ async function createUser(username, password, email) {
  * Get all users from the database.
  *************************************************************************************/
 async function getAllUsers() {
-    var query = 'SELECT * FROM GlobetrotterV1.users';
+    var query = 'SELECT * FROM GlobetrotterV1.registered_user';
     var params = [];
     var result = await runQuery(query, params);
     if (result) {
@@ -167,7 +167,7 @@ async function getAllUsers() {
  * Search for users with a username containing the searchString.
  *************************************************************************************/
 async function searchUsersByUsername(searchString) {
-    var query = `SELECT * FROM GlobetrotterV1.users WHERE username LIKE '%${searchString}%'`;
+    var query = `SELECT * FROM GlobetrotterV1.registered_user WHERE username LIKE '%${searchString}%'`;
     var params = [];
     var result = await runQuery(query, params);
     if (result) {
@@ -183,7 +183,7 @@ async function searchUsersByUsername(searchString) {
  * Search for users with an email containing the searchString.
  *************************************************************************************/
 async function searchUsersByEmail(searchString) {
-    var query = `SELECT * FROM GlobetrotterV1.users WHERE email LIKE '%${searchString}%'`;
+    var query = `SELECT * FROM GlobetrotterV1.registered_user WHERE email LIKE '%${searchString}%'`;
     var params = [];
     var result = await runQuery(query, params);
     if (result) {
@@ -198,11 +198,27 @@ async function searchUsersByEmail(searchString) {
  * Get a user by their username from the database.
  *************************************************************************************/
 async function getUserByUsername(username) {
-    var query = 'SELECT * FROM GlobetrotterV1.users WHERE username = ? LIMIT 1';
+    var query = 'SELECT * FROM GlobetrotterV1.registered_user WHERE username = ? LIMIT 1';
     var params = [username];
     var result = await runQuery(query, params);
     if (result) {
         return result[0];
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get all trips from the database.
+ *************************************************************************************/
+async function getAllTrips() {
+    var query = 'SELECT * FROM GlobetrotterV1.trip';
+    var params = [];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
     } else {
         return null;
     }
@@ -242,4 +258,5 @@ module.exports.getAllUsers = getAllUsers;
 module.exports.searchUsersByUsername = searchUsersByUsername;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
+module.exports.getAllTrips = getAllTrips;
 module.exports.authenticate = authenticate;

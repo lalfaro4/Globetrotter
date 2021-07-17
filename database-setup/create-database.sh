@@ -1,1 +1,1 @@
-mysql -h "localhost" -u "root" "-pYE2n4qh4wV" < globetrotter-create-database.sql
+mysql -h "localhost" -u "root" "-pYE2n4qh4wV" < globetrotter-CreateDatabase.sql

@@ -1,9 +1,3 @@
--- -----------------------------------------------------
--- Schema GlobetrotterV1
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `GlobetrotterV1` DEFAULT CHARACTER SET utf8 ;
-USE `GlobetrotterV1` ;
-
 CREATE TABLE GlobetrotterV1.Activity (
   activity_id     int(10) NOT NULL AUTO_INCREMENT, 
   start_time      int(10) NOT NULL, 
@@ -147,7 +141,8 @@ CREATE PROCEDURE CreateAirport(
 	IN iso_country VARCHAR(2),
 	IN iata_code VARCHAR(3),
 	IN latitude DECIMAL(10, 7),
-	IN longitude DECIMAL(10, 7)	
+	IN longitude DECIMAL(10, 7)
+	
 )
 BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -166,7 +161,7 @@ DELIMITER ;
 DELIMITER /
 CREATE PROCEDURE CreateAirline(
 	IN iata_code VARCHAR(7),
-	IN airline_name VARCHAR(255)
+	IN airline_name VARCHAR(255)	
 )
 BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -212,6 +207,3 @@ INSERT INTO GlobetrotterV1.CurrencyCode(code, name) VALUES ('HKD', 'Hong Kong Do
 INSERT INTO GlobetrotterV1.CurrencyCode(code, name) VALUES ('INR', 'Indian Rupee');
 INSERT INTO GlobetrotterV1.CurrencyCode(code, name) VALUES ('JPY', 'Yen');
 INSERT INTO GlobetrotterV1.CurrencyCode(code, name) VALUES ('GBP', 'Pund Sterling');
-
-CREATE USER 'team2' IDENTIFIED WITH mysql_native_password BY 'YE2n4qh4wV';
-GRANT ALL ON `GlobetrotterV1`.* TO 'team2';

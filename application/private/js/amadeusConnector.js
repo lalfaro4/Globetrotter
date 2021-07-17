@@ -40,6 +40,7 @@ async function searchFlights(originLocationCode,
     currencyCode,
     max) {
     log(`Flight Offers Search: Searching for flights from ${originLocationCode} to ${destinationLocationCode} on ${departureDate}`, "info");
+    
     try {
         var response = await amadeus.shopping.flightOffersSearch.get({
             originLocationCode: originLocationCode,

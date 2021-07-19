@@ -41,18 +41,18 @@ SELECT location_id INTO @src_id FROM airport_view WHERE iata_code = 'LAX';
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'SFO';
 SET @departure = DATE_ADD(NOW(), INTERVAL 5 HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '1:25' HOUR_MINUTE);
-CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id);
+CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, @activity_id);
 
 # 6) Create an activity from San Francisco to New York City, starting at 6AM tomorrow and a duration of 5 hours and 45 minutes.
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'JFK';
 SET @departure = DATE_ADD(TIMESTAMP(CURDATE()), INTERVAL '1:6' DAY_HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '5:45' HOUR_MINUTE);
-CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id);
+CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, @activity_id);
 
 # 7) Create an activity from New York City to Rome, departing 1 hour after arriving in New York City and lasting 8 hours and 30 minutes.
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'FCO';
 SET @departure = DATE_ADD(@arrival, INTERVAL 1 HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '8:30' HOUR_MINUTE);
-CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id);
+CALL usp_create_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, @activity_id);

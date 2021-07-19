@@ -9,14 +9,14 @@ SELECT location_id INTO @src_id FROM airport_view WHERE iata_code = 'LAX';
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'SFO';
 INSERT INTO GlobetrotterV1.activity(trip_owner, trip, activity_id, start_time, end_time, start_location, end_location) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '6f9a7167-e744-11eb-bb81-28d24427a5d8', 'f9c383b8-e752-11eb-bb81-28d24427a5d8', '2021-07-17 16:02:28', '2021-07-24 16:02:28', @src_id, @dst_id);
 
-# Get location_id for JFK, and create an activity from SFO to JFK
+ #Get location_id for JFK, and create an activity from SFO to JFK
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'JFK';
 INSERT INTO GlobetrotterV1.activity(trip_owner, trip, activity_id, start_time, end_time, start_location, end_location) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '6f9a7167-e744-11eb-bb81-28d24427a5d8', 'a37c8a8c-e793-11eb-bb81-28d24427a5d8', '2021-07-24 20:02:28', '2021-07-25 06:30:59', @src_id, @dst_id);
 
 INSERT INTO GlobetrotterV1.`file`(owner, file_id, folder_path, file_name, extension, full_file_path) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '2dfc85b7-e744-11eb-bb81-28d24427a5d8', '/public/img/profile/', '4f4e44f7-e730-11eb-bb81-28d24427a5d8', 'jpg', '/public/img/profile/4f4e44f7-e730-11eb-bb81-28d24427a5d8.jpg');
-INSERT INTO GlobetrotterV1.photo_album(trip_owner, trip) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '6f9a7167-e744-11eb-bb81-28d24427a5d8');
-INSERT INTO GlobetrotterV1.photo(trip_owner, trip, file_owner, `file`, photo_id, title, description, is_profile_photo) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '6f9a7167-e744-11eb-bb81-28d24427a5d8', '4f4e44f7-e730-11eb-bb81-28d24427a5d8', '2dfc85b7-e744-11eb-bb81-28d24427a5d8', '8562b5ab-e745-11eb-bb81-28d24427a5d8', 'Globetrotter Profile', 'This is my profile photo.', 1);
+INSERT INTO GlobetrotterV1.photo_album(photo_album_id, trip_owner, trip) VALUES ('516511', '4f4e44f7-e730-11eb-bb81-28d24427a5d8', '6f9a7167-e744-11eb-bb81-28d24427a5d8');
+INSERT INTO GlobetrotterV1.photo(file_owner, `file`, photo_id, title, description, is_profile_photo) VALUES ('4f4e44f7-e730-11eb-bb81-28d24427a5d8', '2dfc85b7-e744-11eb-bb81-28d24427a5d8', '8562b5ab-e745-11eb-bb81-28d24427a5d8', 'Globetrotter Profile', 'This is my profile photo.', 1);
 INSERT INTO GlobetrotterV1.currency_code(code, name) VALUES ('AFN', 'Afghani');
 INSERT INTO GlobetrotterV1.currency_code(code, name) VALUES ('ALL', 'Lek');
 INSERT INTO GlobetrotterV1.currency_code(code, name) VALUES ('USD', 'US Dollar');

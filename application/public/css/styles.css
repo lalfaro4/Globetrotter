@@ -84,6 +84,10 @@ header {
 }
 .planner-activity {
     margin: 1em;
+    transition: 0.4s;
+}
+.planner-activity:hover {
+    margin-left: 2em;
 }
 .planner-activity > label {
     display: grid;
@@ -95,20 +99,30 @@ header {
     opacity: 0;
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
-    margin-left: 2em;
+    background-color: #e6e6e6;
 }
 .planner-activity-header {    
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr;
+    background-color: #f7f7f7;
     cursor: pointer;
     text-align: left;
     padding: 2em;
     outline: none;
-    transition: 0.1s;
+    transition: 0.4s;
 }
 .planner-activity-numeral {
     text-align: center;
+    vertical-align: middle;
     align-self: center;
+    background-color: white;
+    position: relative;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+    height: 2vw;
+    width: 2vw;
 }
 
 .planner-activity-origin-input {
@@ -150,12 +164,15 @@ header {
     100% { transform: rotate(360deg); }
 }
 #planner-results-container {
+    transition: 1s;
 }
 #planner-results-panel {
     overflow-y: scroll;
+    transition: 1s;
 }
 #planner-results-list {
     overflow-y: scroll;
+    transition: 1s;
 }
 .planner-result-item {
     background-color: white;
@@ -167,7 +184,9 @@ header {
     outline: none;
     transition: 0.4s;
 }
-
+.planner-result-item:hover {
+    margin-left: 2em;
+}
 .planner-result-item-layout {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;

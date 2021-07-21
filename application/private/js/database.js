@@ -343,4 +343,5 @@ module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;
 module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
 module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
+module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.authenticate = authenticate;

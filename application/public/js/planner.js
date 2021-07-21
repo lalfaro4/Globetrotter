@@ -70,9 +70,6 @@ function addFlightClickHandler(e) {
     }
     selectedActivity.appendChild(resultItem);
 
-    // selectedActivity.replaceChild(resultItem, selectedActivity.children[1]);
-
-
 }
 
 
@@ -91,7 +88,7 @@ async function loadFlights(origin, destination, departure, adults, currencyCode,
         max: max
     };
     var flightsRendered = await (await fetchURL("/planner/flights", parameters)).text();
-    document.getElementById("planner-results-container").innerHTML = flightsRendered;
+    document.getElementById("planner-results-placeholder").innerHTML = flightsRendered;
 }
 
 
@@ -107,7 +104,7 @@ async function searchFlights(activity) {
 
     // if (origin && destination && departure && adults && currencyCode) {
     console.log("Searching...");
-    await loadFlights(origin, destination, departure, adults, currencyCode, 5);
+    await loadFlights(origin, destination, departure, adults, currencyCode, 10);
 
     var resultItemAddButtons = document.getElementsByClassName("planner-result-item-add-button");
     for (var addFlightButton of resultItemAddButtons) {
@@ -148,57 +145,34 @@ async function activityClickHandler(e) {
     // Create the loader
     var loader = document.createElement('div');
     loader.classList.add('loader');
-    document.getElementById('planner-results-panel').appendChild(loader);
+    document.getElementById('planner-results-container').prepend(loader);
 
     // Load data or simulate with timeout
     await searchFlights(activity);
-    // await new Promise(resolve => setTimeout(resolve, 250));
+    // await new Promise(resolve => setTimeout(resolve, 20000));
 
-    document.getElementById('planner-results-panel').removeChild(loader);
+    document.getElementById('planner-results-container').removeChild(loader);
 }
 
 
 
-// Setup the origin airport search
-async function originInputEventHandler(event) {
+// Setup the airport search autocomplete
+async function locationInputEventHandler(event) {
 
-    console.log(event.target);
     var airportResults = await (await fetchURL('/api/airports/search', { searchString: event.target.value } )).json();
 
-    var dataList = e.target.nextSibling;
-    console.log(dataList);
-    originDataList.innerHTML = '';
+    var dataList = event.target.nextSibling.nextSibling;
+    dataList.innerHTML = '';
     for(var airport of airportResults) {
         var option = document.createElement('option');
         option.value = airport.iata_code;
         option.setAttribute('name', airport.iata_code);
         option.setAttribute('data-id', airport.location_name);
         option.text = airport.location_name;
-        // originDataList.appendChild(option);
+        dataList.appendChild(option);
     }
 
 }
-
-
-
-// Setup the destination airport search
-async function destinationInputEventHandler(event) {
-
-    console.log(event.target.value);
-    var airportResults = await (await fetchURL('/api/airports/search', { searchString: destinationInput.value } )).json();
-
-    destinationDataList.innerHTML = '';
-    for(var airport of airportResults) {
-        var option = document.createElement('option');
-        option.value = airport.iata_code;
-        option.setAttribute('name', airport.iata_code);
-        option.setAttribute('data-id', airport.location_name);
-        option.text = airport.location_name;
-        // destinationDataList.appendChild(option);
-    }
-
-}
-
 
 
 
@@ -229,7 +203,7 @@ async function loadTrip(tripId) {
 * Start: Anonymous async function
 *************************************************************************************/
 (async () => {
-    token = await authenticate();
+    // token = await authenticate();
     await loadTrip(trip_id);
 
     var activities = document.getElementsByClassName('planner-activity');
@@ -241,13 +215,10 @@ async function loadTrip(tripId) {
 
     // Setup the event listeners for autocomplete on the origin and destination inputs of each activity
     for (var activity of activities) {
-        var originInput = activity.querySelector('.planner-activity-origin-input');
-        originInput.addEventListener('input', originInputEventHandler);
-        // var originDataList = activity.querySelector('.planner-origin-airports');
-        var destinationInput = activity.querySelector('.planner-activity-destination-input');
-        destinationInput.addEventListener('input', destinationInputEventHandler);
-        // var destinationDataList = activity.querySelector('.planner-destination-airports');
+        activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+        activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
     }
+
 
 
     // Setup the change handler for the selected activity

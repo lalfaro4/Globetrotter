@@ -291,6 +291,22 @@ async function getAllTrips() {
 
 
 /*************************************************************************************
+ * Search for airports.
+ *************************************************************************************/
+ async function searchAirportsByName(searchString) {
+    var query = `SELECT * FROM airport_view WHERE iata_code LIKE '${searchString}%' UNION ALL SELECT * FROM airport_view WHERE location_name LIKE '%${searchString}%' LIMIT 5`;
+    var params = [];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Authenticates a user by username and password.
  *************************************************************************************/
 async function authenticate(username, password) {

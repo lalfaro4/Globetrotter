@@ -170,6 +170,16 @@ router.get('/flights', authorization, async (req, res, next) => {
 
 
 /*************************************************************************************
+ * API Endpoint: GET /api/airports/search
+ *************************************************************************************/
+ router.get('/airports/search', async (req, res, next) => {
+  var airports = await database.searchAirportsByName(req.query.searchString);
+  res.send(airports);
+});
+
+
+
+/*************************************************************************************
  * API Endpoint: GET /api/trips
  *************************************************************************************/
  router.get('/trips', authorization, async (req, res, next) => {

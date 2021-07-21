@@ -48,6 +48,7 @@ async function searchFlights(originLocationCode,
             departureDate: departureDate,
             currencyCode: currencyCode,
             adults: adults,
+            nonStop: true,
             max: max
         });
         if (response) {

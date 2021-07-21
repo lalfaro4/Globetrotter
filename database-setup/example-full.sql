@@ -36,17 +36,17 @@ CALL usp_create_home_location(@user_id, @user_home_location_city, @user_home_loc
 SET @trip_name = "Best Trip Ever (2021)";
 CALL usp_create_trip(@user_id, @trip_name, @trip_id);
 
-# 5) Create an activity from Los Angeles to San Francisco, starting 5 hours from now with a duration of 1 hour
+# 5) Create an activity from Los Angeles to San Francisco, starting 1 month from now with a duration of 1 hour and 25 minutes
 SELECT location_id INTO @src_id FROM airport_view WHERE iata_code = 'LAX';
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'SFO';
-SET @departure = DATE_ADD(NOW(), INTERVAL 5 HOUR);
+SET @departure = DATE_ADD(NOW(), INTERVAL 1 MONTH);
 SET @arrival = DATE_ADD(@departure, INTERVAL '1:25' HOUR_MINUTE);
 CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
 
-# 6) Create an activity from San Francisco to New York City, starting at 6AM tomorrow and a duration of 5 hours and 45 minutes.
+# 6) Create an activity from San Francisco to New York City, starting at 6AM on the day after arriving in San Francisco, and a duration of 5 hours and 45 minutes.
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'JFK';
-SET @departure = DATE_ADD(TIMESTAMP(CURDATE()), INTERVAL '1:6' DAY_HOUR);
+SET @departure = DATE_ADD(TIMESTAMP(DATE(@departure)), INTERVAL '1:6' DAY_HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '5:45' HOUR_MINUTE);
 CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
 

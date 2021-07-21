@@ -1,12 +1,20 @@
 <div class="planner-activity">
     <label class="round">
-        <input type="radio" checked name="planner-selected-activity"/>
+        <input type="radio" name="planner-selected-activity" />
         <div class="planner-activity-header">
             <div class="planner-activity-numeral">{{@index}}</div>
-            <input type="text" class="round planner-activity-origin-input" value="{{origin_airport_code}}" />
-            <input type="text" class="round planner-activity-destination-input" value="{{destination_airport_code}}" />
+            <input type="text" class="round planner-activity-origin-input" value="{{origin_airport_code}}"
+                list="planner-origin-airports" />
+            <datalist type="datalist" id="planner-origin-airports">
+                <option value="Option 1">Option 1</option>
+            </datalist>
+            <input type="text" class="round planner-activity-destination-input" value="{{destination_airport_code}}"
+                list="planner-destination-inputs" />
+            <datalist type="datalist" id="planner-destination-airports"></datalist>
             <input type="date" class="round planner-activity-departure-date" value="{{departure_date}}" />
             <input type="button" class="round basic-button planner-remove-activity-button" value="Remove" />
+
+
         </div>
     </label>
     <div class="round planner-activity-child">

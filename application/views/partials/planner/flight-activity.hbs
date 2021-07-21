@@ -1,0 +1,13 @@
+<div class="planner-activity">
+    <input type="radio" name="planner-selected-activity"/>
+    <div class="round planner-activity-header">
+        <div class="planner-activity-numeral">{{@index}}</div>
+        <input type="text" class="round planner-activity-origin-input" value="{{origin_airport_code}}"/>
+        <input type="text" class="round planner-activity-destination-input" value="{{destination_airport_code}}"/>
+        <input type="date" class="round planner-activity-departure-date" value="{{departure_date}}"/>
+        <input type="button" class="round basic-button planner-remove-activity-button" value="Remove"/>
+    </div>
+    <div class="round planner-activity-child">
+        No associated flight offers.
+    </div>
+</div>

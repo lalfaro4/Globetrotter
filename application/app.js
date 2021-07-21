@@ -6,6 +6,7 @@ var session = require('express-session');
 var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var plannerRouter = require('./routes/planner')
 // dayjs.extend(relativeTime);
 
 
@@ -26,7 +27,7 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     extname: ".hbs",
-    defaultLayout: "default",
+    defaultLayout: "globetrotter",
     helpers: {
       emptyObject: (messages) => {
         return !(messages.constructor === Object && Object.keys(messages).length == 0);
@@ -99,6 +100,13 @@ app.use("/public", express.static(path.join(__dirname, 'public'),
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
 app.use('/api', apiRouter);
+
+
+
+/*************************************************************************************
+ * Use the plannerRouter for all URL's beginning with /planner
+ *************************************************************************************/
+app.use('/planner', plannerRouter);
 
 
 

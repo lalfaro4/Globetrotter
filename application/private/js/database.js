@@ -227,6 +227,70 @@ async function getAllTrips() {
 
 
 /*************************************************************************************
+ * Get trip from database by user_id.
+ *************************************************************************************/
+ async function getTripsByOwner(user_id) {
+    var query = 'SELECT * FROM GlobetrotterV1.trip WHERE owner = ?';
+    var params = [user_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get trip from database by trip_id.
+ *************************************************************************************/
+ async function getActivitiesByTripId(trip_id) {
+    var query = 'SELECT * FROM activity_view WHERE trip_id = ?';
+    var params = [trip_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get flight_activities from database by trip_id.
+ *************************************************************************************/
+ async function getFlightActivitiesByTripId(trip_id) {
+    var query = 'SELECT * FROM flight_activity_view WHERE trip_id = ?';
+    var params = [trip_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get trip from database by trip_id.
+ *************************************************************************************/
+ async function getAirlineNameFromIATACode(iata_code) {
+    var query = 'SELECT * FROM airline_view WHERE airline_code = ?';
+    var params = [iata_code];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Authenticates a user by username and password.
  *************************************************************************************/
 async function authenticate(username, password) {
@@ -259,4 +323,8 @@ module.exports.searchUsersByUsername = searchUsersByUsername;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
 module.exports.getAllTrips = getAllTrips;
+module.exports.getTripsByOwner = getTripsByOwner;
+module.exports.getActivitiesByTripId = getActivitiesByTripId;
+module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
+module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
 module.exports.authenticate = authenticate;

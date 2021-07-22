@@ -214,6 +214,7 @@ input[type="time"] {
 }
 #planner-results-container {
     transition: 1s;
+    overflow-y: scroll;
 }
 #planner-results-panel {
     display: grid;

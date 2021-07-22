@@ -161,7 +161,7 @@ function addActivityClickHandler(e) {
 
 
 function proceedClickHandler(event) {
-    window.location.href = '/public/html/checkout.html';
+    window.location.href = '/checkout';
 }
 
 

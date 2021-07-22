@@ -8,7 +8,7 @@ templates['flight-activity.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":fu
         return undefined
     };
 
-  return "<label class=\"\">\r\n    <input type=\"radio\" name=\"planner-selected-activity\" />\r\n    <div class=\"round planner-activity-header\">\r\n        <div class=\"planner-activity-numeral\">"
+  return "<label class=\"\">\r\n    <input type=\"radio\" name=\"planner-selected-activity\" checked/>\r\n    <div class=\"round planner-activity-header\">\r\n        <div class=\"planner-activity-numeral\">"
     + alias4(((helper = (helper = lookupProperty(helpers,"index") || (depth0 != null ? lookupProperty(depth0,"index") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"index","hash":{},"data":data,"loc":{"start":{"line":4,"column":46},"end":{"line":4,"column":55}}}) : helper)))
     + "</div>\r\n\r\n        <input type=\"text\" class=\"round planner-activity-origin-input\" value=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"origin_airport_code") || (depth0 != null ? lookupProperty(depth0,"origin_airport_code") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"origin_airport_code","hash":{},"data":data,"loc":{"start":{"line":6,"column":78},"end":{"line":6,"column":101}}}) : helper)))

@@ -29,6 +29,8 @@ header {
 }
 .basic-button {
     background-color: white;
+    text-align: center;
+    cursor: pointer;
 }
 .basic-button:hover {
     background-color: var(--hover-color);
@@ -186,6 +188,13 @@ header {
     font-size: large;
     cursor: pointer;
 }
+.planner-button-container {
+    background-color: white;
+}
+.planner-proceed-button {
+    margin: 1em;
+    font-size: large;
+}
 input[type="time"] {
     text-align: center;
 }
@@ -207,8 +216,10 @@ input[type="time"] {
     transition: 1s;
 }
 #planner-results-panel {
-    overflow-y: scroll;
-    transition: 1s;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content min-content;
+    height: 100%;
+    overflow-y: hidden;
 }
 #planner-results-list {
     overflow-y: scroll;

@@ -13,8 +13,10 @@
 
 
 <div class="search-section">
-    <input class="origin-input input" type="text" placeholder="Origin"> </input>
-    <input class="destination-input input" type="text" placeholder="Destination"></input>
+    <input id="home-origin-input" class="origin-input input" type="text" placeholder="Origin" list="home-origin-airports"> </input>
+    <datalist type="datalist" id="home-origin-airports"></datalist>
+    <input id="home-destination-input" class="destination-input input" type="text" placeholder="Destination" list="home-destination-airports"></input>
+    <datalist type="datalist" id="home-destination-airports"></datalist>
     <button id="home-search-button" class="search-button text" >Plan Trip</button>
 </div>
 

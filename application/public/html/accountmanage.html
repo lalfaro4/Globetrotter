@@ -11,32 +11,49 @@
 
 <body>
     <!--header-->
-    <header>
-        <img class="logo" src="#" alt="logo">
-        <nav>
-            <ul class="navlinks">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Purchased Trips</a></li>
-                <li><a href="savedtrips.html">Saved Trips</a></li>
-                <li><a href="accountmanage.html">Profile</a></li>
-            </ul>
-        </nav>
+    <div class="nav">
+        <input type="checkbox" id="nav-check">
+        <div class="nav-header">
+            <div class="nav-title">
+                Globetrotter
+            </div>
+        </div>
+        <div class="nav-btn">
+            <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
 
-    </header>
-
+        <div class="nav-links">
+            <a href="#" target="_blank">About</a>
+            <a href="#" target="_blank">Previous Trips</a>
+            <a href="#" target="_blank">Saved Trips</a>
+            <div class="dropdown">
+                <button class="dropbtn">Profile 
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                <div class="dropdown-content">
+                    <a href="#">Account Management</a>
+                    <a href="#">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="container">
         <h1 class="profileheader">Profile Info</h1>
         <div class="profileinfo">
-            
+
             <div class="picture"><img class="profile-photo" src="../image/profileimage.png" alt="img not found"
                     width="100" height="100">
                 <p class="imgreq">Photo must be either JPG or PNG.</br> Size must be 2MB or less.</br>Minimum image size
                     of
                     250*250 px.</p>
                 <br>
-                <input type="file" id="picture" class="choosefile" accept=".png, .jpg"/>
+                <input type="file" id="picture" class="choosefile" accept=".png, .jpg" />
                 <button class="picbutton">Upload Photo</button>
             </div>
 

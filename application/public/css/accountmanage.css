@@ -1,0 +1,105 @@
+*::before, *::after{
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+li, a, button{
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: 500;
+	font-size: 16px;
+	text-decoration: none;
+}
+
+a:link, 
+a:visited, 
+a:hover, 
+a:active{
+	color:black;
+	text-decoration: none;
+}
+
+header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 30px 10%;
+	border-bottom: 3px solid grey;
+}
+
+.logo{
+	cursor: pointer;
+}
+
+
+.navlinks{
+	list-style: none;
+}
+
+.navlinks li{
+	display: inline-block;
+	padding: 0px 20px;
+}
+
+.navlinks a{
+	transition: all 0.3s ease 0s;
+}
+
+.navlinks a:hover{
+	color:purple;
+}
+
+button{
+	padding: 9px 25px;
+	background-color:rgba(173, 42, 173, 0.849);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+button:hover{
+	background-color:rgba(173, 42, 173, 0.849);
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 17px;
+}
+
+
+.saveprofile,
+.savepassword {
+	background-color: rgba(173, 42, 173, 0.849);
+	color: white;
+	padding: 12px;
+	margin: 0 auto;
+	display: block;
+	border: none;
+	width: 200px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 17px;
+	
+  }
+  
+  .saveprofile:hover,
+  .savepassword:hover{
+	background-color: purple;
+  }
+  
+  .container{
+	display: block;
+    text-align: left;
+    margin: 80px;
+  }
+  .profileinfo{
+      display: inline-block;
+  }
+  
+  .profile-photo{
+      border-radius: 50%;
+  }

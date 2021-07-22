@@ -71,8 +71,8 @@ p,h2, button{
 
 }
 .box1{
-    padding-left: 500px;
-   font-weight: bold;
+    position: absolute;
+    top: 43.5%;
 }
 
 .forgot-pass{

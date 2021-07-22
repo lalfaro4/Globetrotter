@@ -43,10 +43,14 @@ router.use((req, res, next) => {
  * Renders the page at URL '/'
  *************************************************************************************/
 router.get('/', (req, res, next) => {
-  res.render("welcome", {
-    title: "Welcome"
+  res.render("home", {
+    layout: 'globetrotter_v2',
+    title: "Home"
   });
 });
+
+
+
 
 router.get('/search', (req, res, next) => {
   res.render("search", {
@@ -61,6 +65,71 @@ router.get('/search', (req, res, next) => {
  * Renders the page at URL '/home'
  *************************************************************************************/
 router.get('/home', (req, res, next) => {
+  res.render("home", {
+    layout: 'globetrotter_v2',
+    title: "Home"
+  });
+});
+
+
+
+router.get('/accountmanagement', (req, res, next) => {
+  res.render("accountmanagement", {
+    layout: 'globetrotter_v2',
+    title: "Account Management"
+  });
+});
+
+
+
+
+router.get('/registration', (req, res, next) => {
+  res.render("registration", {
+    layout: 'globetrotter_v2',
+    title: "Registration"
+  });
+
+});
+
+
+
+router.get('/savedtrips', (req, res, next) => {
+  res.render("savedtrips", {
+    layout: 'globetrotter_v2',
+    title: "Saved Trips"
+  });
+
+});
+
+
+
+router.get('/checkout', (req, res, next) => {
+  res.render("checkout", {
+    layout: 'globetrotter_v2',
+    title: "Checkout"
+  });
+
+});
+
+
+
+
+router.get('/previoustrips', (req, res, next) => {
+  res.render("previoustrips", {
+    layout: 'globetrotter_v2',
+    title: "Previous Trips"
+  });
+
+});
+
+
+
+router.get('/photogallery', (req, res, next) => {
+  res.render("photogallery", {
+    layout: 'globetrotter_v2',
+    title: "Photo Gallery"
+  });
+
 });
 
 

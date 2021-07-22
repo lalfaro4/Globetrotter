@@ -33,6 +33,7 @@ function log(message, type) {
 *************************************************************************************/
 router.get('/', (req, res, next) => {
     res.render("planner", {
+        layout: 'globetrotter_v2',
         title: "Route Planner"
     });
 });

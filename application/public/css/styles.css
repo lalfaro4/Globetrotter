@@ -18,8 +18,8 @@ header {
     grid-template-columns: 1fr min-content 1fr;
     padding: 1em;
     border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-bottom-color: grey;
+    border-bottom-width: 1px;
+    border-bottom-color: silver;
 }
 .round {
     border-radius: var(--border-radius);
@@ -58,13 +58,20 @@ header {
     height: 70vh;
 }
 .main-content {
+    background-color: aliceblue;
+    display: grid;
+    grid-template-rows: min-content 1fr;
     height: 100%;
-    overflow: hidden;
 }
 .planner-menubar {
+    background-color: white;
+    width: 100%;
     display: grid;
     padding: 1em;
     grid-template-columns: 1fr 1fr;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: silver;
 }
 .planner-menubar-col-1 {
     display: block;
@@ -78,9 +85,13 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: 100%;
+    overflow-y: hidden;
+}
+#planner-trip-panel {
+    overflow-y: scroll;
+
 }
 #planner-trip {
-    overflow-y: scroll;
 }
 .planner-activity {
     margin: 1em;
@@ -99,11 +110,11 @@ header {
     opacity: 0;
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
-    background-color: #e6e6e6;
+    background-color: #ededed;
 }
 .planner-activity-header {    
     display: grid;
-    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
     background-color: #f7f7f7;
     cursor: pointer;
     text-align: left;
@@ -124,34 +135,40 @@ header {
     height: 2vw;
     width: 2vw;
 }
-
 .planner-activity-origin-input {
     width: 100%;
     box-sizing: border-box;
+    text-indent: 1em;
 }
-
 .planner-activity-destination-input {
     width: 100%;
     box-sizing: border-box;
+    text-indent: 1em;
 }
-
 .planner-activity-departure-date {
     min-width:fit-content;
 }
-
 .planner-remove-activity-button {    
 }
-
-.planner-activity-child {
+.planner-add-activity-button {
+    margin: 1em;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
+}
+.planner-activity-child-container {
     padding: 0 18px;
-    /* background-color:lightgray; */
+    background-color:white;
     display: block;
     padding: 1em;
     margin-left: var(--border-radius);
 }
+input[type="time"] {
+    text-align: center;
+}
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid cornflowerblue;
+    border-top: 16px solid #e6e6e6;
     border-radius: 50%;
     width: 4em;
     height: 4em;
@@ -249,4 +266,8 @@ header {
 input[type="time"]::-webkit-calendar-picker-indicator {
     background: none;
     display: none;
+}
+
+input[type="date"] {
+    text-align: center;
 }

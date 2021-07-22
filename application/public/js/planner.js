@@ -48,27 +48,39 @@ async function fetchURL(endpoint, parameters) {
 
 
 /*************************************************************************************
-* Event handler: planner-result-item-add-button
+* Event handler for planner-result-item-button when it is within an Activity
+*************************************************************************************/
+function removeFlightClickHandler(e) {
+    // Get the parent result item of the button
+    var resultItem = e.target.closest('.planner-result-item');
+    resultItem.remove();
+}
+
+
+
+/*************************************************************************************
+* Event handler for planner-result-item-button when it is in the result list
 *************************************************************************************/
 function addFlightClickHandler(e) {
 
-    // Get the parent result item
+    // Get the parent result item of the button
     var resultItem = e.target.closest('.planner-result-item');
+
+    // Get the currently selected Activity and child container
     var selectedActivity = document.querySelector('input[name="planner-selected-activity"]:checked').parentNode.parentNode;
+    var selectedActivityChildContainer = selectedActivity.querySelector('.planner-activity-child-container');
 
     // Get the results container
     var resultsList = document.getElementById('planner-results-container');
-    var currentChild = selectedActivity.children[1];
-    if (currentChild.classList.contains('planner-result-item')) {
-        console.log('Activity already has a flight.');
 
-        // Move the current flight offer to the result list.
-        resultsList.prepend(currentChild);
-    } else {
-        console.log('Activity has no associated flight offers.');
-        currentChild.remove();
-    }
-    selectedActivity.appendChild(resultItem);
+    // Make a copy of the flight offer
+    var copyOfFlightOffer = resultItem.cloneNode(true);
+    var flightOfferButton = copyOfFlightOffer.querySelector('.planner-result-item-button')
+    flightOfferButton.value = 'Reset';
+    flightOfferButton.addEventListener('click', removeFlightClickHandler);
+
+    // Move the result item (new flight offer) uner the selected Activity
+    selectedActivityChildContainer.appendChild(copyOfFlightOffer);
 
 }
 
@@ -106,15 +118,44 @@ async function searchFlights(activity) {
     console.log("Searching...");
     await loadFlights(origin, destination, departure, adults, currencyCode, 10);
 
-    var resultItemAddButtons = document.getElementsByClassName("planner-result-item-add-button");
-    for (var addFlightButton of resultItemAddButtons) {
-        addFlightButton.addEventListener("click", addFlightClickHandler);
+    var resultItemButtons = document.getElementsByClassName("planner-result-item-button");
+    for (var resultItemButton of resultItemButtons) {
+        resultItemButton.addEventListener("click", addFlightClickHandler);
     }
     // } else {
     //   console.log('Some search parameters are null.');
     // }
 
 
+}
+
+
+
+function addActivityClickHandler(e) {
+    var flightActivityTemplate = Handlebars.templates['flight-activity.hbs'];
+
+    var newActivity = document.createElement('div');
+    newActivity.classList.add('planner-activity');
+    newActivity.innerHTML = flightActivityTemplate( { index: document.getElementById('planner-trip').childElementCount } );
+
+    // Setup the autocomplete
+    newActivity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+    newActivity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+
+
+    // Setup the radio button change handler
+    // Each activity is configured as a radio button in the list so that only one can be selected at a time.
+    // Disabled in favor of a search button for each activity
+    // var radioButton = newActivity.querySelector('label > [type=radio]:first-of-type');
+    // radioButton.addEventListener('change', activityClickHandler);
+
+    // Setup the search button
+    newActivity.querySelector('.planner-search-activity-button').addEventListener("click", activityClickHandler);
+    
+    // Setup the remove activity buttons
+    newActivity.querySelector('.planner-remove-activity-button').addEventListener("click", removeActivityClickHandler);
+    
+    document.getElementById('planner-trip').appendChild(newActivity);
 }
 
 
@@ -139,19 +180,34 @@ async function activityClickHandler(e) {
         return;
     }
 
-    // Get the activity that was clicked
-    var activity = document.querySelector('input[name="planner-selected-activity"]:checked').parentNode.parentNode;
+    // Get the selected Activity by radio button
+    // var activity = document.querySelector('input[name="planner-selected-activity"]:checked').parentNode.parentNode;
+
+    // Get the selected Activity by checking the parent of the search button that was clicked
+    var activity = e.target.closest('.planner-activity');
 
     // Create the loader
+    var loaderContainer = document.createElement('div');
     var loader = document.createElement('div');
+    var loaderLabel = document.createElement('div');
     loader.classList.add('loader');
-    document.getElementById('planner-results-container').prepend(loader);
+    loaderLabel.style.textAlign = 'center';
+    loaderLabel.textContent = "Searching...";
+    loaderContainer.appendChild(loader);
+    loaderContainer.appendChild(loaderLabel);
+    document.getElementById('planner-results-container').prepend(loaderContainer);
+
+    // Disable page elements
+    // Todo 
 
     // Load data or simulate with timeout
     await searchFlights(activity);
     // await new Promise(resolve => setTimeout(resolve, 20000));
 
-    document.getElementById('planner-results-container').removeChild(loader);
+    // Reenable page elements
+    // Todo
+
+    document.getElementById('planner-results-container').removeChild(loaderContainer);
 }
 
 
@@ -204,7 +260,7 @@ async function loadTrip(tripId) {
 *************************************************************************************/
 (async () => {
     // token = await authenticate();
-    await loadTrip(trip_id);
+    // await loadTrip(trip_id);
 
     var activities = document.getElementsByClassName('planner-activity');
     var activityButtons = document.getElementsByClassName("planner-activity-header");
@@ -214,22 +270,28 @@ async function loadTrip(tripId) {
 
 
     // Setup the event listeners for autocomplete on the origin and destination inputs of each activity
-    for (var activity of activities) {
-        activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
-        activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
-    }
+    // for (var activity of activities) {
+    //     activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+    //     activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+    // }
 
 
 
     // Setup the change handler for the selected activity
-    for (var activityRadioButton of activityRadioButtons) {
-        activityRadioButton.addEventListener('change', activityClickHandler);
-    }
+    // for (var activityRadioButton of activityRadioButtons) {
+    //     activityRadioButton.addEventListener('change', activityClickHandler);
+    // }
 
 
 
     // Setup the click handler for the remove activity buttons
-    for (var button of removeActivityButtons) {
-        button.addEventListener("click", removeActivityClickHandler);
-    }
+    // for (var button of removeActivityButtons) {
+    //     button.addEventListener("click", removeActivityClickHandler);
+    // }
+
+
+
+    // Setup click handler for add activity button
+    document.querySelector('.planner-add-activity-button').addEventListener('click', addActivityClickHandler);
+
 })();

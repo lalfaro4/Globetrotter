@@ -119,11 +119,15 @@ router.get('/flights', async (req, res, next) => {
                 }
             }
 
-            log("Retrieved flights.", "success");
-            res.render("partials/planner/results-list", {
-                layout: false,
-                flights: flights
-            });
+            log(`Retrieved ${flights.length} flights.`, "success");
+            if (flights.length) {
+                res.render("partials/planner/results-list", {
+                    layout: false,
+                    flights: flights
+                });
+            } else {
+                res.send( { result: "No flights available. The date may have already passed, may be too far in the future, or you might have picked a weird airport."})
+            }
         } else {
             log("Error retrieving flights.", "fail");
             res.send({ result: "Error retrieving flights." });

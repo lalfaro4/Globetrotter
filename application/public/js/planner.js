@@ -160,6 +160,12 @@ function addActivityClickHandler(e) {
 
 
 
+function proceedClickHandler(event) {
+    window.location.href = '/public/html/checkout.html';
+}
+
+
+
 /*************************************************************************************
 * Event handler: Remove activity button
 *************************************************************************************/
@@ -295,5 +301,8 @@ async function loadTrip(tripId) {
 
     // Setup click handler for add activity button
     document.querySelector('.planner-add-activity-button').addEventListener('click', addActivityClickHandler);
+
+    // Setup click handler for the proceed button
+    document.querySelector('.planner-proceed-button').addEventListener('click', proceedClickHandler);
 
 })();

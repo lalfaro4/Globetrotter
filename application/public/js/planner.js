@@ -174,6 +174,8 @@ function removeActivityClickHandler(e) {
  ************************************************************************************/
 async function activityClickHandler(e) {
 
+    console.log(e.target);
+
     // Make sure the click is not coming from one of the child elements
     if (e.target != this) {
         e.stopPropagation();

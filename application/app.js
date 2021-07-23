@@ -6,6 +6,7 @@ var session = require('express-session');
 var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var usersRouter = require('./routes/users');
 var plannerRouter = require('./routes/planner')
 // dayjs.extend(relativeTime);
 
@@ -96,10 +97,18 @@ app.use("/public", express.static(path.join(__dirname, 'public'),
 );
 
 
+
 /*************************************************************************************
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
 app.use('/api', apiRouter);
+
+
+
+/*************************************************************************************
+ * Use the usersRouter for all URL's beginning with /users
+ *************************************************************************************/
+ app.use('/users', usersRouter);
 
 
 
@@ -114,6 +123,25 @@ app.use('/planner', plannerRouter);
  * Use the indexRouter for all other URL's
  *************************************************************************************/
 app.use('/', indexRouter);        // If used, this must come last.
+
+
+
+/*************************************************************************************
+ * Sends the same session information that the user provided with their request back
+ * in the response.
+ *************************************************************************************/
+/* This gets called at the beginning of every request from a client.
+ */
+app.use((req, res, next) => {
+  console.log("Setting locals.");
+  if(req.session.token) {
+      res.locals.session = req.session;
+      res.locals.logged = true;
+  } else {
+    console.log('User has no token');
+  }
+  next();
+});
 
 
 

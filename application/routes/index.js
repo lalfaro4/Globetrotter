@@ -10,32 +10,13 @@ var router = express.Router();
  *************************************************************************************/
  function log(message, type) {
   if (type == 'success') {
-    console.log(`index.js:: ${message}`.bgBrightYellow.black);
+    console.log(`index.js:: ${message}`.bgWhite.black);
   } else if (type == "info") {
-    console.log(`index.js:: ${message}`.bgBrightYellow.black);
+    console.log(`index.js:: ${message}`.bgWhite.black);
   } else if (type == 'fail') {
     console.log(`index.js:: ${message}`.italic.bgRed.black);
   }
 }
-
-
-
-/*************************************************************************************
- * Sends the same session information that the user provided with their request back
- * in the response.
- *************************************************************************************/
-/* This gets called at the beginning of every request from a client.
- */
-router.use((req, res, next) => {
-  console.log("Setting locals.");
-  if(req.session.token) {
-      res.locals.session = req.session;
-      res.locals.logged = true;
-  } else {
-    console.log('User has no token');
-  }
-  next();
-});
 
 
 
@@ -45,6 +26,7 @@ router.use((req, res, next) => {
 router.get('/', (req, res, next) => {
   res.render("home", {
     layout: 'globetrotter_v2',
+    filename: "home",
     title: "Home"
   });
 });
@@ -52,11 +34,12 @@ router.get('/', (req, res, next) => {
 
 
 
-router.get('/search', (req, res, next) => {
-  res.render("search", {
-    title: "Search"
+router.get('/login', (req, res, next) => {
+  res.render("login", {
+    layout: false,
+    filename: "login",
+    title: "Login"
   });
-
 });
 
 
@@ -67,6 +50,7 @@ router.get('/search', (req, res, next) => {
 router.get('/home', (req, res, next) => {
   res.render("home", {
     layout: 'globetrotter_v2',
+    filename: "home",
     title: "Home"
   });
 });
@@ -76,19 +60,19 @@ router.get('/home', (req, res, next) => {
 router.get('/accountmanagement', (req, res, next) => {
   res.render("accountmanagement", {
     layout: 'globetrotter_v2',
+    filename: "accountmanagement",
     title: "Account Management"
   });
 });
 
 
 
-
 router.get('/registration', (req, res, next) => {
   res.render("registration", {
     layout: 'globetrotter_v2',
+    filename: "registration",
     title: "Registration"
   });
-
 });
 
 
@@ -96,9 +80,9 @@ router.get('/registration', (req, res, next) => {
 router.get('/savedtrips', (req, res, next) => {
   res.render("savedtrips", {
     layout: 'globetrotter_v2',
+    filename: "savedtrips",
     title: "Saved Trips"
   });
-
 });
 
 
@@ -106,20 +90,19 @@ router.get('/savedtrips', (req, res, next) => {
 router.get('/checkout', (req, res, next) => {
   res.render("checkout", {
     layout: 'globetrotter_v2',
+    filename: "checkout",
     title: "Checkout"
   });
-
 });
-
 
 
 
 router.get('/previoustrips', (req, res, next) => {
   res.render("previoustrips", {
     layout: 'globetrotter_v2',
+    filename: "previoustrips",
     title: "Previous Trips"
   });
-
 });
 
 
@@ -127,9 +110,9 @@ router.get('/previoustrips', (req, res, next) => {
 router.get('/photogallery', (req, res, next) => {
   res.render("photogallery", {
     layout: 'globetrotter_v2',
+    filename: "photogallery",
     title: "Photo Gallery"
   });
-
 });
 
 

@@ -6,13 +6,36 @@ const WebTokens = require('../private/js/webTokens');
 /*************************************************************************************
  * Logging function for routeProtector.js
  *************************************************************************************/
- function log(message, type) {
+function log(message, type) {
     if (type == 'success') {
         console.log(`routeProtector.js:: ${message}`.bgGreen.white);
     } else if (type == "info") {
         console.log(`routeProtector.js:: ${message}`.bgGreen.white);
     } else if (type == 'fail') {
         console.log(`routeProtector.js:: ${message}`.italic.bgRed.black);
+    }
+}
+
+
+
+function userIsLoggedIn(req, res, next) {
+    log("userIsLoggedIn?", "info");
+    if (req.session && req.session.username) {
+        log("user is logged in.");
+        next();
+    } else {
+        log("user is not logged in. Redirecting to /login", "error");
+        res.redirect("/login");
+    }
+}
+
+function userIsNotLoggedIn(req, res, next) {
+    if (!req.session || !req.session.username) {
+        log("Route protector: user is not logged in.", "info");
+        next();
+    } else {
+        log("RouteProtector|userIsNotLoggedIn: user is already logged in. Redirecting to /home.", "error");
+        res.redirect("/home");
     }
 }
 
@@ -50,3 +73,5 @@ function authorization(req, res, next) {
  * Make the route protectors usable from other modules (mainly the routers).
  *************************************************************************************/
 module.exports.authorization = authorization;
+module.exports.userIsLoggedIn = userIsLoggedIn;
+module.exports.userIsNotLoggedIn = userIsNotLoggedIn;

@@ -211,6 +211,22 @@ async function getUserByUsername(username) {
 
 
 /*************************************************************************************
+ * Get a user by their email from the database.
+ *************************************************************************************/
+ async function getUserByEmail(email) {
+    var query = 'SELECT * FROM GlobetrotterV1.registered_user WHERE email = ? LIMIT 1';
+    var params = [email];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result[0];
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Get all trips from the database.
  *************************************************************************************/
 async function getAllTrips() {
@@ -338,6 +354,7 @@ module.exports.getAllUsers = getAllUsers;
 module.exports.searchUsersByUsername = searchUsersByUsername;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
+module.exports.getUserByEmail = getUserByEmail;
 module.exports.getAllTrips = getAllTrips;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;

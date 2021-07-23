@@ -67,7 +67,7 @@ header {
 }
 .planner-menubar {
     background-color: white;
-    width: 100%;
+    width: auto;
     display: grid;
     padding: 1em;
     grid-template-columns: 1fr 1fr;

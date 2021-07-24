@@ -102,6 +102,7 @@ header {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     text-align: center;
+    padding: 1em;
 }
 #planner-trip {
     overflow-y: scroll;

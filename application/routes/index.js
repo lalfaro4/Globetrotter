@@ -2,6 +2,7 @@ var express = require('express');
 const database = require('../private/js/database');
 const amadeusConnector = require('../private/js/amadeusConnector')
 var router = express.Router();
+var routeProtectors = require('../middleware/routeProtectors');
 
 
 
@@ -25,7 +26,7 @@ var router = express.Router();
  *************************************************************************************/
 router.get('/', (req, res, next) => {
   res.render("home", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "home",
     title: "Home"
   });
@@ -34,11 +35,16 @@ router.get('/', (req, res, next) => {
 
 
 
-router.get('/login', (req, res, next) => {
+router.get('/login', routeProtectors.userIsNotLoggedIn, (req, res, next) => {
+  var message = "";
+  if(req.query.message) {
+    message = req.query.message;
+  }
   res.render("login", {
     layout: false,
     filename: "login",
-    title: "Login"
+    title: "Login",
+    message: message
   });
 });
 
@@ -49,7 +55,7 @@ router.get('/login', (req, res, next) => {
  *************************************************************************************/
 router.get('/home', (req, res, next) => {
   res.render("home", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "home",
     title: "Home"
   });
@@ -57,9 +63,9 @@ router.get('/home', (req, res, next) => {
 
 
 
-router.get('/accountmanagement', (req, res, next) => {
+router.get('/accountmanagement', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("accountmanagement", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "accountmanagement",
     title: "Account Management"
   });
@@ -67,9 +73,21 @@ router.get('/accountmanagement', (req, res, next) => {
 
 
 
-router.get('/registration', (req, res, next) => {
+router.get('/test', async (req, res, next) => {
+  res.render("test", {
+    layout: 'globetrotter',
+    title: "Test Page",
+
+    // Get trip_id from your own database instance
+    activities: await database.getFlightActivitiesByTripId(null)
+  });
+});
+
+
+
+router.get('/registration', routeProtectors.userIsNotLoggedIn, (req, res, next) => {
   res.render("registration", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "registration",
     title: "Registration"
   });
@@ -77,9 +95,9 @@ router.get('/registration', (req, res, next) => {
 
 
 
-router.get('/savedtrips', (req, res, next) => {
+router.get('/savedtrips', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("savedtrips", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "savedtrips",
     title: "Saved Trips"
   });
@@ -87,9 +105,9 @@ router.get('/savedtrips', (req, res, next) => {
 
 
 
-router.get('/checkout', (req, res, next) => {
+router.get('/checkout', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("checkout", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "checkout",
     title: "Checkout"
   });
@@ -97,9 +115,9 @@ router.get('/checkout', (req, res, next) => {
 
 
 
-router.get('/previoustrips', (req, res, next) => {
+router.get('/previoustrips', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("previoustrips", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "previoustrips",
     title: "Previous Trips"
   });
@@ -107,9 +125,9 @@ router.get('/previoustrips', (req, res, next) => {
 
 
 
-router.get('/photogallery', (req, res, next) => {
+router.get('/photogallery', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("photogallery", {
-    layout: 'globetrotter_v2',
+    layout: 'globetrotter',
     filename: "photogallery",
     title: "Photo Gallery"
   });

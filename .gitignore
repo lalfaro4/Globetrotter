@@ -1,3 +1,6 @@
-**/.DS_Store	# Mac filesystem files
-**/~$*.doc*	# Windows temp files in any folder
-**/.idea/	# IntelliJ folder
+**/.DS_Store
+**/~$*.doc*
+**/.idea/
+**/*.bak
+*.bak
+database-setup/csc648-globetrotter-mysql-model.mwb.bak

@@ -20,24 +20,26 @@ function log(message, type) {
 
 
 
-router.post('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
     let confirmpassword = req.body.confirmpassword;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
     let birthday = req.body.birthday;
     let gender = req.body.gender;
-    let adress = req.body.addressl
+    let address = req.body.addressl
     let address2 = req.body.address2;
     let city = req.body.city;
     let state = req.body.state;
     let zipcode = req.body.zipcode;
     let phoneNumber = req.body.phoneNumber;
 
-    var validated = validator.validateUsername(username) &&
-        validator.validateEmail(email) &&
-        validator.validatePassword(password) &&
-        password == confirmpassword;
+    // var validated = validator.validateUsername(username) &&
+    //     validator.validateEmail(email) &&
+    //     validator.validatePassword(password) &&
+    //     password == confirmpassword;
 
     // Check if username is already in use
     var user = database.getUserByUsername(username);
@@ -52,42 +54,28 @@ router.post('/register', (req, res, next) => {
     }
 
     // Create User
+    var user;
+    try {
+        user = await database.createUser(email, username, password, firstName, lastName,
+            birthday, gender, null, address, address2, city, state, 'US', zipcode, 1, phoneNumber,);
+    } catch (error) {
+        log("Error creating user.", 'fail');
+        res.redirect('/registration');
+    }
     
+    if(user) {
+        log(JSON.stringify(user), "info");
+        res.redirect('/login');
+    }
 
-    database.getUserByUsername(username)
-        .then(
-            (user) => {
-                if (user == null) {
-                    return database.getUserByEmail(email)
-                } else {
-                    throw new Error("Registration Failed: username (" + username + ") already in use.", "/registration", 200);
-                }
-            })
-        .then(
-            (user) => {
-                if (user == null) {
-                    return database.createUser(username, email, password);
-                } else {
-                    throw new Error("Registration Failed: email (" + email + ") already in use.", "/registration", 200);
-                }
-            })
-        .then(
-            (response) => {
-                console.log(response);
-                req.flash("success", "User created successfuly.");
-                if (response) {
-                    res.redirect("/login");
-                } else {
-                    throw new Error("Registration Failed: An error occurred while creating the user.", "/registration", 200);
-                }
-            })
-        .catch(
-            (e) => {
-                console.log(e);
-                req.flash("error", e.message);
-                res.redirect("/registration");
-            });
+});
 
+router.post('/update', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
+    // Get a variable from req.body about which user to update
+
+    // Call the database function for updating a user
+
+    // Handle errors and/or redirect
 });
 
 router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
@@ -97,12 +85,16 @@ router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) 
     var user = await database.authenticate(username, password);
     if (user) {
         req.session.username = username;
-        req.session.userid = user.id;
+        req.session.userid = user.user;
+        req.session.user = user;
         res.locals.logged = true;
+        req.session.save();
         log(`User ${username} is logged in.`, "success");
-        res.redirect("/home");
+        res.redirect('/home');
     } else {
         /* Invalid login */
+        log("Invalid user login", "fail");
+        res.redirect(`/login?message=Login failed.`);
     }
 
 });

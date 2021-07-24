@@ -13,6 +13,21 @@ var plannerRouter = require('./routes/planner')
 
 
 /*************************************************************************************
+ * Logging function for routeProtector.js
+ *************************************************************************************/
+ function log(message, type) {
+  if (type == 'success') {
+      console.log(`app.js:: ${message}`.bgWhite.green);
+  } else if (type == "info") {
+      console.log(`app.js:: ${message}`.bgWhite.yellow);
+  } else if (type == 'fail') {
+      console.log(`app.js:: ${message}`.italic.bgRed.black);
+  }
+}
+
+
+
+/*************************************************************************************
 * Create a new Express app
 **************************************************************************************/
 var app = express();
@@ -99,6 +114,24 @@ app.use("/public", express.static(path.join(__dirname, 'public'),
 
 
 /*************************************************************************************
+ * Sends the same session information that the user provided with their request back
+ * in the response.
+ *************************************************************************************/
+app.use((req, res, next) => {
+  log('Setting locals.', 'info');
+  if(req.session.username) {
+      res.locals.session = req.session;
+      res.locals.logged = true;
+      log('User is already logged in.', 'success');
+  } else {
+    log('User is not logged in.', 'info');
+  }
+  next();
+});
+
+
+
+/*************************************************************************************
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
 app.use('/api', apiRouter);
@@ -123,25 +156,6 @@ app.use('/planner', plannerRouter);
  * Use the indexRouter for all other URL's
  *************************************************************************************/
 app.use('/', indexRouter);        // If used, this must come last.
-
-
-
-/*************************************************************************************
- * Sends the same session information that the user provided with their request back
- * in the response.
- *************************************************************************************/
-/* This gets called at the beginning of every request from a client.
- */
-app.use((req, res, next) => {
-  console.log("Setting locals.");
-  if(req.session.token) {
-      res.locals.session = req.session;
-      res.locals.logged = true;
-  } else {
-    console.log('User has no token');
-  }
-  next();
-});
 
 
 

@@ -1,3 +1,5 @@
+var express = require('express');
+var router = express.Router();
 var jwt = require('jsonwebtoken');
 const WebTokens = require('../private/js/webTokens');
 
@@ -10,7 +12,7 @@ function log(message, type) {
     if (type == 'success') {
         console.log(`routeProtector.js:: ${message}`.bgGreen.white);
     } else if (type == "info") {
-        console.log(`routeProtector.js:: ${message}`.bgGreen.white);
+        console.log(`routeProtector.js:: ${message}`.bgGreen.yellow);
     } else if (type == 'fail') {
         console.log(`routeProtector.js:: ${message}`.italic.bgRed.black);
     }
@@ -19,22 +21,22 @@ function log(message, type) {
 
 
 function userIsLoggedIn(req, res, next) {
-    log("userIsLoggedIn?", "info");
+    var requestedPage = req.url;
     if (req.session && req.session.username) {
-        log("user is logged in.");
+        log('User is logged in.', 'success');
         next();
     } else {
-        log("user is not logged in. Redirecting to /login", "error");
-        res.redirect("/login");
+        log('User is not logged in but is required to be. Redirecting to /login', 'fail');
+        res.redirect(`/login?message=You must log in to access ${requestedPage}`);
     }
 }
 
 function userIsNotLoggedIn(req, res, next) {
     if (!req.session || !req.session.username) {
-        log("Route protector: user is not logged in.", "info");
+        log("User is not logged in.", "success");
         next();
     } else {
-        log("RouteProtector|userIsNotLoggedIn: user is already logged in. Redirecting to /home.", "error");
+        log("User is already logged in. Redirecting to /home.", "fail");
         res.redirect("/home");
     }
 }

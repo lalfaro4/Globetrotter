@@ -6,8 +6,24 @@ var session = require('express-session');
 var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var usersRouter = require('./routes/users');
 var plannerRouter = require('./routes/planner')
 // dayjs.extend(relativeTime);
+
+
+
+/*************************************************************************************
+ * Logging function for routeProtector.js
+ *************************************************************************************/
+ function log(message, type) {
+  if (type == 'success') {
+      console.log(`app.js:: ${message}`.bgWhite.green);
+  } else if (type == "info") {
+      console.log(`app.js:: ${message}`.bgWhite.yellow);
+  } else if (type == 'fail') {
+      console.log(`app.js:: ${message}`.italic.bgRed.black);
+  }
+}
 
 
 
@@ -96,10 +112,36 @@ app.use("/public", express.static(path.join(__dirname, 'public'),
 );
 
 
+
+/*************************************************************************************
+ * Sends the same session information that the user provided with their request back
+ * in the response.
+ *************************************************************************************/
+app.use((req, res, next) => {
+  log('Setting locals.', 'info');
+  if(req.session.username) {
+      res.locals.session = req.session;
+      res.locals.logged = true;
+      log('User is already logged in.', 'success');
+  } else {
+    log('User is not logged in.', 'info');
+  }
+  next();
+});
+
+
+
 /*************************************************************************************
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
 app.use('/api', apiRouter);
+
+
+
+/*************************************************************************************
+ * Use the usersRouter for all URL's beginning with /users
+ *************************************************************************************/
+ app.use('/users', usersRouter);
 
 
 

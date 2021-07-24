@@ -2,7 +2,7 @@
 
 
 var token;
-var trip_id = 'b48bbc8d-ea4c-11eb-b0c1-28d24427a5d8';
+var trip_id = '';
 
 
 
@@ -18,6 +18,10 @@ function getURLBase() {
 
 
 /*************************************************************************************
+ * Not used anymore. Will remove soon.
+ * 
+ * We are using sessions to track logged in users instead of tokens.
+ * 
  * Authenticates the user with and returns the authorization token.
  *************************************************************************************/
 async function authenticate() {
@@ -32,6 +36,14 @@ async function authenticate() {
 
 
 
+/*************************************************************************************
+ * This is a utility function for creating a GET request using client JavaScript.
+ * 
+ * Endpoint is the URL of the resource you want to GET i.e. /planner/flights and 
+ * Parameters is a key-value object of query parameters i.e. { trip_id: "fsf-dfsf-348"}
+ * 
+ * This performs a GET request on a URL such as /planner/flights?trid_id=fsf-dfsf-348
+ *************************************************************************************/
 async function fetchURL(endpoint, parameters) {
     var url = new URL(getURLBase() + endpoint),
         params = parameters
@@ -39,7 +51,6 @@ async function fetchURL(endpoint, parameters) {
     var response = await fetch(url, {
         method: "GET",
         headers: new Headers({
-            'Authorization': `Bearer ${token}`,
         })
     });
     return response;
@@ -132,16 +143,15 @@ async function searchFlights(activity) {
 
 
 function addActivityClickHandler(e) {
-    var flightActivityTemplate = Handlebars.templates['flight-activity.hbs'];
 
-    var newActivity = document.createElement('div');
-    newActivity.classList.add('planner-activity');
-    newActivity.innerHTML = flightActivityTemplate( { index: document.getElementById('planner-trip').childElementCount } );
+    var trip = document.getElementById("planner-trip");
+    var flightActivityTemplate = Handlebars.templates['flight-activity.hbs'];
+    trip.innerHTML += flightActivityTemplate( { index: document.getElementById('planner-trip').childElementCount } );
 
     // Setup the autocomplete
+    var newActivity = trip.lastChild;
     newActivity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
     newActivity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
-
 
     // Setup the radio button change handler
     // Each activity is configured as a radio button in the list so that only one can be selected at a time.
@@ -152,10 +162,10 @@ function addActivityClickHandler(e) {
     // Setup the search button
     newActivity.querySelector('.planner-search-activity-button').addEventListener("click", activityClickHandler);
     
-    // Setup the remove activity buttons
+    // Setup the remove activity button
     newActivity.querySelector('.planner-remove-activity-button').addEventListener("click", removeActivityClickHandler);
     
-    document.getElementById('planner-trip').appendChild(newActivity);
+    // document.getElementById('planner-trip').appendChild(newActivity);
 }
 
 
@@ -180,8 +190,6 @@ function removeActivityClickHandler(e) {
  ************************************************************************************/
 async function activityClickHandler(e) {
 
-    console.log(e.target);
-
     // Make sure the click is not coming from one of the child elements
     if (e.target != this) {
         e.stopPropagation();
@@ -205,16 +213,17 @@ async function activityClickHandler(e) {
     loaderContainer.appendChild(loaderLabel);
     document.getElementById('planner-results-container').prepend(loaderContainer);
 
-    // Disable page elements
+    // Disable input page elements while the flights are loading
     // Todo 
 
     // Load data or simulate with timeout
     await searchFlights(activity);
     // await new Promise(resolve => setTimeout(resolve, 20000));
 
-    // Reenable page elements
+    // Reenable input page elements
     // Todo
 
+    // Remove the loader since the data has been retrieved
     document.getElementById('planner-results-container').removeChild(loaderContainer);
 }
 
@@ -272,30 +281,30 @@ async function loadTrip(tripId) {
 
     var activities = document.getElementsByClassName('planner-activity');
     var activityButtons = document.getElementsByClassName("planner-activity-header");
-    var activityRadioButtons = document.querySelectorAll('.planner-activity > label > [type=radio]:first-of-type');
+    var activitySearchButtons = document.querySelectorAll('.planner-search-activity-button');
     var removeActivityButtons = document.getElementsByClassName("planner-remove-activity-button");
 
 
 
     // Setup the event listeners for autocomplete on the origin and destination inputs of each activity
-    // for (var activity of activities) {
-    //     activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
-    //     activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
-    // }
+    for (var activity of activities) {
+        activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+        activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+    }
 
 
 
-    // Setup the change handler for the selected activity
-    // for (var activityRadioButton of activityRadioButtons) {
-    //     activityRadioButton.addEventListener('change', activityClickHandler);
-    // }
+    // Setup the search handler for the selected activity
+    for (var activitySearchButton of activitySearchButtons) {
+        activitySearchButton.addEventListener('click', activityClickHandler);
+    }
 
 
 
     // Setup the click handler for the remove activity buttons
-    // for (var button of removeActivityButtons) {
-    //     button.addEventListener("click", removeActivityClickHandler);
-    // }
+    for (var button of removeActivityButtons) {
+        button.addEventListener("click", removeActivityClickHandler);
+    }
 
 
 

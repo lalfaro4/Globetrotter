@@ -1,17 +1,33 @@
-<div class="navbar-container">
-    <div class="navbar-col-1">
-        <input type="button" id="navbar-login-button" class="round basic-button navbar-button" value="Log In">
-        <input type="button" id="navbar-signup-button" class="round basic-button navbar-button" value="Sign Up">
+<div class="nav">
+    <input type="checkbox" id="nav-check">
+    <div class="nav-header">
+        <button id="navbar-header-button">Globetrotter</button>
     </div>
-    <div class="navbar-col-2">
-        <div class="round navbar-logo"></div>
+    <div class="nav-btn">
+        <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
     </div>
-    <div class="navbar-col-3">
-        <input type="button" id="navbar-home-button" class="round basic-button navbar-button" value="Home">
-        <input type="button" id="navbar-aboutus-button" class="round basic-button navbar-button" value="About Us">
-        <input type="button" id="navbar-contact-button" class="round basic-button navbar-button" value="Contact">
+    <div class="nav-links">
+        <a href="">About</a>
+        {{#if logged}}
+        <a href="/previoustrips">Previous Trips</a>
+        <a href="/savedtrips">Saved Trips</a>
+        <div class="dropdown">
+            <button class="dropbtn">{{session.username}}
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/accountmanagement">Account Management</a>
+                <form method="POST" action="/users/logout">
+                    <button type="submit" id="navbar-signout-button">Sign Out</button>
+                </form>
+            </div>
+        </div>
+        {{else }}
+        <a href="/login">Login</a>
+        {{/if}}
     </div>
 </div>
-{{!-- {{#if logged}} --}}
-<script src="/public/js/navbar.js" type="text/javascript"></script>
-{{!-- {{/if}} --}}

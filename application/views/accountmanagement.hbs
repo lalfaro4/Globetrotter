@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="/public/css/accountmanage.css">
-
-
-
 <div class="container">
     <h1 class="profileheader">Profile Info</h1>
     <div class="profileinfo">
@@ -18,9 +14,9 @@
 
         <div class="name">
             <p class="firstnametitle">First Name</p>
-            <input type="text" class="firstname">
+            <input type="text" class="firstname" value="{{session.user.first_name}}">
             <p class="lastnametitle">Last Name</p>
-            <input type="text" class="lastname">
+            <input type="text" class="lastname" value="{{session.user.last_name}}">
         </div>
 
         <p class="gendertitle">Gender</p>
@@ -30,7 +26,7 @@
         </select>
 
         <p class="usernametitle">Username</p>
-        <input type="text" class="username" value="abc">
+        <input type="text" class="username" value="{{session.user.username}}">
 
         <p class="birthdaytitle">Birthday</p>
         <select class="month-select" id="month">
@@ -129,10 +125,10 @@
         </select>
 
         <p class="addresstitle">Suite or APT. Number</p>
-        <input type="text" class="address">
+        <input type="text" class="address" value="{{session.user.home_address_line_1}}">
 
         <p class="citytitle">City</p>
-        <input type="text" class="city">
+        <input type="text" class="city" value="{{session.user.home_city}}">
 
         <p class="statetitle">State</p>
         <select class="state-select" id="state">
@@ -190,16 +186,16 @@
         </select>
 
         <p class="ziptitle">Zip Code</p>
-        <input type="text" class="zip">
+        <input type="text" class="zip" value="{{session.user.home_postal_code}}">
 
         <p class="mobile1title">Primary Phone Number</p>
-        <input type="text" class="mobile1">
+        <input type="text" class="mobile1" value="{{session.user.primary_phone_number}}">
 
         <p class="mobile2title">Secondary Phone Number</p>
-        <input type="text" class="mobile2">
+        <input type="text" class="mobile2" value="{{session.user.secondary_phone_number}}">
 
         <p class="emailaddresstitle">Email Address</p>
-        <p class="email">yliu22@mail.sfsu.edu</p>
+        <p class="email">{{session.user.email}}</p>
 
         <input type="submit" class="saveprofile" value="Save Changes">
     </div>
@@ -208,7 +204,7 @@
     <div class="security">
         <h1 class="securityheader">Security</h1>
         <p class="securitytitle">Change Password</p>
-        <p class="display1">You are changing the password for: email address</p>
+        <p class="display1">You are changing the password for: {{session.user.email}}</p>
         <p class="currentpasswordtitle">Current Password:</p>
         <input type="password" class="cp" id="input">
         <input type="checkbox" class="box1" onclick="myFunction()">

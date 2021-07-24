@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="public/css/registration.css">
-<form class="center">
+<form method="POST" action="/users/register" enctype="application/x-www-form-urlencoded" class="center">
     <h1>Create an account to access Globetrotter</h1>
     <p class="light-text">Fill the form below to create an account with Globetrotter</p>
 
@@ -12,8 +11,8 @@
         <input type="text" name="lastName" placeholder=" Doe" required>
     </div>
     <div>
-        <label for="emailAddress">Email Address:</label>
-        <input type="email" name="emailAddress" class="form-control" placeholder=" abc@xyz.com" required>
+        <label for="email">Email Address:</label>
+        <input type="email" name="email" class="form-control" placeholder=" abc@xyz.com" required>
     </div>
     <div>
         <label for="username">Username:</label>

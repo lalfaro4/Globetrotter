@@ -8,29 +8,32 @@ DELETE FROM activity WHERE activity_id IS NOT NULL;
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
 SET @user_password_hashed = '$2b$10$4TF8lwcJBfFW.tgew44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6US';
+SET @user_first_name = 'Globe';
+SET @user_last_name = 'Trotter';
+SET @user_birthday = '2000-01-01';
+SET @user_gender = 'other';
 SET @user_preferred_currency = 'USD';
 SET @user_primary_phone_country_code = '1';
 SET @user_primary_phone_number = '4153381111';
-SET @user_secondary_phone_country_code = '1';
-SET @user_secondary_phone_number = '9999999999';
-SET @user_home_location_name = 'San Francisco State University';
+-- SET @user_secondary_phone_country_code = '1';
+-- SET @user_secondary_phone_number = '9999999999';
+-- SET @user_home_location_name = 'San Francisco State University';
+SET @user_home_location_address_line_1 = '1600 Holloway Ave';
+SET @user_home_location_address_line_2 = '';
 SET @user_home_location_city = 'San Francisco';
 SET @user_home_location_state = 'CA';
 SET @user_home_location_country = 'US';
 SET @user_home_location_postal_code = '94132';
-SET @user_home_location_latitude = 37.7247837;
-SET @user_home_location_longitude = -122.4800585;
+-- SET @user_home_location_latitude = 37.7247837;
+-- SET @user_home_location_longitude = -122.4800585;
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
 
 # 2) Register the unregistered user
-CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_preferred_currency, 
-	@user_primary_phone_country_code, @user_primary_phone_number, @user_secondary_phone_country_code, @user_secondary_phone_number, @user_id);
-
-# 3) Create a home_location for the registered_user
-CALL usp_create_home_location(@user_id, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
-	@user_home_location_latitude, @user_home_location_longitude);
+CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
+	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
+    @user_primary_phone_country_code, @user_primary_phone_number, @user_id);
 
 # 4) Start creating the best trip ever
 SET @trip_name = "Best Trip Ever (2021)";

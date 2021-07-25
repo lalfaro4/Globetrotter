@@ -46,7 +46,9 @@ async function locationInputEventHandler(event) {
 
 
 function searchClickHandler(event) {
-    window.location.href = "/planner";
+    var origin = document.getElementById('home-origin-input').value;
+    var destination = document.getElementById('home-destination-input').value;
+    window.location.href = `/planner?origin=${origin}&destination=${destination}`;
 }
 
 // Setup event listeners

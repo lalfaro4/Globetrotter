@@ -1,10 +1,11 @@
-<link rel="stylesheet" type="text/css" href="/public/css/styles.css">
 <div class="main-content planner">
     {{> planner/menubar }}
     <div class="planner-container">
         <div id="planner-trip-panel">
             <div class="planner-panel-header">Your Trips's Activities</div>
-            <div id="planner-trip"></div>
+            <div id="planner-trip">
+                {{> planner/trip activities=this.activities }}
+            </div>
             <div class="planner-trip-button-container">
                 <div class="round basic-button planner-add-activity-button">+ Add Activity</div>
                 <div class="round basic-button planner-trip-save-button">Save</div>

@@ -4,7 +4,7 @@ const amadeusConnector = require('../private/js/amadeusConnector')
 var router = express.Router();
 
 
-
+// Generates a random integer between min and max
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -32,9 +32,23 @@ function log(message, type) {
 * Renders the page at URL '/planner'
 *************************************************************************************/
 router.get('/', (req, res, next) => {
+
+    // 
+    // Render the Route Planner and sends the response to the client. 
+    // Activities is passed in as context which Handlebars can read in (planner.hbs).
+    // This allows us to use variables inside of the hbs file based on what the 
+    // query parameters in the URL i.e. /planner?origin=LAX&destination=SFO
+    //
     res.render("planner", {
-        layout: 'globetrotter_v2',
-        title: "Route Planner"
+        layout: 'globetrotter',
+        filename: 'planner',
+        title: "Route Planner",
+        activities: [ { index: 0, origin_airport_code: req.query.origin,
+            destination_airport_code: req.query.destination,
+
+            // Set the departure date for tomorrow
+            departure_date: new Date(Date.now() + 24*3600000).toISOString().split('T')[0]
+        } ]
     });
 });
 
@@ -83,6 +97,8 @@ router.get('/trip/sample', async (req, res, next) => {
  * 
  * Calls the Amadeus API and renders the flights inside of a results-list.
  * Manipulating data so that it works with the UI elements should be done here.
+ * 
+ * This is actually the right side panel in the Route Planner.
  *************************************************************************************/
 router.get('/flights', async (req, res, next) => {
     if (req.query.originLocationCode &&
@@ -100,34 +116,35 @@ router.get('/flights', async (req, res, next) => {
             req.query.max);
         if (flights) {
 
-            // Begin manipulating the data returned from the Amadeus API
-            for (var flight of flights) {
-                for (var itinerary of flight.itineraries) {
-                    for (var segment of itinerary.segments) {
+            if (flights.length) {
 
-                        // Departure and arrival datetimes are returned as yyyy-MM-dd hh:mm:ss from Amadeus
-                        // but the <input type='time'> field only accepts hh:mm:ss so we take the last
-                        // 8 chars of the datetimes.
-                        segment.departure.at = segment.departure.at.slice(-8);
-                        segment.arrival.at = segment.arrival.at.slice(-8);
+                // Begin manipulating the data returned from the Amadeus API
+                for (var flight of flights) {
+                    for (var itinerary of flight.itineraries) {
+                        for (var segment of itinerary.segments) {
 
-                        // Get the Airline name from our database
-                        var airlineCode = segment.carrierCode;
-                        var airlineName = (await database.getAirlineNameFromIATACode(airlineCode))[0].service_provider_name;
-                        segment.carrierName = airlineName;
+                            // Departure and arrival datetimes are returned as yyyy-MM-dd hh:mm:ss from Amadeus
+                            // but the <input type='time'> field only accepts hh:mm:ss so we take the last
+                            // 8 chars of the datetimes.
+                            segment.departure.at = segment.departure.at.slice(-8);
+                            segment.arrival.at = segment.arrival.at.slice(-8);
 
+                            // Get the Airline name from our database since Amadeus only sends the iata code.
+                            var airlineCode = segment.carrierCode;
+                            var airlineName = (await database.getAirlineNameFromIATACode(airlineCode))[0].service_provider_name;
+                            segment.carrierName = airlineName;
+
+                        }
                     }
                 }
-            }
 
-            log(`Retrieved ${flights.length} flights.`, "success");
-            if (flights.length) {
+                log(`Retrieved ${flights.length} flights.`, "success");
                 res.render("partials/planner/results-list", {
                     layout: false,
                     flights: flights
                 });
             } else {
-                res.send( { result: "No flights available. The date may have already passed, may be too far in the future, or you might have picked a weird airport."})
+                res.send({ result: "No flights available. The date may have already passed, may be too far in the future, or the ticket machine broke." })
             }
         } else {
             log("Error retrieving flights.", "fail");

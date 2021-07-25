@@ -76,7 +76,7 @@ var options = {
                     expiration: 999,
                     createDatabaseTable: true,
                     schema: {
-                        tableName: 'userSessions',
+                        tableName: 'user_sessions',
                         columnNames: {
                             session_id: 'session_id',
                             expires: 'expires',
@@ -135,12 +135,18 @@ async function runQuery(query, params) {
 
 
 /*************************************************************************************
- * Create a user in the database.
+ * Create a user in the database (all fields)
  *************************************************************************************/
-async function createUser(username, password, email) {
+async function createUser(email, username, password, firstName, lastName, birthday, gender,
+        preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2, 
+        homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
+        primaryPhoneCountryCode, primaryPhoneNumber) {
     var passwordHash = await bcrypt.hash(password, 10);
-    var query = 'INSERT INTO GlobetrotterV1.registered_user (username, password_hashed, email) VALUES(?, ?, ?)';
-    var params = [username, passwordHash, email];
+    var query = 'CALL usp_register_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @user_id);';
+    var params = [email, username, passwordHash, firstName, lastName, birthday, gender, 
+        preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2,
+        homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
+        primaryPhoneCountryCode, primaryPhoneNumber];
     var result = await runQuery(query, params);
     return result;
 }
@@ -194,12 +200,30 @@ async function searchUsersByEmail(searchString) {
 
 }
 
+
+
 /*************************************************************************************
  * Get a user by their username from the database.
  *************************************************************************************/
 async function getUserByUsername(username) {
     var query = 'SELECT * FROM GlobetrotterV1.registered_user WHERE username = ? LIMIT 1';
     var params = [username];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result[0];
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get a user by their email from the database.
+ *************************************************************************************/
+ async function getUserByEmail(email) {
+    var query = 'SELECT * FROM GlobetrotterV1.user WHERE email = ? LIMIT 1';
+    var params = [email];
     var result = await runQuery(query, params);
     if (result) {
         return result[0];
@@ -227,7 +251,7 @@ async function getAllTrips() {
 
 
 /*************************************************************************************
- * Get trip from database by user_id.
+ * Get trips from database by the user id of the owner.
  *************************************************************************************/
  async function getTripsByOwner(user_id) {
     var query = 'SELECT * FROM GlobetrotterV1.trip WHERE owner = ?';
@@ -315,12 +339,11 @@ async function authenticate(username, password) {
         try {
             var passwordsMatched = await bcrypt.compare(password, user.password_hashed);
             if (passwordsMatched) {
-                user.id = "";
-                user.passwordHash = "";
+                user.password_hashed = "";
                 return user;
             }
         } catch (error) {
-            console.log(`bcrypt Error: ${error.toString()}`.bgRed.black);
+            log(`bcrypt Error: ${error.toString()}`.bgRed.black);
         }
     } else {
         return null;
@@ -338,6 +361,7 @@ module.exports.getAllUsers = getAllUsers;
 module.exports.searchUsersByUsername = searchUsersByUsername;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
+module.exports.getUserByEmail = getUserByEmail;
 module.exports.getAllTrips = getAllTrips;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;

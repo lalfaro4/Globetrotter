@@ -1,5 +1,21 @@
+<<<<<<< HEAD
 **/.DS_Store	# Mac filesystem files
 **/~$*.doc*	# Windows temp files in any folder
 **/.idea/	# IntelliJ folder
 *.bak
 application/node_modules/bcrypt
+=======
+<<<<<<< HEAD
+**/.DS_Store			# Mac filesystem files
+**/~$*.doc*			# Windows temp files in any folder
+**/.idea/			# IntelliJ folder
+application/node_modules/	# Node JS Modules
+=======
+**/.DS_Store
+**/~$*.doc*
+**/.idea/
+**/*.bak
+*.bak
+database-setup/csc648-globetrotter-mysql-model.mwb.bak
+>>>>>>> master
+>>>>>>> 995be5be3b650f11cc7c9a2e169b58f5d5e13fde

@@ -8,29 +8,38 @@ DELETE FROM activity WHERE activity_id IS NOT NULL;
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
 SET @user_password_hashed = '$2b$10$4TF8lwcJBfFW.tgew44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6US';
+SET @user_first_name = 'Globe';
+SET @user_last_name = 'Trotter';
+SET @user_birthday = '2000-01-01';
+SET @user_gender = 'other';
 SET @user_preferred_currency = 'USD';
 SET @user_primary_phone_country_code = '1';
 SET @user_primary_phone_number = '4153381111';
-SET @user_secondary_phone_country_code = '1';
-SET @user_secondary_phone_number = '9999999999';
-SET @user_home_location_name = 'San Francisco State University';
+-- SET @user_secondary_phone_country_code = '1';
+-- SET @user_secondary_phone_number = '9999999999';
+-- SET @user_home_location_name = 'San Francisco State University';
+SET @user_home_location_address_line_1 = '1600 Holloway Ave';
+SET @user_home_location_address_line_2 = '';
 SET @user_home_location_city = 'San Francisco';
 SET @user_home_location_state = 'CA';
 SET @user_home_location_country = 'US';
 SET @user_home_location_postal_code = '94132';
-SET @user_home_location_latitude = 37.7247837;
-SET @user_home_location_longitude = -122.4800585;
+-- SET @user_home_location_latitude = 37.7247837;
+-- SET @user_home_location_longitude = -122.4800585;
+SET @trip_photo_title = 'Student Center';
+SET @trip_photo_description = 'This is the Cesar Chavez Student Center at SFSU.';
+SET @trip_photo_is_profile_photo = FALSE;
+SET @trip_photo_folder_path = '/public/images/';
+SET @trip_photo_file_name = 'sfsu';
+SET @trip_photo_extension = 'jpg';
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
 
 # 2) Register the unregistered user
-CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_preferred_currency, 
-	@user_primary_phone_country_code, @user_primary_phone_number, @user_secondary_phone_country_code, @user_secondary_phone_number, @user_id);
-
-# 3) Create a home_location for the registered_user
-CALL usp_create_home_location(@user_id, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
-	@user_home_location_latitude, @user_home_location_longitude);
+CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
+	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
+    @user_primary_phone_country_code, @user_primary_phone_number, @user_id);
 
 # 4) Start creating the best trip ever
 SET @trip_name = "Best Trip Ever (2021)";
@@ -56,3 +65,6 @@ SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'FCO';
 SET @departure = DATE_ADD(@arrival, INTERVAL 1 HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '8:30' HOUR_MINUTE);
 CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
+
+# 8) Add a photo to the trip
+CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);

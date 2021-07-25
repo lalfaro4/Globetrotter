@@ -1,0 +1,309 @@
+:root {
+    --main-font: monospace;
+    --main-font-color: silver;
+    --image-placeholder-color: grey;
+    --hover-color: whitesmoke;
+    --planner-trip-button-container-background-color: lightgreen;
+    --border-radius: 2em;
+}
+body {
+    margin: 0%;
+    font-family: var(--main-font);
+}
+header {
+    margin: 0%;
+}
+.navbar-container {
+    display: grid;
+    grid-template-columns: 1fr min-content 1fr;
+    padding: 1em;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: silver;
+}
+.round {
+    border-radius: var(--border-radius);
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+}
+.basic-button {
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+}
+.basic-button:hover {
+    background-color: var(--hover-color);
+}
+.navbar-button {
+    height: 100%;
+}
+.navbar-col-1 {
+    display: block;
+    margin: 0%;
+}
+.navbar-logo {
+    width: 30px;
+    height: 30px;
+}
+.navbar-col-2 {
+    display: block;
+    text-align: center;
+    margin: auto;
+}
+.navbar-col-3 {
+    display: block;
+    text-align: right;
+    margin: 0%;
+}
+.default-content {
+    height: 70vh;
+}
+.main-content {
+    background-color: aliceblue;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
+}
+.planner-menubar {
+    background-color: white;
+    width: auto;
+    display: grid;
+    padding: 1em;
+    grid-template-columns: 1fr 1fr;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: silver;
+}
+.planner-menubar-col-1 {
+    display: block;
+    text-align: left;
+}
+.planner-menubar-col-2 {
+    display: block;
+    text-align: right;
+}
+.planner-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    overflow-y: hidden;
+}
+#planner-trip-panel {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content min-content;
+    height: 100%;
+    overflow-y: hidden;
+
+}
+.planner-panel-header {
+    background-color: white;
+    border-bottom-color: silver;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    text-align: center;
+    padding: 1em;
+}
+#planner-trip {
+    overflow-y: scroll;
+}
+.planner-activity {
+    margin: 1em;
+    transition: 0.4s;
+}
+.planner-activity:hover {
+    margin-left: 2em;
+}
+.planner-activity > label {
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+}
+.planner-activity > label > [type=radio]:first-of-type {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+.planner-activity > label > [type=radio]:first-of-type:checked + div {
+    background-color: #ededed;
+}
+.planner-activity-header {    
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    text-align: left;
+    padding: 2em;
+    outline: none;
+    transition: 0.4s;
+}
+.planner-activity-numeral {
+    text-align: center;
+    vertical-align: middle;
+    align-self: center;
+    background-color: white;
+    position: relative;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+    height: 2vw;
+    width: 2vw;
+}
+.planner-activity-origin-input {
+    width: 100%;
+    box-sizing: border-box;
+    text-indent: 1em;
+}
+.planner-activity-destination-input {
+    width: 100%;
+    box-sizing: border-box;
+    text-indent: 1em;
+}
+.planner-activity-departure-date {
+    min-width:fit-content;
+}
+.planner-remove-activity-button {    
+}
+.planner-add-activity-button {
+    margin: 1em;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
+}
+.planner-activity-child-container {
+    padding: 0 18px;
+    background-color:white;
+    display: block;
+    padding: 1em;
+    margin-left: var(--border-radius);
+}
+.planner-trip-button-container {
+    background-color: white;
+    border-top-width: 1px;
+    border-top-color: silver;
+    border-top-style: solid;
+}
+.planner-trip-save-button {
+    margin: 1em;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
+}
+.planner-button-container {
+    background-color: white;
+}
+.planner-proceed-button {
+    margin: 1em;
+    font-size: large;
+}
+input[type="time"] {
+    text-align: center;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #e6e6e6;
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    margin-left: 50%;
+    animation: spin 2s linear infinite;
+    display: grid;
+}  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#planner-results-container {
+    transition: 1s;
+    overflow-y: scroll;
+}
+#planner-results-panel {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content min-content;
+    height: 100%;
+    overflow-y: hidden;
+}
+#planner-results-list {
+    overflow-y: scroll;
+    transition: 1s;
+}
+.planner-result-item {
+    background-color: white;
+    color: #444;
+    cursor: pointer;
+    margin: 1em;
+    padding: 18px;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+}
+.planner-result-item:hover {
+    margin-left: 2em;
+}
+.planner-result-item-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+.planner-result-item-layout-col-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.planner-result-item-layout-col-2 {
+    text-align: center;
+}
+
+.planner-result-item-layout-col-3 {
+    text-align: center;
+}
+
+.planner-result-item-layout-col-4 {
+    text-align: right;
+}
+
+@media only screen and (max-width: 800px) {
+    .planner-activity-button-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .planner-result-item-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .navbar-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-auto-flow: dense;
+   }
+    .navbar-col-1 {
+        grid-column: 1;
+        grid-row: 2;
+        text-align: center;
+        margin: auto;
+   }
+    .navbar-col-2 {
+        grid-column: 1;
+        grid-row: 1;
+        margin: auto;
+   }
+    .navbar-col-3 {
+        grid-column: 1;
+        grid-row: 3;
+        text-align: center;
+        margin: auto;
+   }
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+    display: none;
+}
+
+input[type="date"] {
+    text-align: center;
+}

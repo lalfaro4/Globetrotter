@@ -1,0 +1,142 @@
+/* Removing any padding from all elements on the Gallery Photo page. */
+*{
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+}
+
+/* The user profile image takes up its entire container. */
+img{
+    height: 100%;
+    width: 100%;
+}
+
+/* Centers everything on the top of the page. */
+.page-header{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+/* Styling for the container of the profile photo of the user. */
+.profile-photo-container{
+    position: relative;
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    padding-left: 35%;
+}
+
+/* Styling for the profile photo itself. */
+.profile-photo{
+    height: 300px;
+    width: 300px;
+    border-radius: 100%;
+    border: 1px solid black;
+    
+}
+
+/* Styling for the description of the photo gallery. Located under the proile photo. */
+.gallery-description{
+    margin-top: 5%;
+    font-size: 1.5rem;
+    padding: 0 10%;
+    text-align: justify;
+  text-justify: inter-word;
+
+    /* padding: 10px 100px; */
+}
+
+
+/* Styling for the grid that will hold all the images uploaded by the user. */
+.images-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);   
+    grid-auto-rows: 30rem;
+    /* background-color: #2196F3; */
+    padding: 50px;
+    gap: 10px;
+    
+}
+
+/* Styling for button that will allow to add a new photo to the gallery */
+.add-img-btn{
+    background-color: white;
+    border: none;
+    border-radius: 2rem;
+    width: 8rem;
+    height: 3rem;
+    font-size: 2rem;
+    left: 50%;
+    margin-bottom: 2rem;
+
+}
+
+
+/* Styling for when button to add image is hovered. */
+.add-img-btn:hover{
+    transition: 0.5s;
+    border: 0.5px solid lightgray;
+    box-shadow: 5px 5px 5px lightgray;
+
+}
+
+/* Styling for the container that is holding the grid. */
+.grid-container{
+    display: flex;
+    justify-content: center;
+    display: inline-block;
+}
+
+/* Styling for each individual image inside of the grid. */
+.grid-item{
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+
+/* The following styling is the same as above, with some minor changes to accomadate resizing of window. */
+@media only screen and (max-width: 1524px) {
+    .images-container{
+        grid-template-columns: repeat(2, 1fr);   
+
+    }
+
+    .gallery-description{
+        font-size: 1rem;
+
+    }
+
+    .profile-photo{
+        height: auto;
+        width: 200px;
+        margin-bottom: 1rem;
+        
+    }
+    
+    .profile-photo-container{
+
+        /* Dont like how I aligned the image in the center */
+        padding-left: 30%;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+    .images-container{
+        grid-template-columns: repeat(1, 1fr);   
+        
+    }
+
+    .profile-photo{
+        width: 150px;
+    }
+
+
+}

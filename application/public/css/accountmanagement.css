@@ -1,0 +1,219 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Navbar begins */
+
+.nav {
+    height: 50px;
+    width: 100%;
+    background-color: #4d4d4d;
+    position: relative;
+}
+
+.nav #nav-check {
+    display: none;
+}
+
+.nav .nav-header {
+    display: inline;
+}
+
+.nav .nav-header .nav-title {
+    display: inline-block;
+    font-size: 30px;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.nav .nav-btn {
+    display: none;
+}
+
+.nav .nav-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+}
+
+.nav>.nav-links>a {
+    display: inline-block;
+    padding: 13px 10px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.nav .nav-links a:hover {
+    background-color: black;
+}
+
+@media (max-width: 600px) {
+    .nav .nav-btn {
+        display: inline-block;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+    .nav .nav-btn label {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+    }
+    .nav .nav-btn label span {
+        display: block;
+        width: 25px;
+        height: 10px;
+        border-top: 2px solid #ffffff;
+    }
+    .nav .nav-links {
+        position: absolute;
+        display: block;
+        width: 100%;
+        background-color: #333333;
+        height: 0px;
+        transition: all 0.3s ease-in;
+        overflow-y: hidden;
+        top: 50px;
+        left: 0px;
+    }
+    .nav>.nav-links>a {
+        display: block;
+        width: 100%;
+    }
+    .nav #nav-check:checked~.nav-links {
+        height: calc(100vh);
+        overflow-y: auto;
+    }
+    /* Dropdown nav*/
+    div.nav-links .dropdown {
+        width: 100%;
+    }
+    div.nav-links .dropdown button.dropbtn {
+        padding: 13px 10px;
+        font-size: 18px;
+        height: auto;
+        line-height: normal;
+        color: white;
+    }
+    .dropdown-content {
+        padding: 10px;
+        font-size: 16px;
+        height: auto;
+        line-height: normal;
+        color: #333333;
+        text-align: left;
+        width: 100%;
+        float: left !important;
+    }
+}
+
+.dropdown {
+    float: right;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    padding: 13px 10px;
+    border: none;
+    outline: none;
+    background-color: inherit;
+    color: #efefef;
+    font-size: 18px;
+    display: block;
+    cursor: pointer;
+}
+
+.navbar a:hover,
+.dropdown:hover .dropbtn {
+    background-color: black;
+    color: white;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: grey;
+    min-width: 160px;
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Navbar ends */
+
+button{
+	padding: 9px 25px;
+	background-color:rgba(173, 42, 173, 0.849);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+button:hover{
+	background-color:rgba(173, 42, 173, 0.849);
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 17px;
+}
+
+
+.saveprofile,
+.savepassword {
+	background-color: rgba(173, 42, 173, 0.849);
+	color: white;
+	padding: 12px;
+	margin: 0 auto;
+	display: block;
+	border: none;
+	width: 200px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 17px;
+	
+  }
+  
+  .saveprofile:hover,
+  .savepassword:hover{
+	background-color: purple;
+  }
+  
+  .container{
+	display: block;
+    text-align: left;
+    margin: 80px;
+  }
+  .profileinfo{
+      display: inline-block;
+  }
+  
+  .profile-photo{
+      border-radius: 50%;
+  }

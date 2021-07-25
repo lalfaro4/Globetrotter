@@ -1,3 +1,5 @@
 **/.DS_Store	# Mac filesystem files
 **/~$*.doc*	# Windows temp files in any folder
 **/.idea/	# IntelliJ folder
+*.bak
+application/node_modules/bcrypt

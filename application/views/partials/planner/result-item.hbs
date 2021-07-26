@@ -10,7 +10,8 @@
             <input disabled type="time" class="round departure-date" value="{{itineraries.0.segments.0.departure.at}}">
             <div></div>
             <input disabled type="time" class="round arrival-date" value="{{itineraries.0.segments.0.arrival.at}}">
-            <div style="grid-column: span 3">{{itineraries.0.segments.0.carrierName}}</div>
+                <img src="https://content.airhex.com/content/logos/airlines_{{itineraries.0.segments.0.carrierCode}}_70_20_r.png">
+            {{!-- <div style="grid-column: span 3">{{itineraries.0.segments.0.carrierName}}</div> --}}
         </div>
         <div class="planner-result-item-layout-col-2">
             {{itineraries.0.duration}}
@@ -19,8 +20,7 @@
             {{price.currency}} {{price.grandTotal}}
         </div>
         <div class="planner-result-item-layout-col-4">
-            {{!-- <button type="reset" class="round basic-button planner-result-item-button" value="Reset">Reset</button> --}}
-            <input type="button" class="round basic-button planner-result-item-button" value="Add">
+            <input type="button" class="round basic-button planner-result-item-button" value="Add this flight">
         </div>
     </div>
 </div>

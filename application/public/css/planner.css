@@ -57,10 +57,10 @@ header {
     margin: 0%;
 }
 .default-content {
-    height: 70vh;
+    height: 90vh;
 }
 .main-content {
-    background-color: aliceblue;
+    background-color: rgb(249, 251, 252);
     display: grid;
     grid-template-rows: min-content 1fr;
     height: 100%;
@@ -105,6 +105,8 @@ header {
     padding: 1em;
 }
 #planner-trip {
+    padding-left: 4em;
+    padding-right: 4em;
     overflow-y: scroll;
 }
 .planner-activity {
@@ -124,12 +126,12 @@ header {
     opacity: 0;
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
-    background-color: #ededed;
+    background-color: #d9eef3;
 }
 .planner-activity-header {    
     display: grid;
     grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
-    background-color: #f7f7f7;
+    background-color: white;
     cursor: pointer;
     text-align: left;
     padding: 2em;
@@ -214,6 +216,8 @@ input[type="time"] {
     100% { transform: rotate(360deg); }
 }
 #planner-results-container {
+    padding-left: 4em;
+    padding-right: 4em;
     transition: 1s;
     overflow-y: scroll;
 }

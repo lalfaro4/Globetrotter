@@ -1,3 +1,5 @@
+var express = require('express');
+var router = express.Router();
 var jwt = require('jsonwebtoken');
 const WebTokens = require('../private/js/webTokens');
 
@@ -6,13 +8,36 @@ const WebTokens = require('../private/js/webTokens');
 /*************************************************************************************
  * Logging function for routeProtector.js
  *************************************************************************************/
- function log(message, type) {
+function log(message, type) {
     if (type == 'success') {
         console.log(`routeProtector.js:: ${message}`.bgGreen.white);
     } else if (type == "info") {
-        console.log(`routeProtector.js:: ${message}`.bgGreen.white);
+        console.log(`routeProtector.js:: ${message}`.bgGreen.yellow);
     } else if (type == 'fail') {
         console.log(`routeProtector.js:: ${message}`.italic.bgRed.black);
+    }
+}
+
+
+
+function userIsLoggedIn(req, res, next) {
+    var requestedPage = req.url;
+    if (req.session && req.session.username) {
+        log('User is logged in.', 'success');
+        next();
+    } else {
+        log('User is not logged in but is required to be. Redirecting to /login', 'fail');
+        res.redirect(`/login?message=You must log in to access ${requestedPage}`);
+    }
+}
+
+function userIsNotLoggedIn(req, res, next) {
+    if (!req.session || !req.session.username) {
+        log("User is not logged in.", "success");
+        next();
+    } else {
+        log("User is already logged in. Redirecting to /home.", "fail");
+        res.redirect("/home");
     }
 }
 
@@ -50,3 +75,5 @@ function authorization(req, res, next) {
  * Make the route protectors usable from other modules (mainly the routers).
  *************************************************************************************/
 module.exports.authorization = authorization;
+module.exports.userIsLoggedIn = userIsLoggedIn;
+module.exports.userIsNotLoggedIn = userIsNotLoggedIn;

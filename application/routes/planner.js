@@ -31,10 +31,43 @@ function log(message, type) {
 /*************************************************************************************
 * Renders the page at URL '/planner'
 *************************************************************************************/
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
+    log('/planner', 'info');
+
+    var activities;
+    if(req.query.trip_id) {
+        console.log(1);
+        activities = await database.getFlightActivitiesByTripId(req.query.trip_id);
+        var counter = 0;
+        for(var activity of activities) {
+            activity.index = counter++;
+            if(activity.flight_offer_json_data) {
+                log(activity.flight_offer_json_data, 'info');
+                activity.flight_offer_json_data = JSON.parse(activity.flight_offer_json_data);
+            }
+        }
+    } else {
+        console.log(2);
+        activities = [ { index: 0, origin_airport_code: req.query.origin,
+            destination_airport_code: req.query.destination,
+
+            // Set the departure date for tomorrow
+            departure_date: new Date(Date.now() + 24*3600000).toISOString().split('T')[0]
+        } ];
+    }
+    
+    
+    // 
+    // Render the Route Planner and sends the response to the client. 
+    // Activities is passed in as context which Handlebars can read in (planner.hbs).
+    // This allows us to use variables inside of the hbs file based on what the 
+    // query parameters in the URL i.e. /planner?origin=LAX&destination=SFO
+    //
     res.render("planner", {
-        layout: 'globetrotter_v2',
-        title: "Route Planner"
+        layout: 'globetrotter',
+        filename: 'planner',
+        title: "Route Planner",
+        activities: activities
     });
 });
 
@@ -113,8 +146,11 @@ router.get('/flights', async (req, res, next) => {
 
                         // Get the Airline name from our database
                         var airlineCode = segment.carrierCode;
-                        var airlineName = (await database.getAirlineNameFromIATACode(airlineCode))[0].service_provider_name;
-                        segment.carrierName = airlineName;
+                        var airline = (await database.getAirlineNameFromIATACode(airlineCode))[0];
+                        if(airline) {
+                            var airlineName = airline.service_provider_name;
+                            segment.carrierName = airlineName;
+                        }
 
                     }
                 }

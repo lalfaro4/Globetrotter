@@ -26,8 +26,12 @@ SET @user_home_location_country = 'US';
 SET @user_home_location_postal_code = '94132';
 -- SET @user_home_location_latitude = 37.7247837;
 -- SET @user_home_location_longitude = -122.4800585;
-
-SET @activity_lax_to_sfo_flight_offer_json_data = "{\"type\":\"flight-offer\",\"id\":\"1\",\"source\":\"GDS\",\"instantTicketingRequired\":0,\"nonHomogeneous\":0,\"oneWay\":false,\"lastTicketingDate\":\"2021-07-27\",\"numberOfBookableSeats\":7,\"itineraries\":[{\"duration\":\"PT1H22M\",\"segments\":[{\"departure\":{\"iataCode\":\"LAX\",\"terminal\":\"5\",\"at\":\"2021-08-04T06:00:00\"},\"arrival\":{\"iataCode\":\"SFO\",\"terminal\":\"1\",\"at\":\"2021-08-04T07:22:00\"},\"carrierCode\":\"B6\",\"number\":\"2836\",\"aircraft\":{\"code\":\"320\"},\"operating\":{\"carrierCode\":\"B6\"},\"duration\":\"PT1H22M\",\"id\":\"1\",\"numberOfStops\":0,\"blacklistedInEU\":false}]}],\"price\":{\"currency\":\"USD\",\"total\":\"98.40\",\"base\":\"78.14\",\"fees\":[{\"amount\":\"0.00\",\"type\":\"SUPPLIER\"},{\"amount\":\"0.00\",\"type\":\"TICKETING\"}],\"grandTotal\":\"98.40\"},\"pricingOptions\":{\"fareType\":[\"PUBLISHED\"],\"includedCheckedBagsOnly\":0},\"validatingAirlineCodes\":[\"B6\"],\"travelerPricings\":[{\"travelerId\":\"1\",\"fareOption\":\"STANDARD\",\"travelerType\":\"ADULT\",\"price\":{\"currency\":\"USD\",\"total\":\"98.40\",\"base\":\"78.14\"},\"fareDetailsBySegment\":[{\"segmentId\":\"1\",\"cabin\":\"ECONOMY\",\"fareBasis\":\"ML7AUEL1\",\"brandedFare\":\"DN\",\"class\":\"L\",\"includedCheckedBags\":{\"quantity\":0}}]}]}";
+SET @trip_photo_title = 'Student Center';
+SET @trip_photo_description = 'This is the Cesar Chavez Student Center at SFSU.';
+SET @trip_photo_is_profile_photo = FALSE;
+SET @trip_photo_folder_path = '/public/images/';
+SET @trip_photo_file_name = 'sfsu';
+SET @trip_photo_extension = 'jpg';
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
@@ -46,18 +50,21 @@ SELECT location_id INTO @src_id FROM airport_view WHERE iata_code = 'LAX';
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'SFO';
 SET @departure = DATE_ADD(NOW(), INTERVAL 1 MONTH);
 SET @arrival = DATE_ADD(@departure, INTERVAL '1:25' HOUR_MINUTE);
-CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, @activity_lax_to_sfo_flight_offer_json_data, @activity_id);
+CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
 
 # 6) Create an activity from San Francisco to New York City, starting at 6AM on the day after arriving in San Francisco, and a duration of 5 hours and 45 minutes.
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'JFK';
 SET @departure = DATE_ADD(TIMESTAMP(DATE(@departure)), INTERVAL '1:6' DAY_HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '5:45' HOUR_MINUTE);
-CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, null, @activity_id);
+CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
 
 # 7) Create an activity from New York City to Rome, departing 1 hour after arriving in New York City and lasting 8 hours and 30 minutes.
 SET @src_id = @dst_id;
 SELECT location_id INTO @dst_id FROM airport_view WHERE iata_code = 'FCO';
 SET @departure = DATE_ADD(@arrival, INTERVAL 1 HOUR);
 SET @arrival = DATE_ADD(@departure, INTERVAL '8:30' HOUR_MINUTE);
-CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, null, @activity_id);
+CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_id, @dst_id, "{}", @activity_id);
+
+# 8) Add a photo to the trip
+CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);

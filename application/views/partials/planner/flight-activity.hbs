@@ -18,4 +18,10 @@
         <input type="button" class="round basic-button planner-remove-activity-button" value="Remove" />
     </div>
 </label>
-<div class="round planner-activity-child-container"></div>
+<div class="round planner-activity-child-container">
+    {{#if flight_offer_json_data}}
+        We got data.
+    {{else}}
+        No data.
+    {{/if}}
+</div>

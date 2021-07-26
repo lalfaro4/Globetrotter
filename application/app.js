@@ -7,7 +7,8 @@ var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
-var plannerRouter = require('./routes/planner')
+var plannerRouter = require('./routes/planner');
+var photoGalleryRouter = require('./routes/photogallery');
 // dayjs.extend(relativeTime);
 
 
@@ -149,6 +150,13 @@ app.use('/api', apiRouter);
  * Use the plannerRouter for all URL's beginning with /planner
  *************************************************************************************/
 app.use('/planner', plannerRouter);
+
+
+
+/*************************************************************************************
+ * Use the photoGalleryRouter for all URL's beginning with /photogallery
+ *************************************************************************************/
+ app.use('/photogallery', photoGalleryRouter);
 
 
 

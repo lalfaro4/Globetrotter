@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="public/css/photo-gallery.css">
+<link rel="stylesheet" href="/public/css/photo-gallery.css">
 
 <!-- <div class="page-header">
         <h1>Photo Gallery</h2>
@@ -6,7 +6,7 @@
     </div> -->
 
 <div id="profile-photo-container" class="profile-photo-container">
-    <img id="profile-photo" class="profile-photo" src="public/images/person.jpg">
+    <img id="profile-photo" class="profile-photo" src="/public/images/person.jpg">
 </div>
 
 <div id="gallery-description-container">
@@ -18,10 +18,15 @@
         Tenetur minima quaerat laudantium hic delectus architecto modi ab?
 </div>
 
-<div class="grid-container"></div>
+<div class="grid-container">
+</div>
 <div id="images-container" class="images-container">
 
-
+    {{#each photos}}
+    <div>
+        {{> photogallery/photo this}}
+    </div>
+    {{/each}}
 
 
 </div>
@@ -31,9 +36,13 @@
     padding-left: 40%;
     padding-right: 40%;
 ">
-    <button id="add-img-btn" class="add-img-btn"> + </button>
+    {{!-- <button id="add-img-btn" class="add-img-btn"> + </button> --}}
+    <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{tripid}}/photo/upload" enctype="multipart/form-data">
+        <input type="file" id="photogallery-file-picker" name="photogallery-file-picker" accept=".png, .jpg" />
+        <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
+    </form>
     <button id="save-btn" class="add-img-btn" style="border: 1px solid silver;">Save</button>
 
 </div>
 
-<script src="public/js/photo-gallery.js"></script>
+<script src="/public/js/photo-gallery.js"></script>

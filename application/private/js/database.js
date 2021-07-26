@@ -41,7 +41,8 @@ var options = {
     host: '127.0.0.1',
     user: 'team2',
     password: 'YE2n4qh4wV',
-    database: 'GlobetrotterV1'
+    database: 'GlobetrotterV1',
+    multipleStatements: true
 };
 
 
@@ -120,7 +121,9 @@ async function runQuery(query, params) {
     var result = null;
     var connection;
     try {
-        connection = await pool.awaitGetConnection();
+        connection = await pool.awaitGetConnection({
+            multipleStatements: true
+        });
         result = await connection.awaitQuery(query, params);
         connection.release();
         log(`MySQL: Found ${result.length} result(s).`, "success");
@@ -275,6 +278,54 @@ async function getAllTrips() {
 
 
 /*************************************************************************************
+ * Add photo to database
+ *************************************************************************************/
+ async function createPhoto(userId, folderPath, fileName, extension, title, description, isProfilePhoto, photoIdOut) {
+    var query = 'CALL usp_create_photo(?, ?, ?, ?, ?, ?, ?, @photoIdOut); SELECT @photoIdOut';
+    var params = [userId, folderPath, fileName, extension, title, description, isProfilePhoto];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Add photo to photo_album
+ *************************************************************************************/
+ async function addPhotoToAlbum(photoId, tripId) {
+    var query = 'CALL usp_add_photo_to_album(?, ?)';
+    var params = [photoId, tripId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get photos from database by trip_id.
+ *************************************************************************************/
+ async function getPhotosByTripId(trip_id) {
+    var query = 'SELECT * FROM photo_view WHERE trip = ?';
+    var params = [trip_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Get trip from database by trip_id.
  *************************************************************************************/
  async function getAirlineNameFromIATACode(iata_code) {
@@ -342,6 +393,9 @@ module.exports.getAllTrips = getAllTrips;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;
 module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
+module.exports.createPhoto = createPhoto;
+module.exports.addPhotoToAlbum = addPhotoToAlbum;
+module.exports.getPhotosByTripId = getPhotosByTripId;
 module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
 module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.authenticate = authenticate;

@@ -125,16 +125,6 @@ router.get('/previoustrips', routeProtectors.userIsLoggedIn, (req, res, next) =>
 
 
 
-router.get('/photogallery', routeProtectors.userIsLoggedIn, (req, res, next) => {
-  res.render("photogallery", {
-    layout: 'globetrotter',
-    filename: "photogallery",
-    title: "Photo Gallery"
-  });
-});
-
-
-
 /*************************************************************************************
  * Error trap for any URL's that the router doesn't know how to handle.
  *************************************************************************************/

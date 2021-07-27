@@ -59,7 +59,7 @@ router.post('/:tripid/photo/upload', uploader.single('photogallery-file-picker')
         let extension = req.file.filename.split('.')[1];
         var photoIdOut = 0;
         try {
-        var result = await database.createPhoto(req.session.userid, '/' + photoUploadPath + '/',
+        var result = await database.createPhoto(req.session.user.user_id, '/' + photoUploadPath + '/',
             fileName, extension, 'title',
             'description', false, photoIdOut);
         var result = JSON.parse(JSON.stringify(result));

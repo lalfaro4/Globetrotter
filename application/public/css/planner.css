@@ -60,7 +60,7 @@ header {
     height: 90vh;
 }
 .main-content {
-    background-color: rgb(249, 251, 252);
+    background-color: rgb(234, 237, 238);
     display: grid;
     grid-template-rows: min-content 1fr;
     height: 100%;
@@ -126,17 +126,14 @@ header {
     opacity: 0;
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
-    background-color: #d9eef3;
+    background-color: #d5d5d5;
 }
-.planner-activity-header {    
-    display: grid;
-    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
-    background-color: white;
-    cursor: pointer;
-    text-align: left;
+.planner-activity-header {
     padding: 2em;
-    outline: none;
-    transition: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    grid-template-columns: min-content 1fr;
+    display: grid;
 }
 .planner-activity-numeral {
     text-align: center;
@@ -150,6 +147,13 @@ header {
     border-color: silver;
     height: 2vw;
     width: 2vw;
+}
+.planner-activity-input-container {    
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr 1fr 1fr 1fr;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
 }
 .planner-activity-origin-input {
     width: 100%;
@@ -265,6 +269,35 @@ input[type="time"] {
 
 .planner-result-item-layout-col-4 {
     text-align: right;
+}
+
+@media only screen and (max-width: 1200px) {
+    #planner-trip {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    .planner-activity-header {
+        padding: 1em;
+        grid-template-columns: min-content 1fr;
+        grid-template-rows: auto;
+    }
+    .planner-activity-input-container {
+        grid-template-columns: 1fr min-content 1fr;
+        grid-template-rows: 4;
+        display: grid;
+    }
+    .planner-search-activity-button {
+        grid-column: 1 / 4;
+        grid-row: 2;
+    }
+    .planner-remove-activity-button {
+        grid-column: 1 / 4;
+        grid-row: 3;
+    }
+    .planner-activity-departure-date {
+        grid-row: 4;
+        grid-column: 1 / 4;
+    }
 }
 
 @media only screen and (max-width: 800px) {

@@ -7,9 +7,9 @@
             <div>{{itineraries.0.segments.0.departure.iataCode}}</div>
             <div style="text-align: center;">to</div>
             <div>{{itineraries.0.segments.0.arrival.iataCode}}</div>
-            <input disabled type="time" class="round departure-date" value="{{itineraries.0.segments.0.departure.at}}">
+            <input disabled type="time" class="round departure-date" value="{{ Time itineraries.0.segments.0.departure.at }}">
             <div></div>
-            <input disabled type="time" class="round arrival-date" value="{{itineraries.0.segments.0.arrival.at}}">
+            <input disabled type="time" class="round arrival-date" value="{{ Time itineraries.0.segments.0.arrival.at }}">
                 <img src="https://content.airhex.com/content/logos/airlines_{{itineraries.0.segments.0.carrierCode}}_70_20_r.png">
             {{!-- <div style="grid-column: span 3">{{itineraries.0.segments.0.carrierName}}</div> --}}
         </div>

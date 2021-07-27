@@ -1,9 +1,13 @@
+<link rel="stylesheet" href="/public/css/accountmanage.css">
+
+
+
 <div class="container">
     <h1 class="profileheader">Profile Info</h1>
     <div class="profileinfo">
 
-        <div class="picture"><img class="profile-photo" src="/public/images/profileimage.png" alt="img not found" width="100"
-                height="100">
+        <div class="picture"><img class="profile-photo" src="/public/images/profileimage.png" alt="img not found"
+                width="100" height="100">
             <p class="imgreq">Photo must be either JPG or PNG.</br> Size must be 2MB or less.</br>Minimum image size
                 of
                 250*250 px.</p>
@@ -30,21 +34,24 @@
 
         <p class="birthdaytitle">Birthday</p>
         <select class="month-select" id="month">
-            <option value="January">January</option>
-            <option value="February">February</option>
-            <option value="March">March</option>
-            <option value="April">April</option>
-            <option value="May">May</option>
-            <option value="Jun">Jun</option>
-            <option value="July">July</option>
-            <option value="August">August</option>
-            <option value="September">September</option>
-            <option value="October">October</option>
-            <option value="November">November</option>
-            <option value="December">December</option>
+            {{#Select (Month session.user.birthday) }}
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">Jun</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+            {{/Select}}
         </select>
 
         <select class="day-select" id="day">
+            {{#Select (Day session.user.birthday) }}
             <option value="01">01</option>
             <option value="02">02</option>
             <option value="03">03</option>
@@ -76,9 +83,11 @@
             <option value="29">29</option>
             <option value="30">30</option>
             <option value="31">31</option>
+            {{/Select}}
         </select>
 
         <select class="year-select" id="year">
+            {{#Select (Year session.user.birthday) }}
             <option value="2002">2002</option>
             <option value="2001">2001</option>
             <option value="2000">2000</option>
@@ -122,16 +131,18 @@
             <option value="1962">1962</option>
             <option value="1961">1961</option>
             <option value="1960">1960</option>
+            {{/Select}}
         </select>
 
         <p class="addresstitle">Suite or APT. Number</p>
-        <input type="text" class="address" value="{{session.user.home_address_line_1}}">
+        <input type="text" class="address" value="{{session.user.address_line_1}}">
 
         <p class="citytitle">City</p>
-        <input type="text" class="city" value="{{session.user.home_city}}">
+        <input type="text" class="city" value="{{session.user.city}}">
 
         <p class="statetitle">State</p>
         <select class="state-select" id="state">
+            {{#Select (State session.user.state) }}
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AZ">AZ</option>
@@ -183,19 +194,20 @@
             <option value="WV">WV</option>
             <option value="WI">WI</option>
             <option value="WY">WY</option>
+            {{/Select}}
         </select>
 
         <p class="ziptitle">Zip Code</p>
-        <input type="text" class="zip" value="{{session.user.home_postal_code}}">
+        <input type="text" class="zip" value="{{session.user.postal_code}}">
 
         <p class="mobile1title">Primary Phone Number</p>
         <input type="text" class="mobile1" value="{{session.user.primary_phone_number}}">
 
         <p class="mobile2title">Secondary Phone Number</p>
-        <input type="text" class="mobile2" value="{{session.user.secondary_phone_number}}">
+        <input type="text" class="mobile2">
 
         <p class="emailaddresstitle">Email Address</p>
-        <p class="email">{{session.user.email}}</p>
+        <input type="text" class="email" value="{{session.user.email}}" disabled>
 
         <input type="submit" class="saveprofile" value="Save Changes">
     </div>
@@ -204,7 +216,7 @@
     <div class="security">
         <h1 class="securityheader">Security</h1>
         <p class="securitytitle">Change Password</p>
-        <p class="display1">You are changing the password for: {{session.user.email}}</p>
+        <p class="display1">You are changing the password for: email address</p>
         <p class="currentpasswordtitle">Current Password:</p>
         <input type="password" class="cp" id="input">
         <input type="checkbox" class="box1" onclick="myFunction()">

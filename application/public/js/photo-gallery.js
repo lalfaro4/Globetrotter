@@ -3,7 +3,7 @@ const grid = document.getElementById("images-container");
 const saveButton = document.getElementById("save-btn");
 
 // Everytime a user click the "+" button, the getRandomDogURL function gets called.
-addButton.addEventListener("click", getRandomDogURL);
+// addButton.addEventListener("click", getRandomDogURL);
 
 saveButton.addEventListener('click', (event) => { window.location.href = 'public/html/purchasedtrips.html'});
 
@@ -37,3 +37,11 @@ function getRandomDogURL(){
 
 // }
 
+function uploadImage() {
+    var filePicker = document.getElementById('photogallery-file-picker');
+    console.log(filePicker);
+    console.log(filePicker.file);
+}
+
+
+document.getElementById('photogallery-upload-photo-button').addEventListener('click', uploadImage);

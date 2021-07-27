@@ -1,77 +1,85 @@
-<div class="container">
-    <!--CHECKOUT TITLE-->
-    <h1 class="title">Checkout</h1>
 
-    <div class="row">
-        <div class="col-50">
+    <link rel="stylesheet" href="public/css/checkout.css">
 
-            <!--CARD INFORMATION-->
-            <div class="cardinfo">
-                <div class="container">
-                    <h1 class="title">Card Information</h1><br>
-                    <form action="" method="post">
-                        <label for="name">Name on Card:</label>
-                        <input type="text" id="name" /> <br>
-
-                        <label for="card">Card #:</label>
-                        <input id="card" /><br>
-
-                        <label for="expiration">Expiration (MM/YY):</label>
-                        <input class="expdate" type="month" id="month" /> &nbsp; &nbsp;/
-                        <input class="expdate" type="year" id="year" /><br>
-
-                        <label for="CVC">CVC:</label>
-                        <input type="cvc" id="cvc" /><br>
-
-                        <label for="address">Billing Address:</label>
-                        <input id="address" /><br>
-
-                        <label for="state">State:</label>
-                        <input id="state" /><br>
-
-                        <label for="zipcode">Zip Code:</label>
-                        <input id="zipcode" /><br>
+    <header>        
+    </header>
 
 
-                    </form>
+
+    <div class="container">
+        <!--CHECKOUT TITLE-->
+        <h1 class="title">Checkout</h1>
+
+        <div class="row">
+            <div class="col-50">
+
+                <!--CARD INFORMATION-->
+                <div class="cardinfo">
+                    <div class="container">
+                        <h1 class="title">Card Information</h1><br>
+                        <form action="" method="post">
+                            <label for="name">Name on Card:</label>
+                            <input type="text" id="name" /> <br>
+
+                            <label for="card">Card #:</label>
+                            <input id="card" /><br>
+
+                            <label for="expiration">Expiration (MM/YY):</label>
+                            <input class="expdate" type="month" id="month" /> &nbsp; &nbsp;/ 
+                            <input class="expdate" type="year" id="year" /><br>
+
+                            <label for="CVC">CVC:</label>
+                            <input type="cvc" id="cvc" /><br>
+
+                            <label for="address">Billing Address:</label>
+                            <input id="address" /><br>
+
+                            <label for="state">State:</label>
+                            <input id="state" /><br>
+
+                            <label for="zipcode">Zip Code:</label>
+                            <input id="zipcode" /><br>
+
+
+                        </form>
+                    </div>
                 </div>
+
+
+                
             </div>
 
 
+            <!--TICKET SUMMARY-->
+            <div class="col-50">
+                <div class="container">
+                    <div class="ticketsummary">
+                        <h1 class="title">Ticket Summary</h1><br>
 
-        </div>
+                        <p>Number of Flights: <span class="numflight">1</span></p>
+                        <p>Tax: <span class="tax">$50</span></p>
+                        <p>Grand Total: <span class="totalprice">$600</span></p>
 
+                        <br>
 
-        <!--TICKET SUMMARY-->
-        <div class="col-50">
-            <div class="container">
-                <div class="ticketsummary">
-                    <h1 class="title">Ticket Summary</h1><br>
-
-                    <p>Number of Flights: <span class="numflight">1</span></p>
-                    <p>Tax: <span class="tax">$50</span></p>
-                    <p>Grand Total: <span class="totalprice">$600</span></p>
-
-                    <br>
-
-                    <div class="flightdetails">
+                        <div class="flightdetails">
                         <p>Departure Time: <span class="deptime">08:10am</span></p>
                         <p>Arrival Time: <span class="arrtime">09:45am</span></p>
                         <p>Airline: <span class="airline">Delta</span></p>
                         <p>Type: <span class="flighttype">One Way</span></p>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!--AGREE TO TERMS-->
-<div class="terms">
-    <h1 class="title">Agree & Purchase</h1>
-    <p>By selecting "Purchase",
+    <!--AGREE TO TERMS-->
+    <div class="terms">
+        <h1 class="title">Agree & Purchase</h1>
+        <p>By selecting "Purchase",
         you are agreeing to the terms and conditions
         that are associated with this purchase.</p>
-</div>
-<br>
-<input type="submit" value="Purchase" class="btn">
+    </div>
+    <br>
+    <input type="submit" value="Purchase" class="btn">

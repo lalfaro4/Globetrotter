@@ -2,7 +2,8 @@
 
 
 var token;
-var trip_id = '';
+var trip_id = 'b48bbc8d-ea4c-11eb-b0c1-28d24427a5d8';
+var trip;
 
 
 
@@ -18,10 +19,6 @@ function getURLBase() {
 
 
 /*************************************************************************************
- * Not used anymore. Will remove soon.
- * 
- * We are using sessions to track logged in users instead of tokens.
- * 
  * Authenticates the user with and returns the authorization token.
  *************************************************************************************/
 async function authenticate() {
@@ -36,14 +33,6 @@ async function authenticate() {
 
 
 
-/*************************************************************************************
- * This is a utility function for creating a GET request using client JavaScript.
- * 
- * Endpoint is the URL of the resource you want to GET i.e. /planner/flights and 
- * Parameters is a key-value object of query parameters i.e. { trip_id: "fsf-dfsf-348"}
- * 
- * This performs a GET request on a URL such as /planner/flights?trid_id=fsf-dfsf-348
- *************************************************************************************/
 async function fetchURL(endpoint, parameters) {
     var url = new URL(getURLBase() + endpoint),
         params = parameters
@@ -51,6 +40,7 @@ async function fetchURL(endpoint, parameters) {
     var response = await fetch(url, {
         method: "GET",
         headers: new Headers({
+            // 'Authorization': `Bearer ${token}`,
         })
     });
     return response;
@@ -91,7 +81,12 @@ function addFlightClickHandler(e) {
     flightOfferButton.addEventListener('click', removeFlightClickHandler);
 
     // Move the result item (new flight offer) uner the selected Activity
-    selectedActivityChildContainer.appendChild(copyOfFlightOffer);
+    if(selectedActivityChildContainer.childElementCount == 0) {
+        selectedActivityChildContainer.innerHTML = '';
+        selectedActivityChildContainer.appendChild(copyOfFlightOffer);
+    } else {
+        selectedActivityChildContainer.replaceChild(copyOfFlightOffer, selectedActivityChildContainer.children[0]);
+    }
 
 }
 
@@ -142,16 +137,20 @@ async function searchFlights(activity) {
 
 
 
+/*************************************************************************************
+* Event handler: Add activity button
+*************************************************************************************/
 function addActivityClickHandler(e) {
-
-    var trip = document.getElementById("planner-trip");
     var flightActivityTemplate = Handlebars.templates['flight-activity.hbs'];
-    trip.innerHTML += flightActivityTemplate( { index: document.getElementById('planner-trip').childElementCount } );
+
+    var newActivity = document.createElement('div');
+    newActivity.classList.add('planner-activity');
+    newActivity.innerHTML = flightActivityTemplate( { index: document.getElementById('planner-trip').childElementCount } );
 
     // Setup the autocomplete
-    var newActivity = trip.lastChild;
-    newActivity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
-    newActivity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+    // newActivity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+    // newActivity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+
 
     // Setup the radio button change handler
     // Each activity is configured as a radio button in the list so that only one can be selected at a time.
@@ -160,12 +159,14 @@ function addActivityClickHandler(e) {
     // radioButton.addEventListener('change', activityClickHandler);
 
     // Setup the search button
-    newActivity.querySelector('.planner-search-activity-button').addEventListener("click", activityClickHandler);
+    // newActivity.querySelector('.planner-search-activity-button').addEventListener("click", activityClickHandler);
     
-    // Setup the remove activity button
-    newActivity.querySelector('.planner-remove-activity-button').addEventListener("click", removeActivityClickHandler);
+    // Setup the remove activity buttons
+    // newActivity.querySelector('.planner-remove-activity-button').addEventListener("click", removeActivityClickHandler);
+
+    configureActivityEventHandlers(newActivity);
     
-    // document.getElementById('planner-trip').appendChild(newActivity);
+    document.getElementById('planner-trip').appendChild(newActivity);
 }
 
 
@@ -186,9 +187,22 @@ function removeActivityClickHandler(e) {
 
 
 /*************************************************************************************
+ *  Event handler: planner-activity
+ ************************************************************************************/
+function activityClickHandler(e) {
+
+    var radioButton = this.children[0].children[0];
+    radioButton.checked = true;
+
+}
+
+
+/*************************************************************************************
  *  Event handler: planner-activity-button
  ************************************************************************************/
-async function activityClickHandler(e) {
+async function activitySearchClickHandler(e) {
+
+    console.log(e.target);
 
     // Make sure the click is not coming from one of the child elements
     if (e.target != this) {
@@ -213,17 +227,16 @@ async function activityClickHandler(e) {
     loaderContainer.appendChild(loaderLabel);
     document.getElementById('planner-results-container').prepend(loaderContainer);
 
-    // Disable input page elements while the flights are loading
+    // Disable page elements
     // Todo 
 
     // Load data or simulate with timeout
     await searchFlights(activity);
     // await new Promise(resolve => setTimeout(resolve, 20000));
 
-    // Reenable input page elements
+    // Reenable page elements
     // Todo
 
-    // Remove the loader since the data has been retrieved
     document.getElementById('planner-results-container').removeChild(loaderContainer);
 }
 
@@ -272,6 +285,16 @@ async function loadTrip(tripId) {
 
 
 
+function configureActivityEventHandlers(activity) {
+    activity.addEventListener('click', activityClickHandler);
+    activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
+    activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+    activity.querySelector('.planner-search-activity-button').addEventListener("click", activitySearchClickHandler);
+    activity.querySelector('.planner-remove-activity-button').addEventListener("click", removeActivityClickHandler);
+}
+
+
+
 /*************************************************************************************
 * Start: Anonymous async function
 *************************************************************************************/
@@ -280,33 +303,26 @@ async function loadTrip(tripId) {
     // await loadTrip(trip_id);
 
     var activities = document.getElementsByClassName('planner-activity');
-    var activityButtons = document.getElementsByClassName("planner-activity-header");
-    var activitySearchButtons = document.querySelectorAll('.planner-search-activity-button');
-    var removeActivityButtons = document.getElementsByClassName("planner-remove-activity-button");
+    // var activityButtons = document.getElementsByClassName("planner-activity-header");
+    // var activityRadioButtons = document.querySelectorAll('.planner-activity > label > [type=radio]:first-of-type');
+    // var removeActivityButtons = document.getElementsByClassName("planner-remove-activity-button");
 
 
 
-    // Setup the event listeners for autocomplete on the origin and destination inputs of each activity
+    // Process the preloaded activities
     for (var activity of activities) {
-        activity.querySelector('.planner-activity-origin-input').addEventListener('input', locationInputEventHandler);
-        activity.querySelector('.planner-activity-destination-input').addEventListener('input', locationInputEventHandler);
+
+        // Setup the event listeners for the preloaded activities
+        configureActivityEventHandlers(activity);
+
+        // Setup the event listeners for the flight offers in the preloaded activities
+        var flightOffer = activity.getElementsByClassName('planner-result-item')[0];
+        if(flightOffer) {
+            var button = flightOffer.querySelector('.planner-result-item-button');
+            button.value = 'Reset';
+            button.addEventListener('click', removeFlightClickHandler);
+        }
     }
-
-
-
-    // Setup the search handler for the selected activity
-    for (var activitySearchButton of activitySearchButtons) {
-        activitySearchButton.addEventListener('click', activityClickHandler);
-    }
-
-
-
-    // Setup the click handler for the remove activity buttons
-    for (var button of removeActivityButtons) {
-        button.addEventListener("click", removeActivityClickHandler);
-    }
-
-
 
     // Setup click handler for add activity button
     document.querySelector('.planner-add-activity-button').addEventListener('click', addActivityClickHandler);

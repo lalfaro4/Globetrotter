@@ -79,6 +79,7 @@ router.post('/update', routeProtectors.userIsNotLoggedIn, async (req, res, next)
 });
 
 router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
+    
     let username = req.body.username;
     let password = req.body.password;
 
@@ -90,6 +91,7 @@ router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) 
         res.locals.logged = true;
         req.session.save();
         log(`User ${username} is logged in.`, "success");
+        log(req.session.user, 'info');
         res.redirect('/home');
     } else {
         /* Invalid login */

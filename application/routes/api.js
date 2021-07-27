@@ -46,7 +46,7 @@ router.get('/authenticate', async (req, res, next) => {
 /*************************************************************************************
  * API Endpoint: GET /api/users
  *************************************************************************************/
-router.get('/users', authorization, async (req, res, next) => {
+router.get('/users', async (req, res, next) => {
   var users = await database.getAllUsers();
   if (users.length > 0) {
     log(`Found ${users.length} users.`, "success");
@@ -62,7 +62,7 @@ router.get('/users', authorization, async (req, res, next) => {
 /*************************************************************************************
  * API Endpoint: GET /api/users/search
  *************************************************************************************/
-router.get('/users/search', authorization, async (req, res, next) => {
+router.get('/users/search', async (req, res, next) => {
   var username = req.query.username;
   var email = req.query.email;
   var users;
@@ -85,7 +85,7 @@ router.get('/users/search', authorization, async (req, res, next) => {
 /*************************************************************************************
  * API Endpoint: GET /api/users/me
  *************************************************************************************/
-router.get('/users/me', authorization, async (req, res, next) => {
+router.get('/users/me', async (req, res, next) => {
   var token = WebTokens.extractToken(req);
   if (token) {
     try {
@@ -116,7 +116,7 @@ router.get('/users/me', authorization, async (req, res, next) => {
  * Todo: Check if this is an update or creation (does user exist?)
  * May need a new database method.
  *************************************************************************************/
-router.put('/users', authorization, async (req, res, next) => {
+router.put('/users', async (req, res, next) => {
   var username = req.query.username;
   var password = req.query.password;
   var email = req.query.email;

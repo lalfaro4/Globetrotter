@@ -7,21 +7,29 @@ var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
-var plannerRouter = require('./routes/planner')
+var plannerRouter = require('./routes/planner');
+var photoGalleryRouter = require('./routes/photogallery');
+var aboutRouter = require('./routes/about');
+var previousTripsRouter = require('./routes/previoustrips');
+var savedTripsRouter = require('./routes/savedtrips');
 // dayjs.extend(relativeTime);
+
+
+
+var Handlebars = handlebars.create();
 
 
 
 /*************************************************************************************
  * Logging function for routeProtector.js
  *************************************************************************************/
- function log(message, type) {
+function log(message, type) {
   if (type == 'success') {
-      console.log(`app.js:: ${message}`.bgWhite.green);
+    console.log(`app.js:: ${message}`.bgWhite.green);
   } else if (type == "info") {
-      console.log(`app.js:: ${message}`.bgWhite.yellow);
+    console.log(`app.js:: ${message}`.bgWhite.yellow);
   } else if (type == 'fail') {
-      console.log(`app.js:: ${message}`.italic.bgRed.black);
+    console.log(`app.js:: ${message}`.italic.bgRed.black);
   }
 }
 
@@ -68,19 +76,88 @@ app.set("view engine", "hbs");
 
 
 /*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Date', function (timestampString) {
+  var result = timestampString.slice(0, 10);
+  console.log(result);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Year', function (timestampString) {
+  var result = timestampString.slice(0, 4);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Month', function (timestampString) {
+  var result = timestampString.slice(5, 7);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Day', function (timestampString) {
+  var result = timestampString.slice(8, 10);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Time', function (timestampString) {
+  var result = timestampString.slice(11, 20);
+  console.log(result);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+ Handlebars.handlebars.registerHelper('State', function (state) {
+  var result = state.slice(0, 2);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
+Handlebars.handlebars.registerHelper('Select', function (value, options) {
+  var elements = options.fn(this);
+  var newElements = elements.replace(`value="${value}"`, `value="${value}" selected="selected"`);
+  return newElements;
+});
+
+
+
+/*************************************************************************************
  * Setup the Morgan logger in dev mode. All requests are printed in the server console.
  *************************************************************************************/
 app.use(logger('dev'));
-// app.use(logger(function (tokens, req, res) {
-//   return [
-//     tokens.method(req, res),
-//     tokens.url(req, res),
-//     tokens.status(req, res),
-//     tokens.res(req, res, 'content-length'), '-',
-//     tokens['response-time'](req, res), 'ms',
-//     req.headers.authorization.split(' ')[1]
-//   ].join(' ')
-// }));
+
+
+
+/*************************************************************************************
+ * Not 100% sure.
+ *************************************************************************************/
 app.use(express.json());
 
 
@@ -119,10 +196,10 @@ app.use("/public", express.static(path.join(__dirname, 'public'),
  *************************************************************************************/
 app.use((req, res, next) => {
   log('Setting locals.', 'info');
-  if(req.session.username) {
-      res.locals.session = req.session;
-      res.locals.logged = true;
-      log('User is already logged in.', 'success');
+  if (req.session.username) {
+    res.locals.session = req.session;
+    res.locals.logged = true;
+    log('User is already logged in.', 'success');
   } else {
     log('User is not logged in.', 'info');
   }
@@ -141,7 +218,7 @@ app.use('/api', apiRouter);
 /*************************************************************************************
  * Use the usersRouter for all URL's beginning with /users
  *************************************************************************************/
- app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 
 
 
@@ -149,6 +226,34 @@ app.use('/api', apiRouter);
  * Use the plannerRouter for all URL's beginning with /planner
  *************************************************************************************/
 app.use('/planner', plannerRouter);
+
+
+
+/*************************************************************************************
+ * Use the photoGalleryRouter for all URL's beginning with /photogallery
+ *************************************************************************************/
+app.use('/photogallery', photoGalleryRouter);
+
+
+
+/*************************************************************************************
+* Use the aboutRouter for all URL's beginning with /about
+*************************************************************************************/
+app.use('/about', aboutRouter);
+
+
+
+/*************************************************************************************
+ * Use the previousTripsRouter for all URL's beginning with /previoustrips
+ *************************************************************************************/
+app.use('/previoustrips', previousTripsRouter);
+
+
+
+/*************************************************************************************
+ * Use the savedTripsRouter for all URL's beginning with /savedtrips
+ *************************************************************************************/
+app.use('/savedtrips', savedTripsRouter);
 
 
 

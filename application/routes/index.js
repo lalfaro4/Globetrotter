@@ -34,7 +34,9 @@ router.get('/', (req, res, next) => {
 
 
 
-
+/*************************************************************************************
+ * Renders the page at URL '/login'
+ *************************************************************************************/
 router.get('/login', routeProtectors.userIsNotLoggedIn, (req, res, next) => {
   var message = "";
   if(req.query.message) {
@@ -63,6 +65,9 @@ router.get('/home', (req, res, next) => {
 
 
 
+/*************************************************************************************
+ * Renders the page at URL '/accountmanagement'
+ *************************************************************************************/
 router.get('/accountmanagement', routeProtectors.userIsLoggedIn, (req, res, next) => {
   res.render("accountmanagement", {
     layout: 'globetrotter',

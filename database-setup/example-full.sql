@@ -70,3 +70,4 @@ CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_i
 # 8) Add a photo to the trip
 CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);
 CALL usp_add_photo_to_album(@photo_id, @trip_id);
+

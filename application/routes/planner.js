@@ -47,7 +47,6 @@ router.get('/', async (req, res, next) => {
             }
         }
     } else {
-        console.log(2);
         activities = [ { index: 0, origin_airport_code: req.query.origin,
             destination_airport_code: req.query.destination,
 

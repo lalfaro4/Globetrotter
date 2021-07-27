@@ -18,9 +18,9 @@
 
         <div class="name">
             <p class="firstnametitle">First Name</p>
-            <input type="text" class="firstname">
+            <input type="text" class="firstname" value="{{session.user.first_name}}">
             <p class="lastnametitle">Last Name</p>
-            <input type="text" class="lastname">
+            <input type="text" class="lastname" value="{{session.user.last_name}}">
         </div>
 
         <p class="gendertitle">Gender</p>
@@ -30,7 +30,7 @@
         </select>
 
         <p class="usernametitle">Username</p>
-        <input type="text" class="username" value="abc">
+        <input type="text" class="username" value="{{session.user.username}}">
 
         <p class="birthdaytitle">Birthday</p>
         <select class="month-select" id="month">
@@ -129,10 +129,10 @@
         </select>
 
         <p class="addresstitle">Suite or APT. Number</p>
-        <input type="text" class="address">
+        <input type="text" class="address" value="{{session.user.address_line_1}}">
 
         <p class="citytitle">City</p>
-        <input type="text" class="city">
+        <input type="text" class="city" value="{{session.user.city}}">
 
         <p class="statetitle">State</p>
         <select class="state-select" id="state">

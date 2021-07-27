@@ -3,6 +3,7 @@
 
 var token;
 var trip_id = 'b48bbc8d-ea4c-11eb-b0c1-28d24427a5d8';
+var trip;
 
 
 
@@ -39,7 +40,7 @@ async function fetchURL(endpoint, parameters) {
     var response = await fetch(url, {
         method: "GET",
         headers: new Headers({
-            'Authorization': `Bearer ${token}`,
+            // 'Authorization': `Bearer ${token}`,
         })
     });
     return response;

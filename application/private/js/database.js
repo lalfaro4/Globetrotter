@@ -138,14 +138,20 @@ async function runQuery(query, params) {
 
 
 /*************************************************************************************
- * Create a user in the database.
+ * Create a user in the database (all fields)
  *************************************************************************************/
-async function createUser(username, password, email) {
-    var passwordHash = await bcrypt.hash(password, 10);
-    var query = 'INSERT INTO GlobetrotterV1.registered_user (username, password_hashed, email) VALUES(?, ?, ?)';
-    var params = [username, passwordHash, email];
-    var result = await runQuery(query, params);
-    return result;
+ async function createUser(email, username, password, firstName, lastName, birthday, gender,
+    preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2, 
+    homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
+    primaryPhoneCountryCode, primaryPhoneNumber) {
+var passwordHash = await bcrypt.hash(password, 10);
+var query = 'CALL usp_register_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @user_id);';
+var params = [email, username, passwordHash, firstName, lastName, birthday, gender, 
+    preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2,
+    homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
+    primaryPhoneCountryCode, primaryPhoneNumber];
+var result = await runQuery(query, params);
+return result;
 }
 
 
@@ -197,11 +203,13 @@ async function searchUsersByEmail(searchString) {
 
 }
 
+
+
 /*************************************************************************************
  * Get a user by their username from the database.
  *************************************************************************************/
 async function getUserByUsername(username) {
-    var query = 'SELECT * FROM GlobetrotterV1.registered_user WHERE username = ? LIMIT 1';
+    var query = 'SELECT * FROM registered_user_view WHERE username = ? LIMIT 1';
     var params = [username];
     var result = await runQuery(query, params);
     if (result) {
@@ -361,11 +369,17 @@ async function getAllTrips() {
  * Authenticates a user by username and password.
  *************************************************************************************/
 async function authenticate(username, password) {
-    var user = await getUserByUsername(username);
-    if (user) {
+    var result = await runQuery('SELECT password_hashed FROM registered_user WHERE username = ?;', 
+        [username]);
+
+    var passwordHash = result[0].password_hashed;
+    
+    var user;
+    if (result[0]) {
         try {
-            var passwordsMatched = await bcrypt.compare(password, user.password_hashed);
+            var passwordsMatched = await bcrypt.compare(password, passwordHash);
             if (passwordsMatched) {
+                user = getUserByUsername(username);
                 user.id = "";
                 user.passwordHash = "";
                 return user;

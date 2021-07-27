@@ -9,6 +9,7 @@ var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 var plannerRouter = require('./routes/planner');
 var photoGalleryRouter = require('./routes/photogallery');
+var aboutRouter = require('./routes/about');
 // dayjs.extend(relativeTime);
 
 
@@ -157,6 +158,13 @@ app.use('/planner', plannerRouter);
  * Use the photoGalleryRouter for all URL's beginning with /photogallery
  *************************************************************************************/
  app.use('/photogallery', photoGalleryRouter);
+
+
+
+ /*************************************************************************************
+ * Use the aboutRouter for all URL's beginning with /about
+ *************************************************************************************/
+  app.use('/about', aboutRouter);
 
 
 

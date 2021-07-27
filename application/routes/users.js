@@ -73,7 +73,7 @@ router.post('/register', async (req, res, next) => {
 router.post('/update', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
     // Get a variable from req.body about which user to update
 
-    // Call the database function for updating a user
+    // Call the database function for updating a user if the user exists.
 
     // Handle errors and/or redirect
 });

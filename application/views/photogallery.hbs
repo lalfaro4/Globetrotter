@@ -7,7 +7,7 @@
     <img id="profile-photo" class="profile-photo" src="/public/images/person.jpg">
 </div>
 
-<div id="gallery-description-container">
+<div id="gallery-description-container" class = "gallery-description-container">
     <p id="gallery-description" class="gallery-description">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga tempore laudantium nulla a officiis libero
         facilis quasi deserunt possimus, aliquam natus.
@@ -16,22 +16,23 @@
         Tenetur minima quaerat laudantium hic delectus architecto modi ab?
 </div>
 
-<div class="grid-container"></div>
-<div id="images-container" class="images-container">
+<form method="POST" action="/users/register" enctype="application/x-www-form-urlencoded" class="center">
+    {{!-- <div class="grid-container"></div> --}}
 
+    
+        <div id="images-container" class="images-container"></div>
+        <div style="
+            grid-template-rows: 1fr 1fr;
+            display: grid;
+            padding-left: 40%;
+            padding-right: 40%;
+            " class = "buttons-container">
+            <button id="add-img-btn" class="add-img-btn"> + </button>
+            <button id="save-btn" class="add-img-btn" style="border: 1px solid silver;">Save</button>
+        </div>
+    
 
-
-
-</div>
-<div style="
-    grid-template-rows: 1fr 1fr;
-    display: grid;
-    padding-left: 40%;
-    padding-right: 40%;
-">
-    <button id="add-img-btn" class="add-img-btn"> + </button>
-    <button id="save-btn" class="add-img-btn" style="border: 1px solid silver;">Save</button>
-
-</div>
+   
+</form>
 
 <script src="/public/js/photo-gallery.js"></script>

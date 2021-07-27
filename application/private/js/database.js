@@ -151,6 +151,18 @@ async function createUser(email, username, password, firstName, lastName, birthd
     return result;
 }
 
+//Was going to attempt creating the database updateUser funtion but
+//I was not sure if I needed to create more than one function since 
+//there are multiple Save buttons on the account mamangement. Should 
+//each save button be part of its own form? Also, would we need one function
+//for each section? For example, updateUserProfileInfo, updateUserSecurity
+//updateUserCurrency?
+// async function updateUserProfile(firstName, lastName, gender, username, birthday, homeLocationAddressLine1,
+//         homeLocationity, homeLocationState, homeLocationPostalCode, primaryPhoneNumber,
+//         secondaryPhoneNumber){
+//     var query = 
+
+// }
 
 
 /*************************************************************************************

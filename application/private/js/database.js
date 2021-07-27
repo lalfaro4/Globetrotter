@@ -410,7 +410,7 @@ async function authenticate(username, password) {
 /*************************************************************************************
  * Invite a user to collaborate on a photo_album using their username and photo_album_id.
  *************************************************************************************/
- async function getInvitedPhotoAlbumUsers(username) {
+ async function invitedUserToPhotoAlbum(username) {
     var query = 'Call usp_invite_to_photo_album(?, ?)';
     var params = [username, photo_album_id];
     var result = await runQuery(query, params);

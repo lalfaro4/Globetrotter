@@ -1,1 +1,0 @@
-mysql -h "localhost" -u "root" "-pYE2n4qh4wV" < create-database.sql

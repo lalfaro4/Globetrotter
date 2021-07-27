@@ -32,11 +32,9 @@ function log(message, type) {
 * Renders the page at URL '/planner'
 *************************************************************************************/
 router.get('/', async (req, res, next) => {
-    log('/planner', 'info');
 
     var activities;
     if(req.query.trip_id) {
-        console.log(1);
         activities = await database.getFlightActivitiesByTripId(req.query.trip_id);
         var counter = 0;
         for(var activity of activities) {
@@ -140,8 +138,11 @@ router.get('/flights', async (req, res, next) => {
                         // Departure and arrival datetimes are returned as yyyy-MM-dd hh:mm:ss from Amadeus
                         // but the <input type='time'> field only accepts hh:mm:ss so we take the last
                         // 8 chars of the datetimes.
-                        segment.departure.at = segment.departure.at.slice(-8);
-                        segment.arrival.at = segment.arrival.at.slice(-8);
+                        // --- Edit ----
+                        // This is being handled by Handlebars using the 'Time' helper registered in app.js
+                        // -------------
+                        // segment.departure.at = segment.departure.at.slice(-8);
+                        // segment.arrival.at = segment.arrival.at.slice(-8);
 
                         // Get the Airline name from our database
                         var airlineCode = segment.carrierCode;

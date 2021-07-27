@@ -333,6 +333,7 @@ async function getAllTrips() {
 
 
 
+
 /*************************************************************************************
  * Get trip from database by trip_id.
  *************************************************************************************/
@@ -392,7 +393,33 @@ async function authenticate(username, password) {
     }
 }
 
+/*************************************************************************************
+ * Get invited users from database by photo_album_id.
+ *************************************************************************************/
+ async function getInvitedPhotoAlbumUsers(photo_album_id) {
+    var query = 'SELECT * FROM invited_users_to_photo_album_view WHERE photo_album_id = ?';
+    var params = [photo_album_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
 
+/*************************************************************************************
+ * Invite a user to collaborate on a photo_album using their username and photo_album_id.
+ *************************************************************************************/
+ async function getInvitedPhotoAlbumUsers(username) {
+    var query = 'Call usp_invite_to_photo_album(?, ?)';
+    var params = [username, photo_album_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
 
 /*************************************************************************************
  * Make the functions usable from other modules.

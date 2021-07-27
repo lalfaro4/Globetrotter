@@ -34,11 +34,20 @@ SET @trip_photo_file_name = 'sfsu';
 SET @trip_photo_extension = 'jpg';
 SET @activity_lax_to_sfo_flight_offer_json_data = '{"type":"flight-offer","id":"1","source":"GDS","instantTicketingRequired":false,"nonHomogeneous":false,"oneWay":false,"lastTicketingDate":"2021-07-27","numberOfBookableSeats":7,"itineraries":[{"duration":"PT1H22M","segments":[{"departure":{"iataCode":"LAX","terminal":"5","at":"2021-08-04T06:00:00"},"arrival":{"iataCode":"SFO","terminal":"1","at":"2021-08-04T07:22:00"},"carrierCode":"B6","number":"2836","aircraft":{"code":"320"},"operating":{"carrierCode":"B6"},"duration":"PT1H22M","id":"1","numberOfStops":0,"blacklistedInEU":false}]}],"price":{"currency":"USD","total":"98.40","base":"78.14","fees":[{"amount":"0.00","type":"SUPPLIER"},{"amount":"0.00","type":"TICKETING"}],"grandTotal":"98.40"},"pricingOptions":{"fareType":["PUBLISHED"],"includedCheckedBagsOnly":false},"validatingAirlineCodes":["B6"],"travelerPricings":[{"travelerId":"1","fareOption":"STANDARD","travelerType":"ADULT","price":{"currency":"USD","total":"98.40","base":"78.14"},"fareDetailsBySegment":[{"segmentId":"1","cabin":"ECONOMY","fareBasis":"ML7AUEL1","brandedFare":"DN","class":"L","includedCheckedBags":{"quantity":0}}]}]}';
 
+SET @user_email2 = 'Admin@globetrotter.com';
+SET @user_username2 = 'TrottingDaGlobe';
+SET @user_password_hashed2 = '$3b$10$4TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6NA';
+SET @photo_album_id = '169893ba-ee80-11eb-8436-0a0027000016';
+
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
 
 # 2) Register the unregistered user
 CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
+	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
+    @user_primary_phone_country_code, @user_primary_phone_number, @user_id);
+    #Used to invite another registered user to the photo gallery.
+    CALL usp_register_user(@user_email2, @user_username2, @user_password_hashed2, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
 	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
     @user_primary_phone_country_code, @user_primary_phone_number, @user_id);
 
@@ -70,4 +79,7 @@ CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_i
 # 8) Add a photo to the trip
 CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);
 CALL usp_add_photo_to_album(@photo_id, @trip_id);
+
+#9) Add a registered_user to the photo_album
+CALL usp_invite_to_photo_album('TrottingDaGlobe', @photo_album_id);
 

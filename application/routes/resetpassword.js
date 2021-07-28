@@ -11,6 +11,6 @@ router.get('/', (req, res, next) => {
       filename: 'resetpassword',
       title: 'Reset Password'
     })
-  });
+});
 
-  module.exports = router;
+module.exports = router;

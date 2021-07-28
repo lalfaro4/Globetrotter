@@ -4,6 +4,7 @@
   height: auto;
   border-radius: 50%;
 }
+
 .team-mate-container{
   position: relative;
   width: 50%;
@@ -13,6 +14,7 @@
   box-shadow: 1px 5px 20px gray;
   font-family: 'Lato', sans-serif;
   margin-bottom: 5%;
+  margin-top: 100px;
 
 }
 
@@ -52,7 +54,7 @@
 
 
 .member-bio{
- padding: 2rem 2rem;
+ padding: 2rem 10rem;
  padding-bottom: 4rem; 
  line-height: 1.5rem;
 }

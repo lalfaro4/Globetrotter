@@ -19,6 +19,7 @@ p{
     height: 300px;
     margin: 10px auto;
     border-radius: 100%;
+    border: 1px solid black;
 }
 
 .gallery-description-container{

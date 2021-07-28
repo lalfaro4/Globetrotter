@@ -5,6 +5,9 @@ DELETE FROM home_location WHERE `user` IS NOT NULL;
 DELETE FROM trip WHERE trip_id IS NOT NULL;
 DELETE FROM activity WHERE activity_id IS NOT NULL;
 
+################################################################################################################################
+-- Variables used for testing
+################################################################################################################################
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
 SET @user_password_hashed = '$2b$10$4TF8lwcJBfFW.tgew44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6US';
@@ -39,6 +42,22 @@ SET @user_email2 = 'Admin@globetrotter.com';
 SET @user_username2 = 'TrottingDaGlobe';
 SET @user_password_hashed2 = '$3b$10$4TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6NA';
 SET @photo_album_id = '169893ba-ee80-11eb-8436-0a0027000016';
+SET @user_update_password_hashed = '$9b$99$9TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd9EU';
+
+#To update account management information of registered user 2
+SET @user_username_3 = 'GLOBETROTTED';
+SET @user_email_3 = 'Glove@globetrotter.com';
+SET @user_home_location_city_3 = 'Los Angeles';
+SET @user_home_location_postal_code_3 = '90025';
+SET @user_home_location_state_3 = 'CA';
+SET @user_home_location_address_line_1 = '2057 Sawtelle Blvd';
+SET @user_primary_phone_number_3 = '3238847139';
+SET @user_secondary_phone_number_3 = '2218847193';
+SET @user_birthday_3 = '1999-12-12';
+
+################################################################################################################################
+-- Testing
+################################################################################################################################
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
@@ -84,4 +103,10 @@ CALL usp_add_photo_to_album(@photo_id, @trip_id);
 
 #9) Add a registered_user to the invited_user_to_photo_album_association.
 CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
+
+#10) Update password for registered_user
+CALL usp_update_user_password(@user_username2, @user_email2, @user_update_password_hashed);
+
+#11) Update account management information for registered_user
+CALL usp_update_user_information(@user_id2, @user_username_3, @user_email_3, @user_birthday_3, @user_home_location_city_3, @user_home_location_postal_code_3, @user_home_location_state_3, @user_home_location_address_line_3, @user_primary_phone_number_3, @user_secondary_phone_number_3);
 

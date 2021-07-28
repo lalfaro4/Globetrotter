@@ -7,6 +7,10 @@ DELETE FROM activity WHERE activity_id IS NOT NULL;
 DELETE FROM photo WHERE photo_id IS NOT NULL;
 DELETE FROM file WHERE file_id IS NOT NULL;
 
+################################################################################################################################
+-- Variables used for testing
+################################################################################################################################
+
 # Properties for user 1
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
@@ -37,6 +41,24 @@ SET @trip_photo_file_name = 'sfsu';
 SET @trip_photo_extension = 'jpg';
 SET @activity_lax_to_sfo_flight_offer_json_data = '{"type":"flight-offer","id":"1","source":"GDS","instantTicketingRequired":false,"nonHomogeneous":false,"oneWay":false,"lastTicketingDate":"2021-07-27","numberOfBookableSeats":7,"itineraries":[{"duration":"PT1H22M","segments":[{"departure":{"iataCode":"LAX","terminal":"5","at":"2021-08-04T06:00:00"},"arrival":{"iataCode":"SFO","terminal":"1","at":"2021-08-04T07:22:00"},"carrierCode":"B6","number":"2836","aircraft":{"code":"320"},"operating":{"carrierCode":"B6"},"duration":"PT1H22M","id":"1","numberOfStops":0,"blacklistedInEU":false}]}],"price":{"currency":"USD","total":"98.40","base":"78.14","fees":[{"amount":"0.00","type":"SUPPLIER"},{"amount":"0.00","type":"TICKETING"}],"grandTotal":"98.40"},"pricingOptions":{"fareType":["PUBLISHED"],"includedCheckedBagsOnly":false},"validatingAirlineCodes":["B6"],"travelerPricings":[{"travelerId":"1","fareOption":"STANDARD","travelerType":"ADULT","price":{"currency":"USD","total":"98.40","base":"78.14"},"fareDetailsBySegment":[{"segmentId":"1","cabin":"ECONOMY","fareBasis":"ML7AUEL1","brandedFare":"DN","class":"L","includedCheckedBags":{"quantity":0}}]}]}';
 
+#For registered user 2
+SET @user_email2 = 'Admin@globetrotter.com';
+SET @user_username2 = 'TrottingDaGlobe';
+SET @user_password_hashed2 = '$3b$10$4TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6NA';
+SET @photo_album_id = '169893ba-ee80-11eb-8436-0a0027000016';
+SET @user_update_password_hashed = '$9b$99$9TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd9EU';
+
+#To update account management information of registered user 2
+SET @user_username_3 = 'GLOBETROTTED';
+SET @user_email_3 = 'Glove@globetrotter.com';
+SET @user_home_location_city_3 = 'Los Angeles';
+SET @user_home_location_postal_code_3 = '90025';
+SET @user_home_location_state_3 = 'CA';
+SET @user_home_location_address_line_1 = '2057 Sawtelle Blvd';
+SET @user_primary_phone_number_3 = '3238847139';
+SET @user_secondary_phone_number_3 = '2218847193';
+SET @user_birthday_3 = '1999-12-12';
+
 # Properties for user 2
 SET @user2_email = 'trottingdaglobe@globetrotter.com';
 SET @user2_username = 'TrottingDaGlobe';
@@ -54,6 +76,10 @@ SET @user2_home_location_city = 'San Francisco';
 SET @user2_home_location_state = 'CA';
 SET @user2_home_location_country = 'US';
 SET @user2_home_location_postal_code = '94132';
+
+################################################################################################################################
+-- Testing
+################################################################################################################################
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
@@ -95,11 +121,17 @@ CALL usp_add_photo_to_album(@photo_id, @trip_id);
 #10) A second user is invited to view Globe Trotter's photo album
 CALL usp_create_user(@user2_email, @user2_id);
 
-#11) The invited user registers so that they can view a photo album
--- CALL usp_register_user(@user2_email, @user2_username, @user2_password_hashed, @user2_first_name, @user2_last_name, @user2_birthday, @user2_gender, @user2_preferred_currency, 
--- 	@user2_home_location_address_line_1, @user2_home_location_address_line_2, @user2_home_location_city, @user2_home_location_state, @user2_home_location_country, @user2_home_location_postal_code,
---     @user2_primary_phone_country_code, @user2_primary_phone_number, @user2_id);
+#11) Second registerd_user to test photo_album invitations and updating password/account information
+ CALL usp_register_user(@user2_email, @user2_username, @user2_password_hashed, @user2_first_name, @user2_last_name, @user2_birthday, @user2_gender, @user2_preferred_currency, 
+ 	@user2_home_location_address_line_1, @user2_home_location_address_line_2, @user2_home_location_city, @user2_home_location_state, @user2_home_location_country, @user2_home_location_postal_code,
+     @user2_primary_phone_country_code, @user2_primary_phone_number, @user2_id);
 
 #10) Add a registered_user to the invited_user_to_photo_album_association.
 -- CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
+
+#10) Update password for registered_user
+CALL usp_update_user_password(@user_username2, @user_email2, @user_update_password_hashed);
+
+#11) Update account management information for registered_user
+CALL usp_update_user_information(@user2_id, @user_username_3, @user_email_3, @user_birthday_3, @user_home_location_city_3, @user_home_location_postal_code_3, @user_home_location_state_3, @user_home_location_address_line_3, @user_primary_phone_number_3, @user_secondary_phone_number_3);
 

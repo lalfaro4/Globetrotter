@@ -449,6 +449,36 @@ async function invitedUserToPhotoAlbum(username) {
 }
 
 /*************************************************************************************
+ * Update User Password when requesting to reset their password with their username, email, and new password
+ *************************************************************************************/
+ async function resetUserPassword(username, email, password) {
+    var query = 'Call usp_update_user_password(?, ?, ?)';
+    var params = [username, email, password];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+/*************************************************************************************
+ * Update User information from the account management page
+ *************************************************************************************/
+ async function updateUserInformation(userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber) {
+    var query = 'Call usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ? , ?)';
+    var params = [userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Make the functions usable from other modules.
  *************************************************************************************/
 module.exports.getSessionStore = getSessionStore;

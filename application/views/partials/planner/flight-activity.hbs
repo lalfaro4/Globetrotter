@@ -3,25 +3,26 @@
         <input type="radio" name="planner-selected-activity" checked />
         <div class="round planner-activity-header">
             <div class="planner-activity-numeral">{{index}}</div>
+            <div class="planner-activity-input-container">
+                <input type="text" class="round planner-activity-origin-input" value="{{origin_airport_code}}"
+                    list="planner-origin-airports-{{index}}" placeholder="Origin" />
+                <datalist type="datalist" id="planner-origin-airports-{{index}}"></datalist>
 
-            <input type="text" class="round planner-activity-origin-input" value="{{origin_airport_code}}"
-                list="planner-origin-airports-{{index}}" placeholder="Origin" />
-            <datalist type="datalist" id="planner-origin-airports-{{index}}"></datalist>
+                <div style="text-align: center;">to</div>
 
-            <div style="text-align: center;">to</div>
+                <input type="text" class="round planner-activity-destination-input" value="{{destination_airport_code}}"
+                    list="planner-destination-airports-{{index}}" placeholder="Destination" />
+                <datalist type="datalist" id="planner-destination-airports-{{index}}"></datalist>
 
-            <input type="text" class="round planner-activity-destination-input" value="{{destination_airport_code}}"
-                list="planner-destination-airports-{{index}}" placeholder="Destination" />
-            <datalist type="datalist" id="planner-destination-airports-{{index}}"></datalist>
-
-            <input type="date" class="round planner-activity-departure-date" value="{{departure_date}}" />
-            <input type="button" class="round basic-button planner-search-activity-button" value="Search" />
-            <input type="button" class="round basic-button planner-remove-activity-button" value="Remove" />
+                <input type="date" class="round planner-activity-departure-date" value="{{departure_date}}" />
+                <input type="button" class="round basic-button planner-search-activity-button" value="Search" />
+                <input type="button" class="round basic-button planner-remove-activity-button" value="Remove" />
+            </div>
         </div>
     </label>
     <div class="round planner-activity-child-container">
         {{#if flight_offer_json_data}}
-        {{> planner/result-item flight_offer_json_data}}
+            {{> planner/result-item flight_offer_json_data}}
         {{/if}}
     </div>
 </div>

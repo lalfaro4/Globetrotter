@@ -1,46 +1,10 @@
-
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" href="/public/css/checkout.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<link rel="stylesheet" href="/public/css/checkout.css">
 <div class="container">
     <h1 class="title">Saved Trips</h1>
 
+    {{#each trips}}
+        {{> savedtrips/trip this }}
+    {{/each}}
 
-    <section>
-        <div class="content">
-            <div class="accordion"><br><br>
-                <div class="accordion-item" id="ex1">
-                    
-                    <a class="accordion-link" href="#ex1">
-                        <div class="accordion-title">
-                            Sunday Funday Trip
-                        </div>
-                        
-                        <a href="/planner">
-                            <i class='fas fa-pen'></i>
-                        </a>
-                        
-                    </a>
-                    
-                    <div class="answer">
-                        
-                            <p>Departure Time: <span class="deptime">08:10am</span></p>
-                            <p>Arrival Time: <span class="arrtime">09:45am</span></p>
-                            <p>Airline: <span class="airline">Delta</span></p>
-                            <p>Type: <span class="flighttype">One-Way</span></p>
-                            <p>Price: <span class="totalprice">$550</span></p>
-
-                            <div class="buttons">
-                            <button onclick="confirm('Are you sure you want to delete this Trip?');" value="Delete" class="delbtn">Delete</button>
-                            
-                            <form action="/checkout">
-                                <button type="submit" value="Check Availability" class="checkbtn">Checkout</button>
-                            </form>
-                        
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </section>
+</div>

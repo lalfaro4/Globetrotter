@@ -3,7 +3,7 @@
  * 
  * Use this in place of localhost:port
  *************************************************************************************/
- function getURLBase() {
+function getURLBase() {
     return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
 
@@ -27,11 +27,11 @@ async function fetchURL(endpoint, parameters) {
 // Setup the airport search autocomplete
 async function locationInputEventHandler(event) {
 
-    var airportResults = await (await fetchURL('/api/airports/search', { searchString: event.target.value } )).json();
+    var airportResults = await (await fetchURL('/api/airports/search', { searchString: event.target.value })).json();
 
     var dataList = event.target.nextSibling.nextSibling;
     dataList.innerHTML = '';
-    for(var airport of airportResults) {
+    for (var airport of airportResults) {
         var option = document.createElement('option');
         option.value = airport.iata_code;
         option.setAttribute('name', airport.iata_code);
@@ -44,10 +44,31 @@ async function locationInputEventHandler(event) {
 
 
 
-
 function searchClickHandler(event) {
     window.location.href = "/planner";
 }
+
+
+
+/*************************************************************************************
+ * Automatically login the globetrotter user
+ *************************************************************************************/
+var username = 'globetrotter';
+var password = 'globetrotter';
+var body = [];
+body.push(encodeURIComponent('username') + '=' + encodeURIComponent(username));
+body.push(encodeURIComponent('password') + '=' + encodeURIComponent(password));
+body = body.join('&');
+
+fetch('/users/login', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: body
+});
+
+
 
 // Setup event listeners
 document.getElementById('home-origin-input').addEventListener('input', locationInputEventHandler);

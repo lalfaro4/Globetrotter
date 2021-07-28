@@ -4,10 +4,16 @@ DELETE FROM registered_user WHERE `user` IS NOT NULL;
 DELETE FROM home_location WHERE `user` IS NOT NULL;
 DELETE FROM trip WHERE trip_id IS NOT NULL;
 DELETE FROM activity WHERE activity_id IS NOT NULL;
+DELETE FROM photo WHERE photo_id IS NOT NULL;
+DELETE FROM file WHERE file_id IS NOT NULL;
 
+<<<<<<< HEAD:database-setup/example-full.sql
 ################################################################################################################################
 -- Variables used for testing
 ################################################################################################################################
+=======
+# Properties for user 1
+>>>>>>> 677221e08e3c0c36a939bf10b73fda6b2c8a4f97:database-setup/sql-scripts/example-full.sql
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
 SET @user_password_hashed = '$2b$10$4TF8lwcJBfFW.tgew44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6US';
@@ -37,6 +43,7 @@ SET @trip_photo_file_name = 'sfsu';
 SET @trip_photo_extension = 'jpg';
 SET @activity_lax_to_sfo_flight_offer_json_data = '{"type":"flight-offer","id":"1","source":"GDS","instantTicketingRequired":false,"nonHomogeneous":false,"oneWay":false,"lastTicketingDate":"2021-07-27","numberOfBookableSeats":7,"itineraries":[{"duration":"PT1H22M","segments":[{"departure":{"iataCode":"LAX","terminal":"5","at":"2021-08-04T06:00:00"},"arrival":{"iataCode":"SFO","terminal":"1","at":"2021-08-04T07:22:00"},"carrierCode":"B6","number":"2836","aircraft":{"code":"320"},"operating":{"carrierCode":"B6"},"duration":"PT1H22M","id":"1","numberOfStops":0,"blacklistedInEU":false}]}],"price":{"currency":"USD","total":"98.40","base":"78.14","fees":[{"amount":"0.00","type":"SUPPLIER"},{"amount":"0.00","type":"TICKETING"}],"grandTotal":"98.40"},"pricingOptions":{"fareType":["PUBLISHED"],"includedCheckedBagsOnly":false},"validatingAirlineCodes":["B6"],"travelerPricings":[{"travelerId":"1","fareOption":"STANDARD","travelerType":"ADULT","price":{"currency":"USD","total":"98.40","base":"78.14"},"fareDetailsBySegment":[{"segmentId":"1","cabin":"ECONOMY","fareBasis":"ML7AUEL1","brandedFare":"DN","class":"L","includedCheckedBags":{"quantity":0}}]}]}';
 
+<<<<<<< HEAD:database-setup/example-full.sql
 #For registered user 2
 SET @user_email2 = 'Admin@globetrotter.com';
 SET @user_username2 = 'TrottingDaGlobe';
@@ -58,19 +65,33 @@ SET @user_birthday_3 = '1999-12-12';
 ################################################################################################################################
 -- Testing
 ################################################################################################################################
+=======
+# Properties for user 2
+SET @user2_email = 'trottingdaglobe@globetrotter.com';
+SET @user2_username = 'TrottingDaGlobe';
+SET @user2_password_hashed = '$3b$10$4TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6NA';
+SET @user2_first_name = 'Trotting';
+SET @user2_last_name = 'DaGlobe';
+SET @user2_birthday = '2005-12-12';
+SET @user2_gender = 'other';
+SET @user2_preferred_currency = 'USD';
+SET @user2_primary_phone_country_code = '1';
+SET @user2_primary_phone_number = '4153381111';
+SET @user2_home_location_address_line_1 = '1600 Holloway Ave';
+SET @user2_home_location_address_line_2 = '';
+SET @user2_home_location_city = 'San Francisco';
+SET @user2_home_location_state = 'CA';
+SET @user2_home_location_country = 'US';
+SET @user2_home_location_postal_code = '94132';
+>>>>>>> 677221e08e3c0c36a939bf10b73fda6b2c8a4f97:database-setup/sql-scripts/example-full.sql
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
-CALL usp_create_user(@user_email2, @user_id2);
 
 # 2) Register the unregistered user
 CALL usp_register_user(@user_email, @user_username, @user_password_hashed, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
 	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
     @user_primary_phone_country_code, @user_primary_phone_number, @user_id);
-    #Used to invite another registered user to the photo gallery.
-    CALL usp_register_user(@user_email2, @user_username2, @user_password_hashed2, @user_first_name, @user_last_name, @user_birthday, @user_gender, @user_preferred_currency, 
-	@user_home_location_address_line_1, @user_home_location_address_line_2, @user_home_location_city, @user_home_location_state, @user_home_location_country, @user_home_location_postal_code,
-    @user_primary_phone_country_code, @user_primary_phone_number, @user_id2);
 
 # 4) Start creating the best trip ever
 SET @trip_name = "Best Trip Ever (2021)";
@@ -101,8 +122,16 @@ CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_i
 CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);
 CALL usp_add_photo_to_album(@photo_id, @trip_id);
 
-#9) Add a registered_user to the invited_user_to_photo_album_association.
-CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
+#10) A second user is invited to view Globe Trotter's photo album
+CALL usp_create_user(@user2_email, @user2_id);
+
+#11) The invited user registers so that they can view a photo album
+-- CALL usp_register_user(@user2_email, @user2_username, @user2_password_hashed, @user2_first_name, @user2_last_name, @user2_birthday, @user2_gender, @user2_preferred_currency, 
+-- 	@user2_home_location_address_line_1, @user2_home_location_address_line_2, @user2_home_location_city, @user2_home_location_state, @user2_home_location_country, @user2_home_location_postal_code,
+--     @user2_primary_phone_country_code, @user2_primary_phone_number, @user2_id);
+
+#10) Add a registered_user to the invited_user_to_photo_album_association.
+-- CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
 
 #10) Update password for registered_user
 CALL usp_update_user_password(@user_username2, @user_email2, @user_update_password_hashed);

@@ -140,18 +140,18 @@ async function runQuery(query, params) {
 /*************************************************************************************
  * Create a user in the database (all fields)
  *************************************************************************************/
- async function createUser(email, username, password, firstName, lastName, birthday, gender,
-    preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2, 
-    homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
-    primaryPhoneCountryCode, primaryPhoneNumber) {
-var passwordHash = await bcrypt.hash(password, 10);
-var query = 'CALL usp_register_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @user_id);';
-var params = [email, username, passwordHash, firstName, lastName, birthday, gender, 
+async function createUser(email, username, password, firstName, lastName, birthday, gender,
     preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2,
     homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
-    primaryPhoneCountryCode, primaryPhoneNumber];
-var result = await runQuery(query, params);
-return result;
+    primaryPhoneCountryCode, primaryPhoneNumber) {
+    var passwordHash = await bcrypt.hash(password, 10);
+    var query = 'CALL usp_register_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @user_id);';
+    var params = [email, username, passwordHash, firstName, lastName, birthday, gender,
+        preferredCurrency, homeLocationAddressLine1, homeLocationAddressLine2,
+        homeLocationCity, homeLocationState, homeLocationCountry, homeLocationPostalCode,
+        primaryPhoneCountryCode, primaryPhoneNumber];
+    var result = await runQuery(query, params);
+    return result;
 }
 
 
@@ -238,10 +238,26 @@ async function getAllTrips() {
 
 
 /*************************************************************************************
- * Get trip from database by user_id.
+ * Get trips from database by user_id.
  *************************************************************************************/
- async function getTripsByOwner(user_id) {
+async function getTripsByOwner(user_id) {
     var query = 'SELECT * FROM GlobetrotterV1.trip WHERE owner = ?';
+    var params = [user_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get saved trips from database by user_id.
+ *************************************************************************************/
+async function getSavedTripsByOwner(user_id) {
+    var query = 'SELECT * FROM saved_trip_view WHERE owner = ?';
     var params = [user_id];
     var result = await runQuery(query, params);
     if (result) {
@@ -256,7 +272,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Get trip from database by trip_id.
  *************************************************************************************/
- async function getActivitiesByTripId(trip_id) {
+async function getActivitiesByTripId(trip_id) {
     var query = 'SELECT * FROM activity_view WHERE trip_id = ?';
     var params = [trip_id];
     var result = await runQuery(query, params);
@@ -272,7 +288,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Get flight_activities from database by trip_id.
  *************************************************************************************/
- async function getFlightActivitiesByTripId(trip_id) {
+async function getFlightActivitiesByTripId(trip_id) {
     var query = 'SELECT * FROM flight_activity_view WHERE trip_id = ?';
     var params = [trip_id];
     var result = await runQuery(query, params);
@@ -288,7 +304,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Add photo to database
  *************************************************************************************/
- async function createPhoto(userId, folderPath, fileName, extension, title, description, isProfilePhoto, photoIdOut) {
+async function createPhoto(userId, folderPath, fileName, extension, title, description, isProfilePhoto, photoIdOut) {
     var query = 'CALL usp_create_photo(?, ?, ?, ?, ?, ?, ?, @photoIdOut); SELECT @photoIdOut';
     var params = [userId, folderPath, fileName, extension, title, description, isProfilePhoto];
     var result = await runQuery(query, params);
@@ -304,7 +320,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Add photo to photo_album
  *************************************************************************************/
- async function addPhotoToAlbum(photoId, tripId) {
+async function addPhotoToAlbum(photoId, tripId) {
     var query = 'CALL usp_add_photo_to_album(?, ?)';
     var params = [photoId, tripId];
     var result = await runQuery(query, params);
@@ -320,7 +336,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Get photos from database by trip_id.
  *************************************************************************************/
- async function getPhotosByTripId(trip_id) {
+async function getPhotosByTripId(trip_id) {
     var query = 'SELECT * FROM photo_view WHERE trip = ?';
     var params = [trip_id];
     var result = await runQuery(query, params);
@@ -337,7 +353,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Get trip from database by trip_id.
  *************************************************************************************/
- async function getAirlineNameFromIATACode(iata_code) {
+async function getAirlineNameFromIATACode(iata_code) {
     var query = 'SELECT * FROM airline_view WHERE airline_code = ?';
     var params = [iata_code];
     var result = await runQuery(query, params);
@@ -353,7 +369,7 @@ async function getAllTrips() {
 /*************************************************************************************
  * Search for airports.
  *************************************************************************************/
- async function searchAirportsByName(searchString) {
+async function searchAirportsByName(searchString) {
     var query = `SELECT * FROM airport_view WHERE iata_code LIKE '${searchString}%' UNION ALL SELECT * FROM airport_view WHERE location_name LIKE '%${searchString}%' LIMIT 5`;
     var params = [];
     var result = await runQuery(query, params);
@@ -370,18 +386,17 @@ async function getAllTrips() {
  * Authenticates a user by username and password.
  *************************************************************************************/
 async function authenticate(username, password) {
-    var result = await runQuery('SELECT password_hashed FROM registered_user WHERE username = ?;', 
+    var result = await runQuery('SELECT password_hashed FROM registered_user WHERE username = ?;',
         [username]);
 
     var passwordHash = result[0].password_hashed;
-    
+
     var user;
     if (result[0]) {
         try {
             var passwordsMatched = await bcrypt.compare(password, passwordHash);
             if (passwordsMatched) {
-                user = getUserByUsername(username);
-                user.id = "";
+                user = await getUserByUsername(username);
                 user.passwordHash = "";
                 return user;
             }
@@ -396,7 +411,7 @@ async function authenticate(username, password) {
 /*************************************************************************************
  * Get invited users from database by photo_album_id.
  *************************************************************************************/
- async function getInvitedPhotoAlbumUsers(photo_album_id) {
+async function getInvitedPhotoAlbumUsers(photo_album_id) {
     var query = 'SELECT * FROM invited_users_to_photo_album_view WHERE photo_album_id = ?';
     var params = [photo_album_id];
     var result = await runQuery(query, params);
@@ -410,7 +425,7 @@ async function authenticate(username, password) {
 /*************************************************************************************
  * Invite a user to collaborate on a photo_album using their username and photo_album_id.
  *************************************************************************************/
- async function invitedUserToPhotoAlbum(username) {
+async function invitedUserToPhotoAlbum(username) {
     var query = 'Call usp_invite_to_photo_album(?, ?)';
     var params = [username, photo_album_id];
     var result = await runQuery(query, params);
@@ -432,6 +447,7 @@ module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.getUserByUsername = getUserByUsername;
 module.exports.getAllTrips = getAllTrips;
 module.exports.getTripsByOwner = getTripsByOwner;
+module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;
 module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
 module.exports.createPhoto = createPhoto;
@@ -440,3 +456,4 @@ module.exports.getPhotosByTripId = getPhotosByTripId;
 module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
 module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.authenticate = authenticate;
+module.exports.runQuery = runQuery;

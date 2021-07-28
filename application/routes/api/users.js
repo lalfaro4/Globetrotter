@@ -113,33 +113,6 @@ router.get('/me', async (req, res, next) => {
 
 
 /*************************************************************************************
- * API Endpoint: PUT /api/users
- * 
- * Todo: Check if this is an update or creation (does user exist?)
- * May need a new database method.
- *************************************************************************************/
-// router.put('/', async (req, res, next) => {
-//   var username = req.query.username;
-//   var password = req.query.password;
-//   var email = req.query.email;
-//   if (username && password && email) {
-//     var user = await database.createUser(username, password, email);
-//     if (user) {
-//       log("User created successfully.", "success");
-//       res.send({ result: "User created successfully." });
-//     } else {
-//       log("Error creating user.", "fail");
-//       res.send({ result: "Error creating user." });
-//     }
-//   } else {
-//     log("Missing parameter(s).", "fail");
-//     res.send({ result: "Missing parameter(s)." });
-//   }
-// });
-
-
-
-/*************************************************************************************
 * Make the router usable from other modules.
 *************************************************************************************/
 module.exports = router;

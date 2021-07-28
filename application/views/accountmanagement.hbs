@@ -16,200 +16,203 @@
             <button class="picbutton">Upload Photo</button>
         </div>
 
-        <div class="name">
-            <p class="firstnametitle">First Name</p>
-            <input type="text" class="firstname" value="{{session.user.first_name}}">
-            <p class="lastnametitle">Last Name</p>
-            <input type="text" class="lastname" value="{{session.user.last_name}}">
-        </div>
+        <form method="POST" id="account-management-profile-form" action="/api/users/me/update">
 
-        <p class="gendertitle">Gender</p>
-        <select class="gender" id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
+            <div class="name">
+                <p class="firstnametitle">First Name</p>
+                <input type="text" class="firstname" value="{{session.user.first_name}}" name="firstName">
+                <p class="lastnametitle">Last Name</p>
+                <input type="text" class="lastname" value="{{session.user.last_name}}" name="lastName">
+            </div>
 
-        <p class="usernametitle">Username</p>
-        <input type="text" class="username" value="{{session.user.username}}">
+            <p class="gendertitle">Gender</p>
+            <select class="gender" id="gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
 
-        <p class="birthdaytitle">Birthday</p>
-        <select class="month-select" id="month">
-            {{#Select (Month session.user.birthday) }}
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">Jun</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-            {{/Select}}
-        </select>
+            <p class="usernametitle">Username</p>
+            <input type="text" class="username" value="{{session.user.username}}" name="username">
 
-        <select class="day-select" id="day">
-            {{#Select (Day session.user.birthday) }}
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-            <option value="24">24</option>
-            <option value="25">25</option>
-            <option value="26">26</option>
-            <option value="27">27</option>
-            <option value="28">28</option>
-            <option value="29">29</option>
-            <option value="30">30</option>
-            <option value="31">31</option>
-            {{/Select}}
-        </select>
+            <p class="birthdaytitle">Birthday</p>
+            <select class="month-select" id="month" name="birthdayMonth">
+                {{#Select (Month session.user.birthday) }}
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">Jun</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+                {{/Select}}
+            </select>
 
-        <select class="year-select" id="year">
-            {{#Select (Year session.user.birthday) }}
-            <option value="2002">2002</option>
-            <option value="2001">2001</option>
-            <option value="2000">2000</option>
-            <option value="1999">1999</option>
-            <option value="1998">1998</option>
-            <option value="1997">1997</option>
-            <option value="1996">1996</option>
-            <option value="1995">1995</option>
-            <option value="1994">1994</option>
-            <option value="1993">1993</option>
-            <option value="1992">1992</option>
-            <option value="1991">1991</option>
-            <option value="1990">1990</option>
-            <option value="1989">1989</option>
-            <option value="1988">1988</option>
-            <option value="1987">1987</option>
-            <option value="1986">1986</option>
-            <option value="1985">1985</option>
-            <option value="1984">1984</option>
-            <option value="1983">1983</option>
-            <option value="1982">1982</option>
-            <option value="1981">1981</option>
-            <option value="1980">1980</option>
-            <option value="1979">1979</option>
-            <option value="1978">1978</option>
-            <option value="1977">1977</option>
-            <option value="1976">1976</option>
-            <option value="1975">1975</option>
-            <option value="1974">1974</option>
-            <option value="1973">1973</option>
-            <option value="1972">1972</option>
-            <option value="1971">1971</option>
-            <option value="1970">1970</option>
-            <option value="1969">1969</option>
-            <option value="1968">1968</option>
-            <option value="1967">1967</option>
-            <option value="1966">1966</option>
-            <option value="1965">1965</option>
-            <option value="1964">1964</option>
-            <option value="1963">1963</option>
-            <option value="1962">1962</option>
-            <option value="1961">1961</option>
-            <option value="1960">1960</option>
-            {{/Select}}
-        </select>
+            <select class="day-select" id="day" name="birthdayDay">
+                {{#Select (Day session.user.birthday) }}
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                {{/Select}}
+            </select>
 
-        <p class="addresstitle">Suite or APT. Number</p>
-        <input type="text" class="address" value="{{session.user.address_line_1}}">
+            <select class="year-select" id="year" name="birthdayYear">
+                {{#Select (Year session.user.birthday) }}
+                <option value="2002">2002</option>
+                <option value="2001">2001</option>
+                <option value="2000">2000</option>
+                <option value="1999">1999</option>
+                <option value="1998">1998</option>
+                <option value="1997">1997</option>
+                <option value="1996">1996</option>
+                <option value="1995">1995</option>
+                <option value="1994">1994</option>
+                <option value="1993">1993</option>
+                <option value="1992">1992</option>
+                <option value="1991">1991</option>
+                <option value="1990">1990</option>
+                <option value="1989">1989</option>
+                <option value="1988">1988</option>
+                <option value="1987">1987</option>
+                <option value="1986">1986</option>
+                <option value="1985">1985</option>
+                <option value="1984">1984</option>
+                <option value="1983">1983</option>
+                <option value="1982">1982</option>
+                <option value="1981">1981</option>
+                <option value="1980">1980</option>
+                <option value="1979">1979</option>
+                <option value="1978">1978</option>
+                <option value="1977">1977</option>
+                <option value="1976">1976</option>
+                <option value="1975">1975</option>
+                <option value="1974">1974</option>
+                <option value="1973">1973</option>
+                <option value="1972">1972</option>
+                <option value="1971">1971</option>
+                <option value="1970">1970</option>
+                <option value="1969">1969</option>
+                <option value="1968">1968</option>
+                <option value="1967">1967</option>
+                <option value="1966">1966</option>
+                <option value="1965">1965</option>
+                <option value="1964">1964</option>
+                <option value="1963">1963</option>
+                <option value="1962">1962</option>
+                <option value="1961">1961</option>
+                <option value="1960">1960</option>
+                {{/Select}}
+            </select>
 
-        <p class="citytitle">City</p>
-        <input type="text" class="city" value="{{session.user.city}}">
+            <p class="addresstitle">Suite or APT. Number</p>
+            <input type="text" class="address" value="{{session.user.address_line_1}}" name="addressLine1">
 
-        <p class="statetitle">State</p>
-        <select class="state-select" id="state">
-            {{#Select (State session.user.state) }}
-            <option value="AL">AL</option>
-            <option value="AK">AK</option>
-            <option value="AZ">AZ</option>
-            <option value="AR">AR</option>
-            <option value="CA">CA</option>
-            <option value="CO">CO</option>
-            <option value="CT">CT</option>
-            <option value="DE">DE</option>
-            <option value="DC">DC</option>
-            <option value="FL">FL</option>
-            <option value="GA">GA</option>
-            <option value="HI">HI</option>
-            <option value="ID">ID</option>
-            <option value="IL">IL</option>
-            <option value="IN">IN</option>
-            <option value="IA">IA</option>
-            <option value="KS">KS</option>
-            <option value="KY">KY</option>
-            <option value="LA">LA</option>
-            <option value="ME">ME</option>
-            <option value="MD">MD</option>
-            <option value="MA">MA</option>
-            <option value="MI">MI</option>
-            <option value="MN">MN</option>
-            <option value="MS">MS</option>
-            <option value="MO">MO</option>
-            <option value="MT">MT</option>
-            <option value="NE">NE</option>
-            <option value="NV">NV</option>
-            <option value="NH">NH</option>
-            <option value="NJ">NJ</option>
-            <option value="NM">NM</option>
-            <option value="NY">NY</option>
-            <option value="NC">NC</option>
-            <option value="ND">ND</option>
-            <option value="OH">OH</option>
-            <option value="OK">OK</option>
-            <option value="OR">OR</option>
-            <option value="PA">PA</option>
-            <option value="RI">RI</option>
-            <option value="SC">SC</option>
-            <option value="SD">SD</option>
-            <option value="TN">TN</option>
-            <option value="TX">TX</option>
-            <option value="UT">UT</option>
-            <option value="VT">VT</option>
-            <option value="VA">VA</option>
-            <option value="WA">WA</option>
-            <option value="WV">WV</option>
-            <option value="WI">WI</option>
-            <option value="WY">WY</option>
-            {{/Select}}
-        </select>
+            <p class="citytitle">City</p>
+            <input type="text" class="city" value="{{session.user.city}}" name="city">
 
-        <p class="ziptitle">Zip Code</p>
-        <input type="text" class="zip" value="{{session.user.postal_code}}">
+            <p class="statetitle">State</p>
+            <select class="state-select" id="state" name="state">
+                {{#Select (State session.user.state) }}
+                <option value="AL">AL</option>
+                <option value="AK">AK</option>
+                <option value="AZ">AZ</option>
+                <option value="AR">AR</option>
+                <option value="CA">CA</option>
+                <option value="CO">CO</option>
+                <option value="CT">CT</option>
+                <option value="DE">DE</option>
+                <option value="DC">DC</option>
+                <option value="FL">FL</option>
+                <option value="GA">GA</option>
+                <option value="HI">HI</option>
+                <option value="ID">ID</option>
+                <option value="IL">IL</option>
+                <option value="IN">IN</option>
+                <option value="IA">IA</option>
+                <option value="KS">KS</option>
+                <option value="KY">KY</option>
+                <option value="LA">LA</option>
+                <option value="ME">ME</option>
+                <option value="MD">MD</option>
+                <option value="MA">MA</option>
+                <option value="MI">MI</option>
+                <option value="MN">MN</option>
+                <option value="MS">MS</option>
+                <option value="MO">MO</option>
+                <option value="MT">MT</option>
+                <option value="NE">NE</option>
+                <option value="NV">NV</option>
+                <option value="NH">NH</option>
+                <option value="NJ">NJ</option>
+                <option value="NM">NM</option>
+                <option value="NY">NY</option>
+                <option value="NC">NC</option>
+                <option value="ND">ND</option>
+                <option value="OH">OH</option>
+                <option value="OK">OK</option>
+                <option value="OR">OR</option>
+                <option value="PA">PA</option>
+                <option value="RI">RI</option>
+                <option value="SC">SC</option>
+                <option value="SD">SD</option>
+                <option value="TN">TN</option>
+                <option value="TX">TX</option>
+                <option value="UT">UT</option>
+                <option value="VT">VT</option>
+                <option value="VA">VA</option>
+                <option value="WA">WA</option>
+                <option value="WV">WV</option>
+                <option value="WI">WI</option>
+                <option value="WY">WY</option>
+                {{/Select}}
+            </select>
 
-        <p class="mobile1title">Primary Phone Number</p>
-        <input type="text" class="mobile1" value="{{session.user.primary_phone_number}}">
+            <p class="ziptitle">Zip Code</p>
+            <input type="text" class="zip" value="{{session.user.postal_code}}" name="postalCode">
 
-        <p class="mobile2title">Secondary Phone Number</p>
-        <input type="text" class="mobile2">
+            <p class="mobile1title">Primary Phone Number</p>
+            <input type="text" class="mobile1" value="{{session.user.primary_phone_number}}" name="primaryPhoneNumber">
 
-        <p class="emailaddresstitle">Email Address</p>
-        <input type="text" class="email" value="{{session.user.email}}" disabled>
+            <p class="mobile2title">Secondary Phone Number</p>
+            <input type="text" class="mobile2" value="{{session.user.secondary_phone_number}}" name="secondaryPhoneNumber">
 
-        <input type="submit" class="saveprofile" value="Save Changes">
+            <p class="emailaddresstitle">Email Address</p>
+            <input type="text" class="email" value="{{session.user.email}}" disabled>
+
+            <input type="button" id="account-management-submit-button" class="saveprofile" value="Save Changes">
+        </form>
     </div>
 
 
@@ -240,3 +243,4 @@
 </div>
 
 <script src="/public/js/showpassword.js"></script>
+<script src="/public/js/accountmanagement.js"></script>

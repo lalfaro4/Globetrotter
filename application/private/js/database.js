@@ -154,18 +154,6 @@ async function createUser(email, username, password, firstName, lastName, birthd
     return result;
 }
 
-//Was going to attempt creating the database updateUser funtion but
-//I was not sure if I needed to create more than one function since 
-//there are multiple Save buttons on the account mamangement. Should 
-//each save button be part of its own form? Also, would we need one function
-//for each section? For example, updateUserProfileInfo, updateUserSecurity
-//updateUserCurrency?
-// async function updateUserProfile(firstName, lastName, gender, username, birthday, homeLocationAddressLine1,
-//         homeLocationity, homeLocationState, homeLocationPostalCode, primaryPhoneNumber,
-//         secondaryPhoneNumber){
-//     var query = 
-
-// }
 
 
 /*************************************************************************************
@@ -314,6 +302,22 @@ async function getFlightActivitiesByTripId(trip_id) {
 
 
 /*************************************************************************************
+ * Delete an activity from database by activity_id.
+ *************************************************************************************/
+async function deleteActivity(activity_id) {
+    var query = 'DElETE FROM activity WHERE activity_id = ?';
+    var params = [trip_id];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Add photo to database
  *************************************************************************************/
 async function createPhoto(userId, folderPath, fileName, extension, title, description, isProfilePhoto, photoIdOut) {
@@ -409,7 +413,7 @@ async function authenticate(username, password) {
             var passwordsMatched = await bcrypt.compare(password, passwordHash);
             if (passwordsMatched) {
                 user = await getUserByUsername(username);
-                user.passwordHash = "";
+                user.password_hashed = "";
                 return user;
             }
         } catch (error) {
@@ -451,7 +455,7 @@ async function invitedUserToPhotoAlbum(username) {
 /*************************************************************************************
  * Update User Password when requesting to reset their password with their username, email, and new password
  *************************************************************************************/
- async function resetUserPassword(username, email, password) {
+async function resetUserPassword(username, email, password) {
     var query = 'Call usp_update_user_password(?, ?, ?)';
     var params = [username, email, password];
     var result = await runQuery(query, params);
@@ -462,18 +466,23 @@ async function invitedUserToPhotoAlbum(username) {
     }
 }
 
+
+
 /*************************************************************************************
  * Update User information from the account management page
  *************************************************************************************/
- async function updateUserInformation(userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber) {
-    var query = 'Call usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ? , ?)';
-    var params = [userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber];
+async function updateUserProfile(userId, username, firstName, lastName, gender, birthday, addressLine1,
+    city, state, postalCode, primaryPhoneCountryCode, primaryPhoneNumber, secondaryPhoneCountryCode, secondaryPhoneNumber) {
+    var query = `CALL usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    var params = [userId, username, firstName, lastName, gender, birthday, addressLine1, city, state, postalCode,
+        primaryPhoneCountryCode, primaryPhoneNumber, secondaryPhoneCountryCode, secondaryPhoneNumber];
     var result = await runQuery(query, params);
     if (result) {
         return result;
     } else {
         return null;
     }
+
 }
 
 
@@ -481,21 +490,34 @@ async function invitedUserToPhotoAlbum(username) {
 /*************************************************************************************
  * Make the functions usable from other modules.
  *************************************************************************************/
-module.exports.getSessionStore = getSessionStore;
-module.exports.createUser = createUser;
-module.exports.getAllUsers = getAllUsers;
-module.exports.searchUsersByUsername = searchUsersByUsername;
-module.exports.searchUsersByEmail = searchUsersByEmail;
-module.exports.getUserByUsername = getUserByUsername;
-module.exports.getAllTrips = getAllTrips;
-module.exports.getTripsByOwner = getTripsByOwner;
-module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
-module.exports.getActivitiesByTripId = getActivitiesByTripId;
-module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
-module.exports.createPhoto = createPhoto;
-module.exports.addPhotoToAlbum = addPhotoToAlbum;
-module.exports.getPhotosByTripId = getPhotosByTripId;
-module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
-module.exports.searchAirportsByName = searchAirportsByName;
+
 module.exports.authenticate = authenticate;
+module.exports.addPhotoToAlbum = addPhotoToAlbum;
+// module.exports.createTrip = createTrip;
+module.exports.createPhoto = createPhoto;
+module.exports.createUser = createUser;
+module.exports.deleteActivity = deleteActivity;
+module.exports.getActivitiesByTripId = getActivitiesByTripId;
+module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
+module.exports.getAllUsers = getAllUsers;
+module.exports.getAllTrips = getAllTrips;
+module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
+module.exports.getPhotosByTripId = getPhotosByTripId;
+module.exports.getSessionStore = getSessionStore;
+module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
+module.exports.getTripsByOwner = getTripsByOwner;
+module.exports.getUserByUsername = getUserByUsername;
 module.exports.runQuery = runQuery;
+module.exports.searchAirportsByName = searchAirportsByName;
+module.exports.searchUsersByEmail = searchUsersByEmail;
+module.exports.searchUsersByUsername = searchUsersByUsername;
+module.exports.updateUserProfile = updateUserProfile;
+
+
+
+
+
+
+
+
+

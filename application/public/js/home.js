@@ -60,13 +60,13 @@ body.push(encodeURIComponent('username') + '=' + encodeURIComponent(username));
 body.push(encodeURIComponent('password') + '=' + encodeURIComponent(password));
 body = body.join('&');
 
-fetch('/users/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    },
-    body: body
-});
+// fetch('/users/login', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+//     },
+//     body: body
+// });
 
 
 

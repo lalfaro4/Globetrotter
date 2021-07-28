@@ -5,7 +5,8 @@ var handlebars = require('express-handlebars');
 var session = require('express-session');
 var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
+var routeProtectors = require('./middleware/routeProtectors');
+var apiRouter = require('./routes/api/api');
 var usersRouter = require('./routes/users');
 var plannerRouter = require('./routes/planner');
 var photoGalleryRouter = require('./routes/photogallery');
@@ -211,7 +212,7 @@ app.use((req, res, next) => {
 /*************************************************************************************
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
-app.use('/api', apiRouter);
+app.use('/api', /* routeProtectors.userIsLoggedIn, */ apiRouter);
 
 
 

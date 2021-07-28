@@ -12,6 +12,7 @@ var plannerRouter = require('./routes/planner');
 var photoGalleryRouter = require('./routes/photogallery');
 var aboutRouter = require('./routes/about');
 var previousTripsRouter = require('./routes/previoustrips');
+var resetPasswordRouter = require('./routes/resetpassword');
 var savedTripsRouter = require('./routes/savedtrips');
 var tripsRouter = require('./routes/trips');
 // dayjs.extend(relativeTime);
@@ -281,6 +282,13 @@ app.use('/previoustrips', previousTripsRouter);
 
 
 /*************************************************************************************
+ * Use the resetPasswordRouter for all URL's beginning with /savedtrips
+ *************************************************************************************/
+ app.use('/resetpassword', resetPasswordRouter);
+
+
+
+ /*************************************************************************************
  * Use the savedTripsRouter for all URL's beginning with /savedtrips
  *************************************************************************************/
 app.use('/savedtrips', savedTripsRouter);

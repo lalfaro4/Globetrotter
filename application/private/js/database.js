@@ -519,9 +519,10 @@ async function invitedUserToPhotoAlbum(username) {
 /*************************************************************************************
  * Update User Password when requesting to reset their password with their username, email, and new password
  *************************************************************************************/
-async function resetUserPassword(username, email, password) {
+async function resetUserPassword(username, email, newPassword) {
+    var newPasswordHash = await bcrypt.hash(newPassword, 10);
     var query = 'Call usp_update_user_password(?, ?, ?)';
-    var params = [username, email, password];
+    var params = [username, email, newPasswordHash];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -590,6 +591,7 @@ module.exports.getSessionStore = getSessionStore;
 module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getUserByUsername = getUserByUsername;
+module.exports.resetUserPassword = resetUserPassword;
 module.exports.runQuery = runQuery;
 module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.searchUsersByEmail = searchUsersByEmail;

@@ -43,13 +43,13 @@ router.post('/register', async (req, res, next) => {
 
     // Check if username is already in use
     var user = database.getUserByUsername(username);
-    if(user) {
+    if (user) {
         /* Username taken */
     }
 
     // Check if email is already in use
     user = database.getUserByEmail(email);
-    if(user) {
+    if (user) {
         /* Email taken */
     }
 
@@ -57,29 +57,37 @@ router.post('/register', async (req, res, next) => {
     var user;
     try {
         user = await database.createUser(email, username, password, firstName, lastName,
-            birthday, gender, null, address, address2, city, state, 'US', zipcode, 1, phoneNumber,);
+            birthday, gender, null, address, address2, city, state, 'US', zipcode, 1, phoneNumber);
     } catch (error) {
         log("Error creating user.", 'fail');
         res.redirect('/registration');
     }
-    
-    if(user) {
+
+    if (user) {
         log(JSON.stringify(user), "info");
         res.redirect('/login');
     }
 
 });
 
-router.post('/update', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
-    // Get a variable from req.body about which user to update
-
-    // Call the database function for updating a user if the user exists.
-
-    // Handle errors and/or redirect
+router.post('/resetpassword', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
+    let email = req.body.email;
+    let username = req.body.username;
+    let newPassword = req.body.newPassword;
+    if (email && username && newPassword) {
+        var result = await database.resetUserPassword(username, email, newPassword);
+        if (result) {
+            res.redirect('/login?message=Password reset successfully.');
+        } else {
+            res.redirect('/login?message=Error resetting password.');
+        }
+    } else {
+        res.redirect('/login?message=Missing parameters.');;
+    }
 });
 
 router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
-    
+
     let username = req.body.username;
     let password = req.body.password;
 

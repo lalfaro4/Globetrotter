@@ -157,6 +157,54 @@ async function createUser(email, username, password, firstName, lastName, birthd
 
 
 /*************************************************************************************
+ * Create an activity in the database.
+ *************************************************************************************/
+ async function createFlightActivity(tripOwner, tripId, startTime, endTime, startLocation, endLocation, flightOfferJSONData) {
+    var query = 'CALL usp_create_flight_activity(?, ?, ?, ?, ?, ?, ?, @activityId);';
+    var params = [tripOwner, tripId, startTime, endTime, startLocation, endLocation, flightOfferJSONData];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Update a flight_activity in the database.
+ *************************************************************************************/
+ async function updateFlightActivity(activityId, startTime, endTime, startLocation, endLocation, flightOfferJSONData) {
+    var query = 'CALL usp_update_flight_activity(?, ?, ?, ?, ?, ?);';
+    var params = [activityId, startTime, endTime, startLocation, endLocation, flightOfferJSONData];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Delete an activity from the database.
+ *************************************************************************************/
+ async function deleteActivity(activityId) {
+    var query = 'CALL usp_delete_activity(?);';
+    var params = [activityId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Get all users from the database.
  *************************************************************************************/
 async function getAllUsers() {
@@ -272,9 +320,9 @@ async function getSavedTripsByOwner(user_id) {
 /*************************************************************************************
  * Get trip from database by trip_id.
  *************************************************************************************/
-async function getActivitiesByTripId(trip_id) {
+async function getActivitiesByTripId(tripId) {
     var query = 'SELECT * FROM activity_view WHERE trip_id = ?';
-    var params = [trip_id];
+    var params = [tripId];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -288,25 +336,9 @@ async function getActivitiesByTripId(trip_id) {
 /*************************************************************************************
  * Get flight_activities from database by trip_id.
  *************************************************************************************/
-async function getFlightActivitiesByTripId(trip_id) {
+async function getFlightActivitiesByTripId(tripId) {
     var query = 'SELECT * FROM flight_activity_view WHERE trip_id = ?';
-    var params = [trip_id];
-    var result = await runQuery(query, params);
-    if (result) {
-        return result;
-    } else {
-        return null;
-    }
-}
-
-
-
-/*************************************************************************************
- * Delete an activity from database by activity_id.
- *************************************************************************************/
-async function deleteActivity(activity_id) {
-    var query = 'DElETE FROM activity WHERE activity_id = ?';
-    var params = [trip_id];
+    var params = [tripId];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -350,6 +382,22 @@ async function addPhotoToAlbum(photoId, tripId) {
 
 
 /*************************************************************************************
+ * Create a new trip
+ *************************************************************************************/
+ async function createTrip(userId, tripName, tripId, albumId) {
+    var query = 'CALL usp_create_trip(?, ?, @tripId, @albumId); SELECT @tripId, @albumId;';
+    var params = [userId, tripName];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Get photos from database by trip_id.
  *************************************************************************************/
 async function getPhotosByTripId(trip_id) {
@@ -367,11 +415,27 @@ async function getPhotosByTripId(trip_id) {
 
 
 /*************************************************************************************
- * Get trip from database by trip_id.
+ * Get airline from database by IATA
  *************************************************************************************/
 async function getAirlineNameFromIATACode(iata_code) {
     var query = 'SELECT * FROM airline_view WHERE airline_code = ?';
     var params = [iata_code];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get airport from database by IATA code
+ *************************************************************************************/
+ async function getAirportByIATACode(iataCode) {
+    var query = 'SELECT * FROM airport_view WHERE iata_code = ?';
+    var params = [iataCode];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -488,17 +552,36 @@ async function updateUserProfile(userId, username, firstName, lastName, gender, 
 
 
 /*************************************************************************************
+ * Update Trip
+ *************************************************************************************/
+ async function updateTrip(tripId, tripName) {
+    var query = `UPDATE trip SET trip_name = ? WHERE trip_id = ?;`;
+    var params = [tripName, tripId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+
+}
+
+
+
+/*************************************************************************************
  * Make the functions usable from other modules.
  *************************************************************************************/
 
 module.exports.authenticate = authenticate;
 module.exports.addPhotoToAlbum = addPhotoToAlbum;
-// module.exports.createTrip = createTrip;
+module.exports.createFlightActivity = createFlightActivity;
 module.exports.createPhoto = createPhoto;
+module.exports.createTrip = createTrip;
 module.exports.createUser = createUser;
 module.exports.deleteActivity = deleteActivity;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;
 module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
+module.exports.getAirportByIATACode = getAirportByIATACode;
 module.exports.getAllUsers = getAllUsers;
 module.exports.getAllTrips = getAllTrips;
 module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
@@ -511,7 +594,9 @@ module.exports.runQuery = runQuery;
 module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.searchUsersByUsername = searchUsersByUsername;
+module.exports.updateFlightActivity = updateFlightActivity;
 module.exports.updateUserProfile = updateUserProfile;
+module.exports.updateTrip = updateTrip;
 
 
 

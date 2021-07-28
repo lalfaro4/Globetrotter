@@ -22,6 +22,22 @@ router.get('/', async (req, res, next) => {
 
 
 /*************************************************************************************
+* API Endpoint: GET /api/trips, Returns all trips in the databse
+*************************************************************************************/
+router.get('/create', async (req, res, next) => {
+    console.log('/trips/create');
+    // var trips = await database.c
+    if (trips) {
+        res.send(trips);
+    } else {
+        log("Error getting trips.", "fail");
+        res.send({ result: "Error getting trips." });
+    }
+});
+
+
+
+/*************************************************************************************
 * API Endpoint: GET /api/trips
 *************************************************************************************/
 router.get('/:tripId/flightactivities', async (req, res, next) => {

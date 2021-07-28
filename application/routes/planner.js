@@ -2,6 +2,7 @@ var express = require('express');
 const database = require('../private/js/database');
 const amadeusConnector = require('../private/js/amadeusConnector')
 var router = express.Router();
+var routeProtectors = require('../middleware/routeProtectors');
 
 
 
@@ -31,16 +32,17 @@ function log(message, type) {
 /*************************************************************************************
 * Renders the page at URL '/planner'
 *************************************************************************************/
-router.get('/', async (req, res, next) => {
+router.get('/', routeProtectors.userIsLoggedIn, async (req, res, next) => {
 
     var activities;
+    var trip;
     if(req.query.trip_id) {
         activities = await database.getFlightActivitiesByTripId(req.query.trip_id);
+        trip = (await database.runQuery('SELECT * from trip_view WHERE trip_id = ?;', [req.query.trip_id]))[0];
         var counter = 0;
         for(var activity of activities) {
             activity.index = counter++;
             if(activity.flight_offer_json_data) {
-                log(activity.flight_offer_json_data, 'info');
                 activity.flight_offer_json_data = JSON.parse(activity.flight_offer_json_data);
             }
         }
@@ -64,7 +66,8 @@ router.get('/', async (req, res, next) => {
         layout: 'globetrotter',
         filename: 'planner',
         title: "Route Planner",
-        activities: activities
+        activities: activities,
+        trip: trip
     });
 });
 
@@ -73,7 +76,7 @@ router.get('/', async (req, res, next) => {
 /*************************************************************************************
 * Renders the page at URL '/planner/trip'
 *************************************************************************************/
-router.get('/trip', async (req, res, next) => {
+router.get('/trip', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     if (req.query.trip_id) {
         var flightActivities = await database.getFlightActivitiesByTripId(req.query.trip_id);
 
@@ -96,25 +99,12 @@ router.get('/trip', async (req, res, next) => {
 
 
 /*************************************************************************************
-* Renders sample data for the page at URL '/planner/trip'
-*************************************************************************************/
-router.get('/trip/sample', async (req, res, next) => {
-    log("Retrieved sample flight activities for trip.", "success");
-    res.render("partials/planner/trip", {
-        layout: false,
-        activities: new Array(getRandomInt(1, 4)).fill({})
-    });
-});
-
-
-
-/*************************************************************************************
  * Renders the page at URL '/planner/flights'
  * 
  * Calls the Amadeus API and renders the flights inside of a results-list.
  * Manipulating data so that it works with the UI elements should be done here.
  *************************************************************************************/
-router.get('/flights', async (req, res, next) => {
+router.get('/flights', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     if (req.query.originLocationCode &&
         req.query.destinationLocationCode &&
         req.query.departureDate &&
@@ -163,7 +153,7 @@ router.get('/flights', async (req, res, next) => {
                     flights: flights
                 });
             } else {
-                res.send( { result: "No flights available. The date may have already passed, may be too far in the future, or you might have picked a weird airport."})
+                res.send( { result: "No flights available. The date may have already passed, may be too far in the future, or there just might be no flights on that route."})
             }
         } else {
             log("Error retrieving flights.", "fail");
@@ -173,19 +163,6 @@ router.get('/flights', async (req, res, next) => {
         log("Missing parameters", "fail");
         res.send({ result: "Missing parameters" });
     }
-});
-
-
-
-/*************************************************************************************
- * Renders sample data for the page at URL '/planner/flights'
- *************************************************************************************/
-router.get('/flights/sample', async (req, res, next) => {
-    log("Retrieved sample flights.", "success");
-    res.render("partials/planner/results-list", {
-        layout: false,
-        flights: new Array(getRandomInt(1, 6)).fill({})
-    });
 });
 
 

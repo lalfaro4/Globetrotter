@@ -13,6 +13,7 @@ var photoGalleryRouter = require('./routes/photogallery');
 var aboutRouter = require('./routes/about');
 var previousTripsRouter = require('./routes/previoustrips');
 var savedTripsRouter = require('./routes/savedtrips');
+var tripsRouter = require('./routes/trips');
 // dayjs.extend(relativeTime);
 
 
@@ -79,6 +80,16 @@ app.set("view engine", "hbs");
 /*************************************************************************************
  * Handlebars Helper
  *************************************************************************************/
+ Handlebars.handlebars.registerHelper('Stringify', function (object) {
+  var result = JSON.stringify(object);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
 Handlebars.handlebars.registerHelper('Date', function (timestampString) {
   var result = timestampString.slice(0, 10);
   console.log(result);
@@ -91,7 +102,10 @@ Handlebars.handlebars.registerHelper('Date', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Year', function (timestampString) {
-  var result = timestampString.slice(0, 4);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(0, 4);
+  }
   return result;
 });
 
@@ -101,7 +115,10 @@ Handlebars.handlebars.registerHelper('Year', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Month', function (timestampString) {
-  var result = timestampString.slice(5, 7);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(5, 7);
+  }
   return result;
 });
 
@@ -111,7 +128,10 @@ Handlebars.handlebars.registerHelper('Month', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Day', function (timestampString) {
-  var result = timestampString.slice(8, 10);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(8, 10);
+  }
   return result;
 });
 
@@ -121,8 +141,10 @@ Handlebars.handlebars.registerHelper('Day', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Time', function (timestampString) {
-  var result = timestampString.slice(11, 20);
-  console.log(result);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(11, 20);
+  }
   return result;
 });
 
@@ -248,6 +270,13 @@ app.use('/about', aboutRouter);
  * Use the previousTripsRouter for all URL's beginning with /previoustrips
  *************************************************************************************/
 app.use('/previoustrips', previousTripsRouter);
+
+
+
+/*************************************************************************************
+ * Use the tripsRouter for all URL's beginning with /trips
+ *************************************************************************************/
+ app.use('/trips', tripsRouter);
 
 
 

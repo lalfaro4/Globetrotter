@@ -3,6 +3,7 @@ var express = require('express');
 var database = require('../../private/js/database');
 const WebTokens = require('../../private/js/webTokens');
 
+var activitiesRouter = require('./activities');
 var airportsRouter = require('./airports');
 var flightsRouter = require('./flights');
 var tripsRouter = require('./trips');
@@ -36,6 +37,7 @@ router.get('/authenticate', async (req, res, next) => {
 /*************************************************************************************
  * Setup the routers for the other endpoints
  *************************************************************************************/
+ router.use('/activities', activitiesRouter);
 router.use('/airports', airportsRouter);
 router.use('/flights', flightsRouter);
 router.use('/trips', tripsRouter);

@@ -27,13 +27,13 @@
 }
 
 .nav .nav-links {
-    display: inline;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     float: right;
     font-size: 18px;
 }
 
 .nav>.nav-links>a {
-    display: inline-block;
     padding: 13px 10px;
     text-decoration: none;
     color: #ffffff;
@@ -43,7 +43,7 @@
     background-color: black;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
     .nav .nav-btn {
         display: inline-block;
         position: absolute;

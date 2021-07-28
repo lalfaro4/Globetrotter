@@ -11,7 +11,10 @@
         </label>
     </div>
     <div class="nav-links">
-        <a href="/planner">Planner</a>
+        <form method="POST" action="/trips/create?tripName=NewTrip">
+            {{!-- <a href="/planner">New Trip</a> --}}
+            <input type="submit" value="New Trip">
+        </form>
         <a href="">About</a>
         {{#if logged}}
         <a href="/previoustrips">Previous Trips</a>

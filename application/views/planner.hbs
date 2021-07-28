@@ -2,7 +2,9 @@
     {{> planner/menubar }}
     <div class="planner-container">
         <div id="planner-trip-panel">
-            <div class="planner-panel-header">Your Trips's Activities</div>
+            <div class="planner-panel-header">
+                <input type="text" id="planner-trip-title-input" placeholder="Trip Name" value="{{this.trip.trip_name}}">
+            </div>
             <div id="planner-trip">
                 {{> planner/trip activities=this.activities }}
             </div>

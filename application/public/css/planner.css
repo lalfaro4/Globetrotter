@@ -259,6 +259,14 @@ input[type="time"] {
     grid-template-rows: 1fr 1fr 1fr;
 }
 
+.planner-result-item-departure-date {
+    width: max-content;
+}
+
+.planner-result-item-arrival-date {
+    width: max-content;
+}
+
 .planner-result-item-layout-col-2 {
     text-align: center;
 }

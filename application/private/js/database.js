@@ -450,6 +450,20 @@ async function invitedUserToPhotoAlbum(username) {
     }
 }
 
+/*************************************************************************************
+ * Update User information from the account management page
+ *************************************************************************************/
+ async function updateUserInformation(userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber) {
+    var query = 'Call usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ? , ?)';
+    var params = [userid, username, email, birthday, city, postalCode, state, addressLine1, primaryPhoneNumber, secondaryPhoneNumber];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
 
 
 /*************************************************************************************

@@ -7,7 +7,7 @@ var router = express.Router();
 /*************************************************************************************
  * Renders the page at URL '/accountmanagement'
  *************************************************************************************/
- router.get('/', (req, res, next) => {
+ router.get('/', routeProtectors.userIsLoggedIn, (req, res, next) => {
     res.render("accountmanagement", {
       layout: 'globetrotter',
       filename: "accountmanagement",
@@ -20,7 +20,7 @@ var router = express.Router();
 /*************************************************************************************
  * Renders the page at URL '/accountmanagement'
  *************************************************************************************/
- router.get('/update', (req, res, next) => {
+ router.get('/update', routeProtectors.userIsLoggedIn, (req, res, next) => {
     res.render("accountmanagement", {
       layout: 'globetrotter',
       filename: "accountmanagement",

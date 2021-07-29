@@ -37,7 +37,7 @@ var uploader = multer({ storage: storage });
 
 
 
-router.get('/:tripid', /* routeProtectors.userIsLoggedIn , */ async (req, res, next) => {
+router.get('/:tripid', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     var photos;
     if (req.params.tripid) {
         photos = await database.getPhotosByTripId(req.params.tripid);
@@ -53,7 +53,7 @@ router.get('/:tripid', /* routeProtectors.userIsLoggedIn , */ async (req, res, n
 
 
 
-router.post('/:tripid/photo/upload', uploader.single('photogallery-file-picker'), async (req, res, next) => {
+router.post('/:tripid/photo/upload', routeProtectors.userIsLoggedIn, uploader.single('photogallery-file-picker'), async (req, res, next) => {
     if (req.params.tripid) {
         let fileName = req.file.filename.split('.')[0];
         let extension = req.file.filename.split('.')[1];

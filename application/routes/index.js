@@ -78,18 +78,6 @@ router.get('/accountmanagement', routeProtectors.userIsLoggedIn, (req, res, next
 
 
 
-router.get('/test', async (req, res, next) => {
-  res.render("test", {
-    layout: 'globetrotter',
-    title: "Test Page",
-
-    // Get trip_id from your own database instance
-    activities: await database.getFlightActivitiesByTripId(null)
-  });
-});
-
-
-
 router.get('/registration', routeProtectors.userIsNotLoggedIn, (req, res, next) => {
   res.render("registration", {
     layout: 'globetrotter',

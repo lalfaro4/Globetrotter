@@ -37,7 +37,7 @@ router.get('/authenticate', async (req, res, next) => {
 /*************************************************************************************
  * Setup the routers for the other endpoints
  *************************************************************************************/
- router.use('/activities', activitiesRouter);
+router.use('/activities', activitiesRouter);
 router.use('/airports', airportsRouter);
 router.use('/flights', flightsRouter);
 router.use('/trips', tripsRouter);

@@ -19,7 +19,7 @@ function log(message, type) {
 }
 
 
-router.post('/create', async (req, res, next) => {
+router.post('/create', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     console.log('POSTS');
     log(req.session.user, 'info');
     log(req.query.tripName, 'info');
@@ -38,7 +38,7 @@ router.post('/create', async (req, res, next) => {
 
 
 
-router.post('/:tripid/update', async (req, res, next) => {
+router.post('/:tripid/update', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     console.log('UPDATE');
     var tripId = req.params.tripid;
     log(`Body: ${req.body}`, 'info');

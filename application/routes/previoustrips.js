@@ -7,7 +7,7 @@ var routeProtectors = require('../middleware/routeProtectors');
 
 
 //
-router.get('/', async (req, res, next) => {
+router.get('/', routeProtectors.userIsLoggedIn, async (req, res, next) => {
 
     var trips = await database.getTripsByOwner(req.session.user.user_id);
     console.log(trips);

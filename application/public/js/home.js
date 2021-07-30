@@ -52,27 +52,7 @@ function searchClickHandler(event) {
 
 
 
-/*************************************************************************************
- * Automatically login the globetrotter user
- *************************************************************************************/
-var username = 'globetrotter';
-var password = 'globetrotter';
-var body = [];
-body.push(encodeURIComponent('username') + '=' + encodeURIComponent(username));
-body.push(encodeURIComponent('password') + '=' + encodeURIComponent(password));
-body = body.join('&');
-
-// fetch('/users/login', {
-//     method: 'POST',
-//     headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-//     },
-//     body: body
-// });
-
-
-
 // Setup event listeners
-document.getElementById('home-origin-input').addEventListener('input', locationInputEventHandler);
-document.getElementById('home-destination-input').addEventListener('input', locationInputEventHandler);
-document.getElementById("home-search-button").addEventListener('click', searchClickHandler);
+// document.getElementById('home-origin-input').addEventListener('input', locationInputEventHandler);
+// document.getElementById('home-destination-input').addEventListener('input', locationInputEventHandler);
+document.getElementById("home-search-button").addEventListener('click', (event) => { location.href = '/registration' });

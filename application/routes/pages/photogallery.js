@@ -2,9 +2,9 @@ var express = require('express');
 var sharp = require('sharp');
 var multer = require('multer');
 var crypto = require('crypto');
-const database = require('../private/js/database');
+const database = require('../../private/js/database');
 var router = express.Router();
-var routeProtectors = require('../middleware/routeProtectors');
+var routeProtectors = require('../../middleware/routeProtectors');
 
 
 
@@ -20,6 +20,8 @@ function log(message, type) {
         console.log(`photogallery.js:: ${message}`.italic.bgRed.black);
     }
 }
+
+
 
 var photoUploadPath = "public/images/uploads";
 var storage = multer.diskStorage({
@@ -53,7 +55,7 @@ router.get('/:tripid', routeProtectors.userIsLoggedIn, async (req, res, next) =>
 
 
 
-router.post('/:tripid/photo/upload', routeProtectors.userIsLoggedIn, uploader.single('photogallery-file-picker'), async (req, res, next) => {
+router.post('/:tripid/photo/upload', uploader.single('photogallery-file-picker'), async (req, res, next) => {
     if (req.params.tripid) {
         let fileName = req.file.filename.split('.')[0];
         let extension = req.file.filename.split('.')[1];

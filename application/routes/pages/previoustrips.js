@@ -1,8 +1,8 @@
 var express = require('express');
-const database = require('../private/js/database');
-const amadeusConnector = require('../private/js/amadeusConnector')
 var router = express.Router();
-var routeProtectors = require('../middleware/routeProtectors');
+
+var database = require('../../private/js/database');
+var routeProtectors = require('../../middleware/routeProtectors');
 
 
 

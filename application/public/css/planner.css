@@ -5,6 +5,8 @@
     --hover-color: whitesmoke;
     --planner-trip-button-container-background-color: lightgreen;
     --border-radius: 2em;
+    --green-color: rgb(82, 226, 164);
+    --dark-green-color: rgb(37, 107, 77);
 }
 body {
     margin: 0%;
@@ -66,7 +68,7 @@ header {
     height: 100%;
 }
 .planner-menubar {
-    background-color: white;
+    background-color: var(--green-color);
     width: auto;
     display: grid;
     padding: 1em;
@@ -94,7 +96,6 @@ header {
     grid-template-rows: min-content 1fr min-content min-content;
     height: 100%;
     overflow-y: hidden;
-
 }
 .planner-panel-header {
     background-color: white;
@@ -104,6 +105,10 @@ header {
     text-align: center;
     padding: 1em;
 }
+.planner-trip-title-input {
+    font-size: large;
+    text-align: center;
+}
 #planner-trip {
     padding-left: 4em;
     padding-right: 4em;
@@ -112,6 +117,9 @@ header {
 .planner-activity {
     margin: 1em;
     transition: 0.4s;
+    /* background-color:darkcyan;
+    border: 1em solid lightgoldenrodyellow;
+    padding: 1em; */
 }
 .planner-activity:hover {
     margin-left: 2em;
@@ -127,6 +135,7 @@ header {
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
     background-color: #d5d5d5;
+    /* background-color: var(--green-color); */
 }
 .planner-activity-header {
     padding: 2em;
@@ -166,6 +175,7 @@ header {
 }
 .planner-activity-departure-date {
     min-width:fit-content;
+    width: 100%;
 }
 .planner-remove-activity-button {    
 }
@@ -277,70 +287,76 @@ input[type="time"] {
 .planner-result-item-layout-col-4 {
     text-align: right;
 }
-
-@media only screen and (max-width: 1200px) {
+.planner-result-item-button {
+    white-space: normal;
+}
+.planner-halign-text {
+    text-align: center;
+}
+.planner-valign-text {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+.planner-disabled {
+    pointer-events: none;
+    filter: blur(1em);
+}
+@media only screen and (max-width: 1300px) {
     #planner-trip {
         padding-left: 1em;
         padding-right: 1em;
     }
     .planner-activity-header {
-        padding: 1em;
+        /* padding: 1em; */
         grid-template-columns: min-content 1fr;
         grid-template-rows: auto;
     }
     .planner-activity-input-container {
-        grid-template-columns: 1fr min-content 1fr;
-        grid-template-rows: 4;
-        display: grid;
+        grid-template-columns: 1fr min-content 1fr 1fr 1fr;
+        grid-template-rows: 2;
+        display: grid;        
+    }
+    /* .planner-activity-input-container > * {
+        margin: 1em;
+    } */
+    .planner-activity-departure-date {
+        grid-column: 4 / 6;
+        grid-row: 1;
     }
     .planner-search-activity-button {
         grid-column: 1 / 4;
         grid-row: 2;
     }
     .planner-remove-activity-button {
-        grid-column: 1 / 4;
-        grid-row: 3;
-    }
-    .planner-activity-departure-date {
-        grid-row: 4;
-        grid-column: 1 / 4;
+        grid-column: 4 / 6;
+        grid-row: 2;
     }
 }
 
-@media only screen and (max-width: 800px) {
-    .planner-activity-button-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+@media only screen and (max-width: 950px) {    
+    .planner-activity-input-container {
+        grid-template-columns: 1fr min-content 1fr;
+        grid-template-rows: 4;
+        display: grid;        
+    }
+    .planner-activity-departure-date {
+        grid-column: 1 / 4;
+        grid-row: 2;
+    }
+    .planner-search-activity-button {
+        grid-column: 1 / 4;
+        grid-row: 3;
+    }
+    .planner-remove-activity-button {
+        grid-column: 1 / 4;
+        grid-row: 4;
     }
     .planner-result-item-layout {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
     }
-}
-
-@media only screen and (max-width: 480px) {
-    .navbar-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        grid-auto-flow: dense;
-   }
-    .navbar-col-1 {
-        grid-column: 1;
-        grid-row: 2;
-        text-align: center;
-        margin: auto;
-   }
-    .navbar-col-2 {
-        grid-column: 1;
-        grid-row: 1;
-        margin: auto;
-   }
-    .navbar-col-3 {
-        grid-column: 1;
-        grid-row: 3;
-        text-align: center;
-        margin: auto;
-   }
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -350,4 +366,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 input[type="date"] {
     text-align: center;
+}
+
+input {
+    font-family: var(--main-font);
 }

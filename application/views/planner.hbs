@@ -3,7 +3,7 @@
     <div class="planner-container">
         <div id="planner-trip-panel">
             <div class="planner-panel-header">
-                <input type="text" id="planner-trip-title-input" placeholder="Trip Name" value="{{this.trip.trip_name}}">
+                <input type="text" id="planner-trip-title-input" class="round planner-trip-title-input" placeholder="Trip Name" value="{{this.trip.trip_name}}">
             </div>
             <div id="planner-trip">
                 {{> planner/trip activities=this.activities }}
@@ -14,7 +14,8 @@
             </div>
         </div>
         <div id="planner-results-panel">
-            <div class="planner-panel-header">Flight Search Results</div>
+            <div class="planner-panel-header">
+                <input type="text" class="round" value="Flight Search Results" style="text-align: center; font-size: large; border-color: white"  disabled></div>
             <div id="planner-results-container">
                 <div id="planner-results-placeholder"></div>
             </div>
@@ -22,9 +23,9 @@
     </div>
 
     <div class="planner-button-container">
-        <div class="round basic-button planner-proceed-button">
+        {{!-- <div class="round basic-button planner-proceed-button">
             Proceed
-        </div>
+        </div> --}}
     </div>
 </div>
 

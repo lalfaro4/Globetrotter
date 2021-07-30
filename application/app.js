@@ -4,17 +4,11 @@ var logger = require('morgan');
 var handlebars = require('express-handlebars');
 var session = require('express-session');
 var database = require('./private/js/database');
-var indexRouter = require('./routes/index');
 var routeProtectors = require('./middleware/routeProtectors');
-var apiRouter = require('./routes/api');
-var usersRouter = require('./routes/users');
-var plannerRouter = require('./routes/planner');
-var photoGalleryRouter = require('./routes/photogallery');
-var aboutRouter = require('./routes/about');
-var previousTripsRouter = require('./routes/previoustrips');
-var resetPasswordRouter = require('./routes/resetpassword');
-var savedTripsRouter = require('./routes/savedtrips');
-var tripsRouter = require('./routes/trips');
+
+var apiRouter = require('./routes/api/api');
+var indexRouter = require('./routes/pages/index');
+
 // dayjs.extend(relativeTime);
 
 
@@ -81,7 +75,7 @@ app.set("view engine", "hbs");
 /*************************************************************************************
  * Handlebars Helper
  *************************************************************************************/
- Handlebars.handlebars.registerHelper('Stringify', function (object) {
+Handlebars.handlebars.registerHelper('Stringify', function (object) {
   var result = JSON.stringify(object);
   return result;
 });
@@ -104,7 +98,7 @@ Handlebars.handlebars.registerHelper('Date', function (timestampString) {
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Year', function (timestampString) {
   var result = '';
-  if(timestampString) {
+  if (timestampString) {
     result = timestampString.slice(0, 4);
   }
   return result;
@@ -117,7 +111,7 @@ Handlebars.handlebars.registerHelper('Year', function (timestampString) {
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Month', function (timestampString) {
   var result = '';
-  if(timestampString) {
+  if (timestampString) {
     result = timestampString.slice(5, 7);
   }
   return result;
@@ -130,7 +124,7 @@ Handlebars.handlebars.registerHelper('Month', function (timestampString) {
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Day', function (timestampString) {
   var result = '';
-  if(timestampString) {
+  if (timestampString) {
     result = timestampString.slice(8, 10);
   }
   return result;
@@ -143,7 +137,7 @@ Handlebars.handlebars.registerHelper('Day', function (timestampString) {
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Time', function (timestampString) {
   var result = '';
-  if(timestampString) {
+  if (timestampString) {
     result = timestampString.slice(11, 20);
   }
   return result;
@@ -154,7 +148,7 @@ Handlebars.handlebars.registerHelper('Time', function (timestampString) {
 /*************************************************************************************
  * Handlebars Helper
  *************************************************************************************/
- Handlebars.handlebars.registerHelper('State', function (state) {
+Handlebars.handlebars.registerHelper('State', function (state) {
   var result = state.slice(0, 2);
   return result;
 });
@@ -206,8 +200,14 @@ app.use(session({
 
 
 /*************************************************************************************
- * Create a publicly accessible folder at /public
+ * Create a publicly accessible folder at /public and restrict access to /public/images/uploads
  *************************************************************************************/
+
+ app.use("/public/images/uploads", routeProtectors.userIsLoggedIn, express.static(path.join(__dirname, 'public/images/uploads'),
+ { fallthrough: false })
+);
+
+
 app.use("/public", express.static(path.join(__dirname, 'public'),
   { fallthrough: false })
 );
@@ -233,71 +233,9 @@ app.use((req, res, next) => {
 
 
 /*************************************************************************************
- * Use the apiRouter for all URL's beginning with /api
+ * Configure the two top level routers
  *************************************************************************************/
-app.use('/api', routeProtectors.userIsLoggedIn, apiRouter);
-
-
-
-/*************************************************************************************
- * Use the usersRouter for all URL's beginning with /users
- *************************************************************************************/
-app.use('/users', usersRouter);
-
-
-
-/*************************************************************************************
- * Use the plannerRouter for all URL's beginning with /planner
- *************************************************************************************/
-app.use('/planner', plannerRouter);
-
-
-
-/*************************************************************************************
- * Use the photoGalleryRouter for all URL's beginning with /photogallery
- *************************************************************************************/
-app.use('/photogallery', photoGalleryRouter);
-
-
-
-/*************************************************************************************
-* Use the aboutRouter for all URL's beginning with /about
-*************************************************************************************/
-app.use('/about', aboutRouter);
-
-
-
-/*************************************************************************************
- * Use the previousTripsRouter for all URL's beginning with /previoustrips
- *************************************************************************************/
-app.use('/previoustrips', previousTripsRouter);
-
-
-
-/*************************************************************************************
- * Use the tripsRouter for all URL's beginning with /trips
- *************************************************************************************/
- app.use('/trips', tripsRouter);
-
-
-
-/*************************************************************************************
- * Use the resetPasswordRouter for all URL's beginning with /savedtrips
- *************************************************************************************/
- app.use('/resetpassword', resetPasswordRouter);
-
-
-
- /*************************************************************************************
- * Use the savedTripsRouter for all URL's beginning with /savedtrips
- *************************************************************************************/
-app.use('/savedtrips', savedTripsRouter);
-
-
-
-/*************************************************************************************
- * Use the indexRouter for all other URL's
- *************************************************************************************/
+app.use('/api', apiRouter);
 app.use('/', indexRouter);        // If used, this must come last.
 
 

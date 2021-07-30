@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="public/css/registration.css">
-<form class="center">
+<form method="POST" action="/users/register" class="center">
     <h1>Create an account to access Globetrotter</h1>
+    <div>{{message}}</div>
     <p class="light-text">Fill the form below to create an account with Globetrotter</p>
 
     <div class="row">
@@ -13,7 +13,7 @@
     </div>
     <div>
         <label for="emailAddress">Email Address:</label>
-        <input type="email" name="emailAddress" class="form-control" placeholder=" abc@xyz.com" required>
+        <input type="email" name="email" class="form-control" placeholder=" abc@xyz.com" required>
     </div>
     <div>
         <label for="username">Username:</label>
@@ -45,7 +45,7 @@
     </div>
     <div>
         <label for="address">Address Line 1:</label>
-        <input type="text" name="address" class="form-control" placeholder=" 123 Elm St" required>
+        <input type="text" name="address1" class="form-control" placeholder=" 123 Elm St" required>
     </div>
     <div>
         <label for="address2">Address Line 2:</label>
@@ -76,3 +76,5 @@
     <button type="submit" class="button text-center">Create Account</button>
     <p class="light-text">Already have an account? <a href="#">Log in</a></p>
 </form>
+
+<script type="text/script" src="/public/js/registration.js"></script>

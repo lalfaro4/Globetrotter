@@ -1,6 +1,5 @@
 
 
-
 var token;
 var trip_id = 'b48bbc8d-ea4c-11eb-b0c1-28d24427a5d8';
 var trip;
@@ -17,21 +16,6 @@ var flightActivitiesToDelete = [];
 function getURLBase() {
     return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
-
-
-
-/*************************************************************************************
- * Authenticates the user with and returns the authorization token.
- *************************************************************************************/
-async function authenticate() {
-    var url = new URL(getURLBase() + "/api/authenticate"),
-        params = { username: 'globetrotter', password: 'globetrotter' }
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-    var response = await fetch(url, {
-        method: "GET"
-    });
-    return (await response.json()).token;
-};
 
 
 
@@ -134,7 +118,6 @@ async function searchFlights(activity) {
         console.log('Some search parameters are null.');
     }
 
-
 }
 
 
@@ -147,7 +130,7 @@ function addActivityClickHandler(e) {
     var trip = document.getElementById('planner-trip');
     trip.innerHTML += flightActivityTemplate({ index: trip.childElementCount });
 
-    var newActivity = trip.children[trip.childElementCount-1];
+    var newActivity = trip.children[trip.childElementCount - 1];
     configureActivityEventHandlers(newActivity);
     flightActivitiesToCreate.push(newActivity);
 
@@ -168,7 +151,6 @@ function proceedClickHandler(event) {
 * Event handler: Remove activity button
 *************************************************************************************/
 function removeActivityClickHandler(e) {
-    console.log('DELTE');
     var activity = e.target.closest('.planner-activity');
     var activityId = activity.getAttribute('data-activity-id');
     flightActivitiesToDelete.push(activityId);
@@ -202,10 +184,24 @@ async function activitySearchClickHandler(e) {
     }
 
     // Get the selected Activity by radio button
-    // var activity = document.querySelector('input[name="planner-selected-activity"]:checked').parentNode.parentNode;
 
     // Get the selected Activity by checking the parent of the search button that was clicked
     var activity = e.target.closest('.planner-activity');
+    var originInputValue = activity.querySelector('.planner-activity-origin-input').value;
+    var originInputDatalist = activity.querySelector('.planner-origin-airports-datalist');
+    var destinationInputValue = activity.querySelector('.planner-activity-destination-input').value;
+    var destinationInputDatalist = activity.querySelector('.planner-destination-airports-datalist');
+    
+    if(isIncompleteActivity(activity)) {
+        alert('Some search parameters are invalid.');
+        return;
+    }
+
+    if (!validateAirportInput(originInputValue, originInputDatalist) || !validateAirportInput(destinationInputValue, destinationInputDatalist)) {
+        alert('Please input a valid airport.');
+        return;
+    }
+
 
     // Create the loader
     var loaderContainer = document.createElement('div');
@@ -219,14 +215,15 @@ async function activitySearchClickHandler(e) {
     document.getElementById('planner-results-container').prepend(loaderContainer);
 
     // Disable page elements
-    // Todo 
+    var tripPanel = document.getElementById('planner-trip-panel');
+    tripPanel.classList.add('planner-disabled');
 
     // Load data or simulate with timeout
     await searchFlights(activity);
     // await new Promise(resolve => setTimeout(resolve, 20000));
 
     // Reenable page elements
-    // Todo
+    tripPanel.classList.remove('planner-disabled');
 
     document.getElementById('planner-results-container').removeChild(loaderContainer);
 }
@@ -236,19 +233,24 @@ async function activitySearchClickHandler(e) {
 // Setup the airport search autocomplete
 async function locationInputEventHandler(event) {
 
-    var airportResults = await (await fetchURL('GET', '/api/airports/search', { searchString: event.target.value })).json();
+    var locationSearchInput = event.target;
+    var datalistElement = locationSearchInput.nextSibling.nextSibling;
 
-    var dataList = event.target.nextSibling.nextSibling;
-    dataList.innerHTML = '';
+    await loadLocations(locationSearchInput, datalistElement);
+
+}
+
+async function loadLocations(locationSearchInput, datalistElement) {
+    var airportResults = await (await fetchURL('GET', '/api/airports/search', { searchString: locationSearchInput.value })).json();
+    datalistElement.innerHTML = '';
     for (var airport of airportResults) {
         var option = document.createElement('option');
         option.value = airport.iata_code;
         option.setAttribute('name', airport.iata_code);
         option.setAttribute('data-id', airport.location_name);
         option.text = airport.location_name;
-        dataList.appendChild(option);
+        datalistElement.appendChild(option);
     }
-
 }
 
 
@@ -290,45 +292,57 @@ async function saveClickHandler(event) {
     const urlParams = new URLSearchParams(window.location.search);
     const tripId = urlParams.get('trip_id');
     var tripName = document.getElementById('planner-trip-title-input').value;
-    for(var deletedActivityId of flightActivitiesToDelete) {
+
+    if(tripName=='') {
+        alert('Please enter a valid name for your trip.');
+        return;
+    }
+
+    for (var deletedActivityId of flightActivitiesToDelete) {
         var result = await fetchURL('DELETE', `/api/activities/${deletedActivityId}`, []);
         console.log(result);
     }
-    for(var flightActivity of flightActivitiesToCreate) {
+    for (var flightActivity of flightActivitiesToCreate) {
         var originCode = flightActivity.querySelector('.planner-activity-origin-input').value;
         var destinationCode = flightActivity.querySelector('.planner-activity-destination-input').value;
         var departureDate = flightActivity.querySelector('.planner-activity-departure-date').value;
         var flightOfferContainer = flightActivity.querySelector('.planner-result-item-data');
         var flightOfferJSONData = flightOfferContainer ? flightOfferContainer.innerText : null;
-        var result = await fetchURL('POST', `/api/activities`, 
-            { 
-                tripId: tripId, 
-                originCode: originCode, destinationCode: destinationCode, 
-                startTime: departureDate + ' 00:00:00', 
-                endTime: departureDate + ' 00:00:00', 
-                flightOfferJSONData: flightOfferJSONData
-            }
-        );
+        if (!isIncompleteActivity(flightActivity)) {
+            var result = await fetchURL('POST', `/api/activities`,
+                {
+                    tripId: tripId,
+                    originCode: originCode, destinationCode: destinationCode,
+                    startTime: departureDate + ' 00:00:00',
+                    endTime: departureDate + ' 00:00:00',
+                    flightOfferJSONData: flightOfferJSONData
+                }
+            );
+        }
     }
-    for(var flightActivity of initialFlightActivities) {
-        console.log('INITIAL');
+    for (var flightActivity of initialFlightActivities) {
         var activityId = flightActivity.getAttribute('data-activity-id');
         var originCode = flightActivity.querySelector('.planner-activity-origin-input').value;
         var destinationCode = flightActivity.querySelector('.planner-activity-destination-input').value;
         var departureDate = flightActivity.querySelector('.planner-activity-departure-date').value;
+        console.log('DEPART: ', departureDate);
         var flightOfferContainer = flightActivity.querySelector('.planner-result-item-data');
         var flightOfferJSONData = flightOfferContainer ? flightOfferContainer.innerText : null;
-        var result = await fetchURL('PUT', `/api/activities/${activityId}`, 
+        if (isIncompleteActivity(flightActivity)) {
+            alert('Some fields are incomplete');
+            return;
+        }
+        var result = await fetchURL('PUT', `/api/activities/${activityId}`,
             {
-                originCode: originCode, destinationCode: destinationCode, 
-                startTime: departureDate + ' 00:00:00', 
-                endTime: departureDate + ' 00:00:00', 
+                originCode: originCode, destinationCode: destinationCode,
+                startTime: departureDate + ' 00:00:00',
+                endTime: departureDate + ' 00:00:00',
                 flightOfferJSONData: flightOfferJSONData
             }
         );
     }
-    await fetchURL('POST', `/trips/${tripId}/update`,  {tripName: tripName});
-    location.reload();
+    await fetchURL('POST', `/trips/${tripId}/update`, { tripName: tripName });
+    location.href = '/savedtrips';
 }
 
 
@@ -351,6 +365,15 @@ async function saveClickHandler(event) {
     // Process the preloaded activities
     for (var activity of activities) {
 
+
+        var originInput = activity.querySelector('.planner-activity-origin-input');
+        var originInputDatalistElement = activity.querySelector('.planner-origin-airports-datalist');
+        loadLocations(originInput, originInputDatalistElement);
+
+        var destinationInput = activity.querySelector('.planner-activity-destination-input');
+        var destinationInputDatalistElement = activity.querySelector('.planner-destination-airports-datalist');
+        loadLocations(destinationInput, destinationInputDatalistElement);
+
         // Setup the event listeners for the preloaded activities
         configureActivityEventHandlers(activity);
 
@@ -370,6 +393,8 @@ async function saveClickHandler(event) {
     document.querySelector('.planner-trip-save-button').addEventListener('click', saveClickHandler);
 
     // Setup click handler for the proceed button
-    document.querySelector('.planner-proceed-button').addEventListener('click', proceedClickHandler);
+    // document.querySelector('.planner-proceed-button').addEventListener('click', proceedClickHandler);
+
+
 
 })();

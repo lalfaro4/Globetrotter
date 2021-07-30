@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var database = require('../private/js/database');
-var routeProtectors = require('../middleware/routeProtectors');
+
+var database = require('../../private/js/database');
+var routeProtectors = require('../../middleware/routeProtectors');
 
 
 
@@ -20,52 +21,49 @@ function log(message, type) {
 
 
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
+    console.log(req.body);
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
-    let confirmpassword = req.body.confirmpassword;
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let birthday = req.body.birthday;
     let gender = req.body.gender;
-    let address = req.body.addressl
+    let address1 = req.body.addressl
     let address2 = req.body.address2;
     let city = req.body.city;
     let state = req.body.state;
     let zipcode = req.body.zipcode;
     let phoneNumber = req.body.phoneNumber;
 
-    // var validated = validator.validateUsername(username) &&
-    //     validator.validateEmail(email) &&
-    //     validator.validatePassword(password) &&
-    //     password == confirmpassword;
-
     // Check if username is already in use
-    var user = database.getUserByUsername(username);
+    var user = await database.getUserByUsername(username);
     if (user) {
-        /* Username taken */
+        log('username already in use', 'fail');
+        return res.redirect(`/registration?message=username already in use.`);
     }
 
     // Check if email is already in use
-    user = database.getUserByEmail(email);
+    user = await database.getUserByEmail(email);
     if (user) {
-        /* Email taken */
+        log('email already in use', 'fail');
+        return res.redirect(`/registration?message=email already in use.`);
     }
 
     // Create User
     var user;
     try {
         user = await database.createUser(email, username, password, firstName, lastName,
-            birthday, gender, null, address, address2, city, state, 'US', zipcode, 1, phoneNumber);
+            birthday, gender, 'USD', address1, address2, city, state, 'US', zipcode, 1, phoneNumber);
     } catch (error) {
         log("Error creating user.", 'fail');
-        res.redirect('/registration');
+        return res.redirect('/registration');
     }
 
     if (user) {
         log(JSON.stringify(user), "info");
-        res.redirect('/login');
+        return res.redirect('/login?message=Account created successfully!');
     }
 
 });

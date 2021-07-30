@@ -270,6 +270,22 @@ async function getUserByUsername(username) {
 
 
 /*************************************************************************************
+ * Get a user by their email from the database.
+ *************************************************************************************/
+ async function getUserByEmail(username) {
+    var query = 'SELECT * FROM `user` WHERE email = ? LIMIT 1';
+    var params = [username];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result[0];
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Get all trips from the database.
  *************************************************************************************/
 async function getAllTrips() {
@@ -590,6 +606,7 @@ module.exports.getPhotosByTripId = getPhotosByTripId;
 module.exports.getSessionStore = getSessionStore;
 module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
 module.exports.getTripsByOwner = getTripsByOwner;
+module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByUsername = getUserByUsername;
 module.exports.resetUserPassword = resetUserPassword;
 module.exports.runQuery = runQuery;

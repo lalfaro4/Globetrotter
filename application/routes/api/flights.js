@@ -1,6 +1,5 @@
 var express = require('express');
 const amadeusConnector = require('../../private/js/amadeusConnector');
-const { authorization } = require('../../middleware/routeProtectors');
 var { log } = require('./logger');
 var router = express.Router();
 

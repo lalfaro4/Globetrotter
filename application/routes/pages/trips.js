@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var database = require('../private/js/database');
-var routeProtectors = require('../middleware/routeProtectors');
+
+var routeProtectors = require('../../middleware/routeProtectors');
+const database = require('../../private/js/database');
 
 
 

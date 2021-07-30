@@ -98,7 +98,7 @@
         font-size: 16px;
         height: auto;
         line-height: normal;
-        color: #333333;
+        color: rgb(28, 104, 77);
         text-align: left;
         width: 100%;
         float: left !important;
@@ -130,7 +130,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: grey;
+    background-color: rgb(28, 104, 77);
     min-width: 160px;
     z-index: 1;
     right: 0;

@@ -107,7 +107,7 @@ router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) 
 
 });
 
-router.post('/logout', routeProtectors.userIsLoggedIn, (req, res, next) => {
+router.get('/logout', routeProtectors.userIsLoggedIn, (req, res, next) => {
     log("Trying to log out", "info");
     req.session.destroy((err) => {
         if (err) {

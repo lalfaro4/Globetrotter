@@ -15,15 +15,15 @@
     display: inline;
 }
 
+.navbar-logo {
+    height: 100%;
+}
+
 .nav .nav-header .nav-title {
     display: inline-block;
     font-size: 30px;
     color: #ffffff;
     padding: 10px;
-}
-
-.nav .nav-btn {
-    display: none;
 }
 
 .nav .nav-links {

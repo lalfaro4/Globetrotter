@@ -9,8 +9,6 @@ var routeProtectors = require('./middleware/routeProtectors');
 var apiRouter = require('./routes/api/api');
 var indexRouter = require('./routes/pages/index');
 
-// dayjs.extend(relativeTime);
-
 
 
 var Handlebars = handlebars.create();
@@ -202,11 +200,9 @@ app.use(session({
 /*************************************************************************************
  * Create a publicly accessible folder at /public and restrict access to /public/images/uploads
  *************************************************************************************/
-
  app.use("/public/images/uploads", routeProtectors.userIsLoggedIn, express.static(path.join(__dirname, 'public/images/uploads'),
  { fallthrough: false })
 );
-
 
 app.use("/public", express.static(path.join(__dirname, 'public'),
   { fallthrough: false })

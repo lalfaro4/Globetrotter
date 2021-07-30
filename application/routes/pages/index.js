@@ -9,8 +9,10 @@ var plannerRouter = require('./planner');
 var photoGalleryRouter = require('./photogallery');
 var aboutRouter = require('./about');
 var previousTripsRouter = require('./previoustrips');
+var privacyRouter = require('./privacy');
 var resetPasswordRouter = require('./resetpassword');
 var savedTripsRouter = require('./savedtrips');
+var termsAndConditionsRouter = require('./termsandconditions');
 var tripsRouter = require('./trips');
 
 
@@ -50,15 +52,17 @@ router.use('/checkout', routeProtectors.userIsLoggedIn, checkoutRouter);
 router.use('/photogallery', routeProtectors.userIsLoggedIn, photoGalleryRouter);
 router.use('/planner', routeProtectors.userIsLoggedIn, plannerRouter);
 router.use('/previoustrips', routeProtectors.userIsLoggedIn, previousTripsRouter);
+router.use('/privacy', privacyRouter);
 router.use('/resetpassword', resetPasswordRouter);
 router.use('/savedtrips', routeProtectors.userIsLoggedIn, savedTripsRouter);
+router.use('/termsandconditions', termsAndConditionsRouter);
 router.use('/trips', routeProtectors.userIsLoggedIn, tripsRouter);
 router.use('/users', usersRouter);
 
 router.get('/home', (req, res, next) => {
   res.render("home", {
     layout: 'globetrotter',
-    filename: "registration",
+    filename: "home",
     title: "Home"
   });
 });

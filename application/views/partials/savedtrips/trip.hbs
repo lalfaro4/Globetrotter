@@ -6,9 +6,9 @@
                     <div class="accordion-title">
                         {{trip_name}}
                     </div>
-                    <a href="/planner?trip_id={{trip_id}}">
+                    {{!-- <a href="/planner?trip_id={{trip_id}}">
                         <i class='fas fa-pen'></i>
-                    </a>
+                    </a> --}}
                 </a>
                 <div class="answer">
                     <p>
@@ -27,6 +27,7 @@
                     <p>Type: <span class="flighttype">One-Way</span></p>
                     <p>Price: <span class="totalprice">$ --.--</span></p>
                     <div class="buttons">
+                        <button id="savedtrips-edit-button" class="delbtn" data-tripid="{{trip_id}}">Edit</button>
                         <button onclick="confirm('Are you sure you want to delete this Trip?');" value="Delete"
                             class="delbtn">Delete</button>
                         <form action="/checkout">

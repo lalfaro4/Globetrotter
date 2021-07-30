@@ -20,7 +20,7 @@ function log(message, type) {
 }
 
 
-router.post('/create', routeProtectors.userIsLoggedIn, async (req, res, next) => {
+router.get('/create', routeProtectors.userIsLoggedIn, async (req, res, next) => {
     console.log('POSTS');
     log(req.session.user, 'info');
     log(req.query.tripName, 'info');

@@ -70,6 +70,7 @@ SET @user2_updated_primary_phone_country_code = '3';
 SET @user2_updated_primary_phone_number = '3238847139';
 SET @user2_updated_secondary_phone_country_code = '4';
 SET @user2_updated_secondary_phone_number = '2218847193';
+SET @user2_updated_home_location_address_line_1 = 'Sawtelle Blvd';
 SET @user2_updated_home_location_address_line_1 = '2057 Sawtelle Blvd';
 SET @user2_updated_home_location_city = 'Los Angeles';
 SET @user2_updated_home_location_state = 'CA';
@@ -133,6 +134,6 @@ CALL usp_update_user_password(@user2_username, @user2_email, @user2_updated_pass
 #13) Update account management information for user2
 CALL usp_update_user_information(
 	@user2_id, @user2_updated_username, @user2_updated_first_name, @user2_updated_last_name, @user2_updated_gender, @user2_updated_birthday, 
-	@user2_updated_home_location_address_line_1, @user2_updated_home_location_city, @user2_updated_home_location_state, @user2_updated_home_location_postal_code, 
+	@user2_updated_home_location_address_line_1, @user2_updated_home_location_address_line_2, @user2_updated_home_location_city, @user2_updated_home_location_state, @user2_updated_home_location_postal_code, 
 	@user2_updated_primary_phone_country_code, @user2_updated_primary_phone_number, @user2_updated_secondary_phone_country_code, @user2_updated_secondary_phone_number);
 

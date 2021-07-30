@@ -2,7 +2,8 @@
     {{> planner/menubar }}
     <div class="planner-container">
         <div id="planner-trip-panel">
-            <div class="planner-panel-header">
+            <div class="planner-panel-header planner-trip-panel-header">
+                <label class="planner-valign-text planner-trip-title-label">Trip Name</label>
                 <input type="text" id="planner-trip-title-input" class="round planner-trip-title-input" placeholder="Please enter a trip name" value="{{this.trip.trip_name}}" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" autofocus>
             </div>
             <div id="planner-trip">

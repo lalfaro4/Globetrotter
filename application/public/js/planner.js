@@ -40,6 +40,11 @@ async function fetchURL(method, endpoint, parameters) {
 function removeFlightClickHandler(e) {
     // Get the parent result item of the button
     var resultItem = e.target.closest('.planner-result-item');
+
+    // Hide the child container
+    resultItem.closest('.planner-activity-child-container').classList.add('hidden');
+
+    // Remove the flight offer / result-item
     resultItem.remove();
 }
 
@@ -63,7 +68,9 @@ function addFlightClickHandler(e) {
     // Make a copy of the flight offer
     var copyOfFlightOffer = resultItem.cloneNode(true);
     var flightOfferButton = copyOfFlightOffer.querySelector('.planner-result-item-button')
-    flightOfferButton.value = 'Reset';
+    flightOfferButton.value = 'Remove';
+    flightOfferButton.classList.remove('planner-result-item-add-button');
+    flightOfferButton.classList.add('planner-result-item-remove-button');
     flightOfferButton.addEventListener('click', removeFlightClickHandler);
 
     // Move the result item (new flight offer) uner the selected Activity
@@ -73,6 +80,9 @@ function addFlightClickHandler(e) {
     } else {
         selectedActivityChildContainer.replaceChild(copyOfFlightOffer, selectedActivityChildContainer.children[0]);
     }
+
+    // Ensure that the container is visible
+    selectedActivityChildContainer.classList.remove('hidden');
 
 }
 
@@ -381,7 +391,9 @@ async function saveClickHandler(event) {
         var flightOffer = activity.getElementsByClassName('planner-result-item')[0];
         if (flightOffer) {
             var button = flightOffer.querySelector('.planner-result-item-button');
-            button.value = 'Reset';
+            button.value = 'Remove';
+            button.classList.remove('planner-result-item-add-button');
+            button.classList.add('planner-result-item-remove-button');
             button.addEventListener('click', removeFlightClickHandler);
         }
     }

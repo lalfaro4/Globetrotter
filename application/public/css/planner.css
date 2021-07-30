@@ -105,10 +105,21 @@ header {
     text-align: center;
     padding: 1em;
 }
+.planner-trip-panel-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.planner-trip-title-label {
+    font-size: large;
+    color: var(--main-font-color);
+    text-align: right;
+    padding-right: 1em;
+}
 .planner-trip-title-input {
     font-size: large;
     text-align: center;
-    width: 50%;
+    width: 100%;
+    grid-column: 2/ 4;
 }
 #planner-trip {
     padding-left: 4em;
@@ -123,7 +134,7 @@ header {
     padding: 1em; */
 }
 .planner-activity:hover {
-    margin-left: 2em;
+    /* margin-left: 2em; */
 }
 .planner-activity > label {
     display: grid;
@@ -193,6 +204,14 @@ header {
     padding: 1em;
     margin-left: var(--border-radius);
 }
+.planner-result-item-remove-button {
+    background-color: crimson;
+    color: white;
+}
+.planner-result-item-remove-button:hover {
+    background-color: rgb(201, 19, 56);
+    color: white;
+}
 .planner-trip-button-container {
     background-color: white;
     border-top-width: 1px;
@@ -257,6 +276,14 @@ input[type="time"] {
 }
 .planner-result-item:hover {
     margin-left: 2em;
+}
+.planner-result-item-add-button {
+    background-color: var(--green-color);
+    color: white;
+}
+.planner-result-item-add-button:hover {
+    background-color: var(--dark-green-color);
+    color: white;
 }
 .planner-result-item-layout {
     display: grid;
@@ -371,4 +398,8 @@ input[type="date"] {
 
 input {
     font-family: var(--main-font);
+}
+
+.hidden {
+    display: none !important;
 }

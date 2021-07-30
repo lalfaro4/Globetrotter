@@ -15,6 +15,8 @@ var previousTripsRouter = require('./routes/previoustrips');
 var resetPasswordRouter = require('./routes/resetpassword');
 var savedTripsRouter = require('./routes/savedtrips');
 var tripsRouter = require('./routes/trips');
+var conditionsRouter = require('./routes/termsandconditions');
+var privacyRouter = require("./routes/privacy");
 // dayjs.extend(relativeTime);
 
 
@@ -265,6 +267,17 @@ app.use('/photogallery', photoGalleryRouter);
 *************************************************************************************/
 app.use('/about', aboutRouter);
 
+
+/*************************************************************************************
+* Use the conditionsRouter for all URL's beginning with /termsandconditions
+*************************************************************************************/
+app.use('/termsandconditions', conditionsRouter);
+
+
+/*************************************************************************************
+* Use the conditionsRouter for all URL's beginning with /termsandconditions
+*************************************************************************************/
+app.use('/privacy', privacyRouter);
 
 
 /*************************************************************************************

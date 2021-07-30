@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/public/css/photo-gallery.css">
+{{!-- <link rel="stylesheet" href="/public/css/photo-gallery.css"> --}}
 
 <!-- <div class="page-header">
         <h1>Photo Gallery</h2>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="grid-container">
-</div>
+
 <div id="images-container" class="images-container">
 
     {{#each photos}}
@@ -30,15 +30,17 @@
 
 
 </div>
+</div>
 <div style="
     grid-template-rows: 1fr 1fr;
     display: grid;
-    padding-left: 40%;
-    padding-right: 40%;
+    padding-left: 35%;
+    padding-right: 35%;
 ">
     {{!-- <button id="add-img-btn" class="add-img-btn"> + </button> --}}
     <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{tripid}}/photo/upload" enctype="multipart/form-data">
-        <input type="file" id="photogallery-file-picker" name="photogallery-file-picker" accept=".png, .jpg" />
+        <input type="file" id="photogallery-file-picker" class="upload-box" name="photogallery-file-picker" accept=".png, .jpg" />
+        
         <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
     </form>
     <button id="save-btn" class="add-img-btn" style="border: 1px solid silver;">Save</button>

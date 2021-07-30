@@ -108,6 +108,7 @@ header {
 .planner-trip-title-input {
     font-size: large;
     text-align: center;
+    width: 50%;
 }
 #planner-trip {
     padding-left: 4em;

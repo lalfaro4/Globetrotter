@@ -3,7 +3,7 @@
     <div class="planner-container">
         <div id="planner-trip-panel">
             <div class="planner-panel-header">
-                <input type="text" id="planner-trip-title-input" class="round planner-trip-title-input" placeholder="Trip Name" value="{{this.trip.trip_name}}">
+                <input type="text" id="planner-trip-title-input" class="round planner-trip-title-input" placeholder="Please enter a trip name" value="{{this.trip.trip_name}}" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" autofocus>
             </div>
             <div id="planner-trip">
                 {{> planner/trip activities=this.activities }}
@@ -31,4 +31,3 @@
 
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="/public/js/flight-activity.precompiled.js" type="text/javascript"></script>
-<script src='/public/js/planner.js'></script>

@@ -140,7 +140,6 @@ header {
     vertical-align: middle;
     align-self: center;
     background-color: white;
-    position: relative;
     border-radius: 50%;
     border-style: solid;
     border-width: 1px;
@@ -257,6 +256,14 @@ input[type="time"] {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+}
+
+.planner-result-item-departure-date {
+    width: max-content;
+}
+
+.planner-result-item-arrival-date {
+    width: max-content;
 }
 
 .planner-result-item-layout-col-2 {

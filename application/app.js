@@ -5,13 +5,16 @@ var handlebars = require('express-handlebars');
 var session = require('express-session');
 var database = require('./private/js/database');
 var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
+var routeProtectors = require('./middleware/routeProtectors');
+var apiRouter = require('./routes/api/api');
 var usersRouter = require('./routes/users');
 var plannerRouter = require('./routes/planner');
 var photoGalleryRouter = require('./routes/photogallery');
 var aboutRouter = require('./routes/about');
 var previousTripsRouter = require('./routes/previoustrips');
+var resetPasswordRouter = require('./routes/resetpassword');
 var savedTripsRouter = require('./routes/savedtrips');
+var tripsRouter = require('./routes/trips');
 // dayjs.extend(relativeTime);
 
 
@@ -78,6 +81,16 @@ app.set("view engine", "hbs");
 /*************************************************************************************
  * Handlebars Helper
  *************************************************************************************/
+ Handlebars.handlebars.registerHelper('Stringify', function (object) {
+  var result = JSON.stringify(object);
+  return result;
+});
+
+
+
+/*************************************************************************************
+ * Handlebars Helper
+ *************************************************************************************/
 Handlebars.handlebars.registerHelper('Date', function (timestampString) {
   var result = timestampString.slice(0, 10);
   console.log(result);
@@ -90,7 +103,10 @@ Handlebars.handlebars.registerHelper('Date', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Year', function (timestampString) {
-  var result = timestampString.slice(0, 4);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(0, 4);
+  }
   return result;
 });
 
@@ -100,7 +116,10 @@ Handlebars.handlebars.registerHelper('Year', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Month', function (timestampString) {
-  var result = timestampString.slice(5, 7);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(5, 7);
+  }
   return result;
 });
 
@@ -110,7 +129,10 @@ Handlebars.handlebars.registerHelper('Month', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Day', function (timestampString) {
-  var result = timestampString.slice(8, 10);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(8, 10);
+  }
   return result;
 });
 
@@ -120,8 +142,10 @@ Handlebars.handlebars.registerHelper('Day', function (timestampString) {
  * Handlebars Helper
  *************************************************************************************/
 Handlebars.handlebars.registerHelper('Time', function (timestampString) {
-  var result = timestampString.slice(11, 20);
-  console.log(result);
+  var result = '';
+  if(timestampString) {
+    result = timestampString.slice(11, 20);
+  }
   return result;
 });
 
@@ -211,7 +235,7 @@ app.use((req, res, next) => {
 /*************************************************************************************
  * Use the apiRouter for all URL's beginning with /api
  *************************************************************************************/
-app.use('/api', apiRouter);
+app.use('/api', /* routeProtectors.userIsLoggedIn, */ apiRouter);
 
 
 
@@ -251,6 +275,20 @@ app.use('/previoustrips', previousTripsRouter);
 
 
 /*************************************************************************************
+ * Use the tripsRouter for all URL's beginning with /trips
+ *************************************************************************************/
+ app.use('/trips', tripsRouter);
+
+
+
+/*************************************************************************************
+ * Use the resetPasswordRouter for all URL's beginning with /savedtrips
+ *************************************************************************************/
+ app.use('/resetpassword', resetPasswordRouter);
+
+
+
+ /*************************************************************************************
  * Use the savedTripsRouter for all URL's beginning with /savedtrips
  *************************************************************************************/
 app.use('/savedtrips', savedTripsRouter);

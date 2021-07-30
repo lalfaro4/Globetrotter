@@ -7,14 +7,18 @@ DELETE FROM activity WHERE activity_id IS NOT NULL;
 DELETE FROM photo WHERE photo_id IS NOT NULL;
 DELETE FROM file WHERE file_id IS NOT NULL;
 
+################################################################################################################################
+-- Variables used for testing
+################################################################################################################################
+
 # Properties for user 1
 SET @user_email = 'support@globetrotter.com';
 SET @user_username = 'globetrotter';
 SET @user_password_hashed = '$2b$10$4TF8lwcJBfFW.tgew44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6US';
 SET @user_first_name = 'Globe';
 SET @user_last_name = 'Trotter';
-SET @user_birthday = '2000-01-01';
 SET @user_gender = 'other';
+SET @user_birthday = '2000-01-01';
 SET @user_preferred_currency = 'USD';
 SET @user_primary_phone_country_code = '1';
 SET @user_primary_phone_number = '4153381111';
@@ -43,8 +47,8 @@ SET @user2_username = 'TrottingDaGlobe';
 SET @user2_password_hashed = '$3b$10$4TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd6NA';
 SET @user2_first_name = 'Trotting';
 SET @user2_last_name = 'DaGlobe';
-SET @user2_birthday = '2005-12-12';
 SET @user2_gender = 'other';
+SET @user2_birthday = '2005-12-12';
 SET @user2_preferred_currency = 'USD';
 SET @user2_primary_phone_country_code = '1';
 SET @user2_primary_phone_number = '4153381111';
@@ -54,6 +58,26 @@ SET @user2_home_location_city = 'San Francisco';
 SET @user2_home_location_state = 'CA';
 SET @user2_home_location_country = 'US';
 SET @user2_home_location_postal_code = '94132';
+
+#To update account management information of registered user 2
+SET @user2_updated_username = 'GLOBETROTTED';
+SET @user2_updated_password_hashed = '$9b$99$9TF8lwcJBfFW.ftqd44ubOfQQCR7oZNxAg.UJXI.zwgdW5xMZd9EU';
+SET @user2_updated_first_name = 'GLOBETROTTED';
+SET @user2_updated_last_name = 'GLOBETROTTED';
+SET @user2_updated_gender = 'Female';
+SET @user2_updated_birthday = '1999-12-12';
+SET @user2_updated_primary_phone_country_code = '3';
+SET @user2_updated_primary_phone_number = '3238847139';
+SET @user2_updated_secondary_phone_country_code = '4';
+SET @user2_updated_secondary_phone_number = '2218847193';
+SET @user2_updated_home_location_address_line_1 = '2057 Sawtelle Blvd';
+SET @user2_updated_home_location_city = 'Los Angeles';
+SET @user2_updated_home_location_state = 'CA';
+SET @user2_updated_home_location_postal_code = '90025';
+
+################################################################################################################################
+-- Testing
+################################################################################################################################
 
 # 1) Create an unregistered user
 CALL usp_create_user(@user_email, @user_id);
@@ -92,14 +116,23 @@ CALL usp_create_flight_activity(@user_id, @trip_id, @departure, @arrival, @src_i
 CALL usp_create_photo(@user_id, @trip_photo_folder_path, @trip_photo_file_name, @trip_photo_extension, @trip_photo_title, @trip_photo_description, false, @photo_id);
 CALL usp_add_photo_to_album(@photo_id, @trip_id);
 
-#10) A second user is invited to view Globe Trotter's photo album
+#9) A second user is created but not registered
 CALL usp_create_user(@user2_email, @user2_id);
 
-#11) The invited user registers so that they can view a photo album
--- CALL usp_register_user(@user2_email, @user2_username, @user2_password_hashed, @user2_first_name, @user2_last_name, @user2_birthday, @user2_gender, @user2_preferred_currency, 
--- 	@user2_home_location_address_line_1, @user2_home_location_address_line_2, @user2_home_location_city, @user2_home_location_state, @user2_home_location_country, @user2_home_location_postal_code,
---     @user2_primary_phone_country_code, @user2_primary_phone_number, @user2_id);
+#10) Second registerd_user to test photo_album invitations and updating password/account information
+ CALL usp_register_user(@user2_email, @user2_username, @user2_password_hashed, @user2_first_name, @user2_last_name, @user2_birthday, @user2_gender, @user2_preferred_currency, 
+ 	@user2_home_location_address_line_1, @user2_home_location_address_line_2, @user2_home_location_city, @user2_home_location_state, @user2_home_location_country, @user2_home_location_postal_code,
+     @user2_primary_phone_country_code, @user2_primary_phone_number, @user2_id);
 
-#10) Add a registered_user to the invited_user_to_photo_album_association.
--- CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
+#11) Add user2 to user1's photo_album
+CALL usp_invite_to_photo_album('TrottingDaGlobe', @album_id);
+
+#12) Update password for user2
+CALL usp_update_user_password(@user2_username, @user2_email, @user2_updated_password_hashed);
+
+#13) Update account management information for user2
+CALL usp_update_user_information(
+	@user2_id, @user2_updated_username, @user2_updated_first_name, @user2_updated_last_name, @user2_updated_gender, @user2_updated_birthday, 
+	@user2_updated_home_location_address_line_1, @user2_updated_home_location_city, @user2_updated_home_location_state, @user2_updated_home_location_postal_code, 
+	@user2_updated_primary_phone_country_code, @user2_updated_primary_phone_number, @user2_updated_secondary_phone_country_code, @user2_updated_secondary_phone_number);
 

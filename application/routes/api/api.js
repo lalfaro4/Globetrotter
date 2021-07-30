@@ -1,26 +1,17 @@
 var colors = require('colors');
 var express = require('express');
-var database = require('../private/js/database');
-const WebTokens = require('../private/js/webTokens');
-const amadeusConnector = require('../private/js/amadeusConnector');
-const { authorization } = require('../middleware/routeProtectors');
-var colors = require('colors');
+var database = require('../../private/js/database');
+const WebTokens = require('../../private/js/webTokens');
+
+var activitiesRouter = require('./activities');
+var airportsRouter = require('./airports');
+var flightsRouter = require('./flights');
+var tripsRouter = require('./trips');
+var usersRouter = require('./users');
+
+var { log } = require('./logger');
+
 var router = express.Router();
-
-
-
-/*************************************************************************************
- * Logging function for api.js
- *************************************************************************************/
-function log(message, type) {
-  if (type == 'success') {
-    console.log(`api.js:: ${message}`.bgBrightYellow.black);
-  } else if (type == "info") {
-    console.log(`api.js:: ${message}`.bgBrightYellow.black);
-  } else if (type == 'fail') {
-    console.log(`api.js:: ${message}`.italic.bgRed.black);
-  }
-}
 
 
 
@@ -44,11 +35,22 @@ router.get('/authenticate', async (req, res, next) => {
 
 
 /*************************************************************************************
+ * Setup the routers for the other endpoints
+ *************************************************************************************/
+ router.use('/activities', activitiesRouter);
+router.use('/airports', airportsRouter);
+router.use('/flights', flightsRouter);
+router.use('/trips', tripsRouter);
+router.use('/users', usersRouter);
+
+
+
+/*************************************************************************************
  * Error trap for all invalid API requests.
  *************************************************************************************/
 router.use((req, res) => {
   log(`${req.url}`, "fail");
-  res.redirect(404, "/");
+  res.send('Error accessing API');
 });
 
 

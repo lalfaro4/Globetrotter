@@ -12,6 +12,50 @@ body {
 }
 
 
+/* This is the styling for the container that holds the password requirements. */
+.message {  
+    border: solid lightgrey 1px;
+    color: #000;
+    padding: 20px 60px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    transition: 0.5s;
+    border-radius: 0.5rem;
+}
+  
+/* Any p tags that are in a tag that contains the .message class will have the following style. */
+.message p {
+    padding: 2px 20px;
+    font-size: 18px;
+}
+
+/* Will be used to change any text green. */
+.passed {
+    color: green;
+}
+  
+/* Any class that has a class of failed will begin green as soon as the page loads */
+.passed:before {
+    position: relative;
+    content: "\2713";
+    left: -35px;
+
+}
+  
+/* Will be used to change any text red. */
+.failed {
+    color: red;
+}
+  
+/* Any class that has a class of failed will begin red as soon as the page loads */
+.failed:before {
+    left: -35px;
+    content: "\2717";
+    position: relative;
+
+}
+
+
 /* Center*/
 
 .center {

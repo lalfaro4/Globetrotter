@@ -17,15 +17,24 @@
     </div>
     <div>
         <label for="username">Username:</label>
-        <input type="text" name="username" class="form-control" placeholder=" Janedoe1" required>
+        <input type="text" name="username" class="form-control" placeholder=" Janedoe1" required >
     </div>
     <div>
         <label for="username">Password:</label>
-        <input type="password" name="password" class="form-control" placeholder=" Password" required>
+        <input id ="password" type="password" name="password" class="form-control" placeholder=" Password" required pattern="(?=.*?[!@#$%^&*+`~'=?\|\]\[\(\)\-<>/])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8">
+       
+       <div class="message" id = "password-requirements">
+            <h3>Password must contain the following:</h3>
+            <p id="lower-case-letter" class="failed">A <b>lowercase</b> letter</p>
+            <p id="capital-letter" class="failed">A <b>capital (uppercase)</b> letter</p>
+            <p id="length" class="failed">Minimum <b>8 characters</b></p>
+            <p id="special-char" class="failed">Minimum <b>1 special character (!@#$%^&*)</b></p>
+        </div>
     </div>
+    
     <div>
         <label for="username">Confirm Password:</label>
-        <input type="password" name="confirmPassword" class="form-control" placeholder=" Password" required>
+        <input type="password" name="confirmPassword" class="form-control" placeholder=" Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8">
     </div>
 
     <div class="row">
@@ -77,4 +86,8 @@
     <p class="light-text">Already have an account? <a href="#">Log in</a></p>
 </form>
 
+<<<<<<< HEAD
+<script src = "../public/js/registration.js"></script>
+=======
 <script type="text/script" src="/public/js/registration.js"></script>
+>>>>>>> 0ca0fcfcecc7ef7e5f7218b720751cc7365ff773

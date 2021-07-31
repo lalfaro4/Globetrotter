@@ -4,6 +4,52 @@ var specialChar = document.getElementById("special-char");
 var lowerCaseLetter = document.getElementById("lower-case-letter");
 var passwordRequirements = document.getElementById("password-requirements");
 var capitalLetter = document.getElementById("capital-letter");
+var createAccountButton = document.getElementById("create-account-button");
+var confirmPasswordInput = document.getElementById("confirm-password");
+
+// When the "Create Account" button gets clicked, this function will get called and
+// it will check if the password field value is the same as the confirm password
+// value field. If it is not, it will not let the user continue and it will 
+// highlight the texts fields in red. If they are the same, it will jump to the
+// saveRegistrationClickHandler function where the account will be created.
+createAccountButton.onclick = function(){
+    var passwordValue = userPasswordInput.value;
+    var confirmPasswordValue = confirmPasswordInput.value;
+
+    if(passwordValue !== confirmPasswordValue){
+        alert("The passwords provided do not match!");
+        userPasswordInput.value = "";
+        confirmPasswordInput.value = "";
+        userPasswordInput.style.border = "red solid 1px";
+        confirmPasswordInput.style.border = "red solid 1px";
+        return;
+    }
+    else{
+        saveRegistrationClickHandler();
+    }
+}
+
+
+async function saveRegistrationClickHandler(event){
+    var form = document.getElementById('registration-profile-form');
+    var formData = new FormData(form);
+    var formBody = [];
+    for (var [key, value] of formData.entries()) {
+        formBody.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    }
+    formBody = formBody.join('&');
+    var options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody
+    };    
+
+    // delete options.headers['Content-Type'];
+    var result = await fetch('/users/register', options);
+    location.href = result.url;
+}
 
 
 

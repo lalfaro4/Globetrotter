@@ -6,7 +6,6 @@
 }
 
 body {
-    font-family: sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -15,17 +14,28 @@ body {
     text-align: center;
 }
 
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
 
 /* Accordion */
 
 .accordion {
-    max-width: 700px;
+    /* max-width: 700px; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     overflow: hidden;
-    font-family: arial;
-    background: grey;
-    padding-bottom: 10%;
+    background: rgb(37, 107, 77);
+    
+    /* padding-bottom: 10%; */
 }
 
 .accordion__label,
@@ -34,7 +44,9 @@ body {
 }
 
 .accordion__label {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: 1fr;
     color: black;
     font-weight: 700;
     cursor: pointer;

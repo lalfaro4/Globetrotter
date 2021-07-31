@@ -132,8 +132,11 @@
                 {{/Select}}
             </select>
 
-            <p class="addresstitle">Suite or APT. Number</p>
+            <p class="addresstitle">Address 1 Suite or APT. Number</p>
             <input type="text" class="address" value="{{session.user.address_line_1}}" name="addressLine1">
+
+            <p class="addresstitle">Address 2 Suite or APT. Number</p>
+            <input type="text" class="address" value="{{session.user.address_line_2}}" name="addressLine2">
 
             <p class="citytitle">City</p>
             <input type="text" class="city" value="{{session.user.city}}" name="city">

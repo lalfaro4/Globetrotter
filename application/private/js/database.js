@@ -552,10 +552,10 @@ async function resetUserPassword(username, email, newPassword) {
 /*************************************************************************************
  * Update User information from the account management page
  *************************************************************************************/
-async function updateUserProfile(userId, username, firstName, lastName, gender, birthday, addressLine1,
+async function updateUserProfile(userId, username, firstName, lastName, gender, birthday, addressLine1, addressLine2,
     city, state, postalCode, primaryPhoneCountryCode, primaryPhoneNumber, secondaryPhoneCountryCode, secondaryPhoneNumber) {
-    var query = `CALL usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    var params = [userId, username, firstName, lastName, gender, birthday, addressLine1, city, state, postalCode,
+    var query = `CALL usp_update_user_information(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    var params = [userId, username, firstName, lastName, gender, birthday, addressLine1, addressLine2, city, state, postalCode,
         primaryPhoneCountryCode, primaryPhoneNumber, secondaryPhoneCountryCode, secondaryPhoneNumber];
     var result = await runQuery(query, params);
     if (result) {

@@ -51,7 +51,7 @@
     background-color: black;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1060px) {
     .nav .nav-btn {
         display: inline-block;
         position: absolute;

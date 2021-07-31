@@ -27,28 +27,6 @@ header{
 	border-bottom: 3px solid grey;
 }
 
-.logo{
-	cursor: pointer;
-}
-
-
-.navlinks{
-	list-style: none;
-}
-
-.navlinks li{
-	display: inline-block;
-	padding: 0px 20px;
-}
-
-.navlinks a{
-	transition: all 0.3s ease 0s;
-}
-
-.navlinks a:hover{
-	color:purple;
-}
-
 button{
 	padding: 9px 25px;
 	background-color:rgba(173, 42, 173, 0.849);

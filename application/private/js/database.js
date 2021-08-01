@@ -484,8 +484,12 @@ async function searchAirportsByName(searchString) {
 async function authenticate(username, password) {
     var result = await runQuery('SELECT password_hashed FROM registered_user WHERE username = ?;',
         [username]);
-
-    var passwordHash = result[0].password_hashed;
+    var passwordHash;
+    if(result[0]) {
+        passwordHash = result[0].password_hashed;
+    } else {
+        return null;
+    }
 
     var user;
     if (result[0]) {

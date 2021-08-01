@@ -1,7 +1,7 @@
 /* Navbar begins */
 
 .nav {
-    height: 50px;
+    height: 7vh;
     /* width: 100%; */
     background-color: rgb(32, 119, 89);
     position: relative;
@@ -51,7 +51,7 @@
     background-color: black;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1140px) {
     .nav .nav-btn {
         display: inline-block;
         position: absolute;

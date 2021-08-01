@@ -98,7 +98,8 @@ router.post('/login', routeProtectors.userIsNotLoggedIn, async (req, res, next) 
         req.session.save();
         log(`User ${username} is logged in.`, "success");
         log(req.session.user, 'info');
-        res.redirect('/trips/create?tripName=NewTrip');
+        // res.redirect('/trips/create?tripName=NewTrip');
+        res.redirect('/savedtrips');
     } else {
         /* Invalid login */
         log("Invalid user login", "fail");

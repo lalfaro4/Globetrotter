@@ -620,6 +620,22 @@ async function updateUserProfile(userId, username, firstName, lastName, gender, 
 }
 
 
+/*************************************************************************************
+ * Delete Trip
+ *************************************************************************************/
+ async function deleteTrip(tripId) {
+    var query = `DELETE FROM trip WHERE trip_id = ?;`;
+    var params = [tripId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+
+}
+
+
 
 /*************************************************************************************
  * Make the functions usable from other modules.
@@ -632,6 +648,7 @@ module.exports.createPhoto = createPhoto;
 module.exports.createTrip = createTrip;
 module.exports.createUser = createUser;
 module.exports.deleteActivity = deleteActivity;
+module.exports.deleteTrip = deleteTrip;
 module.exports.getActivitiesByTripId = getActivitiesByTripId;
 module.exports.getAirlineNameFromIATACode = getAirlineNameFromIATACode;
 module.exports.getAirportByIATACode = getAirportByIATACode;

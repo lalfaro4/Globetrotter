@@ -21,7 +21,6 @@ function log(message, type) {
 
 
 router.get('/create', routeProtectors.userIsLoggedIn, async (req, res, next) => {
-    console.log('POSTS');
     log(req.session.user, 'info');
     log(req.query.tripName, 'info');
     if(req.query.tripName) {
@@ -40,12 +39,17 @@ router.get('/create', routeProtectors.userIsLoggedIn, async (req, res, next) => 
 
 
 router.post('/:tripid/update', routeProtectors.userIsLoggedIn, async (req, res, next) => {
-    console.log('UPDATE');
     var tripId = req.params.tripid;
     log(`Body: ${req.body}`, 'info');
     log(`Updating trip: ${tripId}`, 'info');
     var result = database.updateTrip(tripId, req.query.tripName);
     res.send({ result: 'Updating' });
+});
+
+
+router.delete('/:tripId', routeProtectors.userIsLoggedIn, async (req, res, next) => {
+    var result = database.deleteTrip(req.params.tripId);
+    res.send({ result: 'Delete' });
 });
 
 

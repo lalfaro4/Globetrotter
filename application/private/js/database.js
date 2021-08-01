@@ -305,11 +305,27 @@ async function getAllTrips() {
  * Get trips from database by user_id.
  *************************************************************************************/
 async function getTripsByOwner(user_id) {
-    var query = 'SELECT * FROM GlobetrotterV1.trip WHERE owner = ?';
+    var query = 'SELECT owner, trip_id, trip_name, photo_album_id FROM trip INNER JOIN photo_album ON trip = trip_id WHERE owner = ?';
     var params = [user_id];
     var result = await runQuery(query, params);
     if (result) {
         return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
+ * Get photo album from database by trip_id.
+ *************************************************************************************/
+ async function getPhotoAlbumForTrip(tripId) {
+    var query = 'SELECT * FROM photo_album WHERE trip = ?';
+    var params = [tripId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result[0];
     } else {
         return null;
     }
@@ -384,9 +400,9 @@ async function createPhoto(userId, folderPath, fileName, extension, title, descr
 /*************************************************************************************
  * Add photo to photo_album
  *************************************************************************************/
-async function addPhotoToAlbum(photoId, tripId) {
-    var query = 'CALL usp_add_photo_to_album(?, ?)';
-    var params = [photoId, tripId];
+async function addPhotoToAlbum(ownerId, photoId, photoAlbumId) {
+    var query = 'INSERT INTO photo_to_photo_album_association (`owner`, photo, photo_album) VALUES (?, ?, ?);';
+    var params = [ownerId, photoId, photoAlbumId];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -414,11 +430,11 @@ async function addPhotoToAlbum(photoId, tripId) {
 
 
 /*************************************************************************************
- * Get photos from database by trip_id.
+ * Get photos from database by photo album id.
  *************************************************************************************/
-async function getPhotosByTripId(trip_id) {
-    var query = 'SELECT * FROM photo_view WHERE trip = ?';
-    var params = [trip_id];
+async function getPhotosByPhotoAlbumId(photoAlbumId) {
+    var query = 'SELECT * FROM photo_view WHERE photo_album_id = ?';
+    var params = [photoAlbumId];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -525,9 +541,9 @@ async function getInvitedPhotoAlbumUsers(photo_album_id) {
 /*************************************************************************************
  * Invite a user to collaborate on a photo_album using their username and photo_album_id.
  *************************************************************************************/
-async function invitedUserToPhotoAlbum(username) {
-    var query = 'Call usp_invite_to_photo_album(?, ?)';
-    var params = [username, photo_album_id];
+async function inviteUserToPhotoAlbum(username, photoAlbumId) {
+    var query = 'CALL usp_invite_to_photo_album(?, ?)';
+    var params = [username, photoAlbumId];
     var result = await runQuery(query, params);
     if (result) {
         return result;
@@ -535,6 +551,22 @@ async function invitedUserToPhotoAlbum(username) {
         return null;
     }
 }
+
+
+/*************************************************************************************
+ * Uninvite a user to collaborate on a photo_album using their username and photo_album_id.
+ *************************************************************************************/
+ async function uninviteUserFromPhotoAlbum(photoAlbumId, userId) {
+    var query = 'DELETE FROM invited_user_to_photo_album_association WHERE photo_album = ? AND invited_user = ?';
+    var params = [photoAlbumId, userId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
 
 /*************************************************************************************
  * Update User Password when requesting to reset their password with their username, email, and new password
@@ -606,17 +638,21 @@ module.exports.getAirportByIATACode = getAirportByIATACode;
 module.exports.getAllUsers = getAllUsers;
 module.exports.getAllTrips = getAllTrips;
 module.exports.getFlightActivitiesByTripId = getFlightActivitiesByTripId;
-module.exports.getPhotosByTripId = getPhotosByTripId;
+module.exports.getInvitedPhotoAlbumUsers = getInvitedPhotoAlbumUsers;
+module.exports.getPhotoAlbumForTrip = getPhotoAlbumForTrip;
+module.exports.getPhotosByPhotoAlbumId = getPhotosByPhotoAlbumId;
 module.exports.getSessionStore = getSessionStore;
 module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByUsername = getUserByUsername;
+module.exports.inviteUserToPhotoAlbum = inviteUserToPhotoAlbum;
 module.exports.resetUserPassword = resetUserPassword;
 module.exports.runQuery = runQuery;
 module.exports.searchAirportsByName = searchAirportsByName;
 module.exports.searchUsersByEmail = searchUsersByEmail;
 module.exports.searchUsersByUsername = searchUsersByUsername;
+module.exports.uninviteUserFromPhotoAlbum = uninviteUserFromPhotoAlbum;
 module.exports.updateFlightActivity = updateFlightActivity;
 module.exports.updateUserProfile = updateUserProfile;
 module.exports.updateTrip = updateTrip;

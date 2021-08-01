@@ -1,48 +1,36 @@
-{{!-- <link rel="stylesheet" href="/public/css/photo-gallery.css"> --}}
+<div class="main-content">
+    <div id="images-container" class="images-container">
 
-<!-- <div class="page-header">
-        <h1>Photo Gallery</h2>
-
-    </div> -->
-
-{{!-- <div id="profile-photo-container" class="profile-photo-container">
-    <img id="profile-photo" class="profile-photo" src="/public/images/person.jpg">
-</div>
-
-<div id="gallery-description-container" class = "gallery-description-container">
-    <p id="gallery-description" class="gallery-description">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga tempore laudantium nulla a officiis libero
-        facilis quasi deserunt possimus, aliquam natus.
-        Minus sit facilis fuga cum veritatis aliquid quaerat, assumenda ipsum maiores non inventore fugiat quam optio
-        expedita ullam earum necessitatibus.
-        Tenetur minima quaerat laudantium hic delectus architecto modi ab?
-</div> --}}
-
-<div class="grid-container">
-
-<div id="images-container" class="images-container">
-
-    {{#each photos}}
+        {{#each photos}}
         {{> photogallery/photo this}}
-    {{/each}}
+        {{> photogallery/photo this}}
+        {{> photogallery/photo this}}
+        {{> photogallery/photo this}}
+        {{> photogallery/photo this}}
+        {{/each}}
 
+    </div>
+    <div class="photogallery-panel">
+        Share this Album
+        <input type="text" id="photogallery-user-search-input" list="photogallery-user-search-datalist">
+        <input type="button" id="photogallery-invite-user-button" class="photogallery-invite-user-button" value="Share">
+        <datalist id="photogallery-user-search-datalist"></datalist>
+        <div>These users may view this album:</div>
+        <ul>
+            {{#each invitedUsers}}
+            <li>
+            {{> photogallery/invited-user-item }}
+            </li>
+            {{/each}}
+        </ul>
+        <div class="photogallery-button-container">
+        <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{photoAlbumId}}/photo/upload"
+            enctype="multipart/form-data">
+            <input type="file" id="photogallery-file-picker" class="upload-box" name="photogallery-file-picker"
+                accept=".png, .jpg" />
 
+            <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
+        </form>
+    </div>
+    </div>
 </div>
-</div>
-<div style="
-    grid-template-rows: 1fr 1fr;
-    display: grid;
-    padding-left: 35%;
-    padding-right: 35%;
-">
-    {{!-- <button id="add-img-btn" class="add-img-btn"> + </button> --}}
-    <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{tripid}}/photo/upload" enctype="multipart/form-data">
-        <input type="file" id="photogallery-file-picker" class="upload-box" name="photogallery-file-picker" accept=".png, .jpg" />
-        
-        <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
-    </form>
-    <button id="save-btn" class="add-img-btn" style="border: 1px solid silver;">Save</button>
-
-</div>
-
-{{!-- <script src="/public/js/photo-gallery.js"></script> --}}

@@ -71,6 +71,7 @@ router.post('/:photoAlbumId/invitedUsers/:userId/uninvite', routeProtectors.user
 
 
 router.post('/:photoAlbumId/photo/upload', uploader.single('photogallery-file-picker'), async (req, res, next) => {
+    console.log(req.body);
     if (req.params.photoAlbumId) {
         let fileName = req.file.filename.split('.')[0];
         let extension = req.file.filename.split('.')[1];

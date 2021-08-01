@@ -1,7 +1,8 @@
 /* Navbar begins */
 
 .nav {
-    height: 7vh;
+    /* height: 58px; */
+    height: 5vh;
     /* width: 100%; */
     background-color: rgb(32, 119, 89);
     position: relative;
@@ -36,22 +37,26 @@
 
 .nav .nav-links {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     float: right;
-    font-size: 18px;
+    font-size: large;
+    height: 100%;
 }
 
 .nav>.nav-links>a {
-    padding: 13px 10px;
+    /* padding: 13px 10px; */
     text-decoration: none;
     color: #ffffff;
+    font-size: large;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .nav .nav-links a:hover {
     background-color: black;
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 1180px) {
     .nav .nav-btn {
         display: inline-block;
         position: absolute;
@@ -61,13 +66,13 @@
     .nav .nav-btn label {
         display: inline-block;
         width: 50px;
-        height: 50px;
-        padding: 10px;
+        height: 5vh;
+        padding: 1vh;
     }
     .nav .nav-btn label span {
         display: block;
         width: 25px;
-        height: 10px;
+        height: 1vh;
         border-top: 2px solid #ffffff;
     }
     .nav .nav-links {
@@ -78,7 +83,7 @@
         height: 0px;
         transition: all 0.3s ease-in;
         overflow-y: hidden;
-        top: 50px;
+        top: 5vh;
         left: 0px;
         z-index: 1;
     }
@@ -87,7 +92,7 @@
         width: 100%;
     }
     .nav #nav-check:checked~.nav-links {
-        height: calc(100vh);
+        height: 95vh;
         overflow-y: auto;
     }
     /* Dropdown nav*/
@@ -96,7 +101,7 @@
     }
     div.nav-links .dropdown button.dropbtn {
         padding: 13px 10px;
-        font-size: 18px;
+        font-size: large;
         height: auto;
         line-height: normal;
         color: white;
@@ -119,12 +124,11 @@
 }
 
 .dropdown .dropbtn {
-    padding: 13px 10px;
     border: none;
     outline: none;
     background-color: inherit;
     color: #efefef;
-    font-size: 18px;
+    font-size: large;
     display: block;
     cursor: pointer;
 }

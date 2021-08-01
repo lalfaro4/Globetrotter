@@ -15,18 +15,18 @@
         <ul>
             {{#each invitedUsers}}
             <li>
-            {{> photogallery/invited-user-item }}
+                {{> photogallery/invited-user-item }}
             </li>
             {{/each}}
         </ul>
         <div class="photogallery-button-container">
-        <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{photoAlbumId}}/photo/upload"
-            enctype="multipart/form-data">
-            <input type="file" id="photogallery-file-picker" class="upload-box" name="photogallery-file-picker"
-                accept=".png, .jpg" />
+            <form id="photogallery-upload-photo-form" method="POST" action="/photogallery/{{photoAlbumId}}/photo/upload"
+                enctype="multipart/form-data">
+                <input type="file" id="photogallery-file-picker" class="upload-box" name="photogallery-file-picker"
+                    accept=".png, .jpg" />
 
-            <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
-        </form>
-    </div>
+                <button id="photogallery-upload-photo-button" class="picbutton">Upload Photo</button>
+            </form>
+        </div>
     </div>
 </div>

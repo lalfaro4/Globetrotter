@@ -7,7 +7,7 @@
     margin-bottom: 20px;
 }
 .default-content {
-    height: 93vh;
+    height: 95vh;
 }
 .main-content {
     display: grid;
@@ -123,10 +123,10 @@
     
     }
 
-    /* img {
+    img {
         width: 500px;
         height: 500px;
-    } */
+    }
 
     .gallery-description-container{
         padding: 40px 200px;

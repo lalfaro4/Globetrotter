@@ -554,6 +554,22 @@ async function inviteUserToPhotoAlbum(username, photoAlbumId) {
 
 
 /*************************************************************************************
+ * Get albums shared with a user by their userId
+ *************************************************************************************/
+ async function getAlbumsSharedWithUser(userId) {
+    var query = 'SELECT trip_name, registered_user.username AS sharer, photo_album FROM invited_users_to_photo_album_view INNER JOIN trip ON trip.trip_id = trip INNER JOIN registered_user ON trip_owner = registered_user.user WHERE invited_user = ?';
+    var params = [userId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+
+
+/*************************************************************************************
  * Uninvite a user to collaborate on a photo_album using their username and photo_album_id.
  *************************************************************************************/
  async function uninviteUserFromPhotoAlbum(photoAlbumId, userId) {
@@ -660,6 +676,7 @@ module.exports.getPhotoAlbumForTrip = getPhotoAlbumForTrip;
 module.exports.getPhotosByPhotoAlbumId = getPhotosByPhotoAlbumId;
 module.exports.getSessionStore = getSessionStore;
 module.exports.getSavedTripsByOwner = getSavedTripsByOwner;
+module.exports.getAlbumsSharedWithUser = getAlbumsSharedWithUser;
 module.exports.getTripsByOwner = getTripsByOwner;
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByUsername = getUserByUsername;

@@ -387,6 +387,38 @@ input[type="time"] {
     }
 }
 
+@media only screen and (max-width: 700px) {
+
+    #planner-trip {
+        padding: 0em;
+    }
+
+    .planner-activity {
+        margin: 0em;
+    }
+
+    .planner-activity-header {
+        border-radius: 0em;
+        padding: 1em;
+    }
+
+    .planner-activity-child-container {
+        border-radius: 0em;
+        margin-left: 0em;
+    }
+
+    #planner-results-container {
+        padding: 0em;
+    }
+
+    .planner-result-item {
+        margin: 0em;
+        border-radius: 0em;
+
+    }
+
+}
+
 input[type="time"]::-webkit-calendar-picker-indicator {
     background: none;
     display: none;

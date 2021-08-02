@@ -12,7 +12,7 @@ var confirmPasswordInput = document.getElementById("confirm-password");
 // value field. If it is not, it will not let the user continue and it will 
 // highlight the texts fields in red. If they are the same, it will jump to the
 // saveRegistrationClickHandler function where the account will be created.
-createAccountButton.onclick = function(){
+createAccountButton.onsubmit = function(){
     var passwordValue = userPasswordInput.value;
     var confirmPasswordValue = confirmPasswordInput.value;
 
@@ -56,6 +56,12 @@ async function saveRegistrationClickHandler(event){
 //When the window loads, the password requirements container will not be visible.
 window.onload = function(){
     passwordRequirements.style.display = "none";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(window.location.search);
+    console.log(urlParams);
+    var message = urlParams.get('message');
+    alert(message);
 }
 
 // When the user clicks outside of the password field, hide the message box that

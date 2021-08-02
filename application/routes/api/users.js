@@ -48,6 +48,7 @@ router.get('/search', async (req, res, next) => {
 * API Endpoint: GET /api/users/me/update
 *************************************************************************************/
 router.post('/me/update', async (req, res, next) => {
+  console.log('Update');
   console.log(req.body);
   if (req.session && req.session.user) {
     if (req.body.username && req.body.firstName && req.body.lastName &&

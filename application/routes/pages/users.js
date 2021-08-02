@@ -22,6 +22,7 @@ function log(message, type) {
 
 
 router.post('/register', routeProtectors.userIsNotLoggedIn, async (req, res, next) => {
+    console.log('Register');
     console.log(req.body);
     let username = req.body.username;
     let email = req.body.email;
@@ -30,7 +31,7 @@ router.post('/register', routeProtectors.userIsNotLoggedIn, async (req, res, nex
     let lastName = req.body.lastName;
     let birthday = req.body.birthday;
     let gender = req.body.gender;
-    let address1 = req.body.addressl
+    let address1 = req.body.addressl;
     let address2 = req.body.address2;
     let city = req.body.city;
     let state = req.body.state;
@@ -55,7 +56,7 @@ router.post('/register', routeProtectors.userIsNotLoggedIn, async (req, res, nex
     var user;
     try {
         user = await database.createUser(email, username, password, firstName, lastName,
-            birthday, gender, 'USD', address1, address2, city, state, 'US', zipcode, 1, phoneNumber);
+            birthday, gender, 'USD', address1, address2, city, state, 'US', zipcode, phoneNumber[0], phoneNumber.slice(1));
     } catch (error) {
         log("Error creating user.", 'fail');
         return res.redirect('/registration');

@@ -74,7 +74,7 @@
     </div>
     <div class="row">
         <label>Phone Number:</label>
-        <input type="text" name="phoneNumber" placeholder=" +x-xxx-xxx-xxxx" required>
+        <input type="text" name="phoneNumber" placeholder=" +x-xxx-xxx-xxxx" required minlength="11" maxlength="11" pattern=".{11,11}">
     </div>
     <div>
         <p class="light-text">By creating an account you agree with our terms & conditions. This site is protected by
@@ -82,7 +82,7 @@
             <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.
         </p>
     </div>
-    <button type="button" class="button text-center" id = "create-account-button">Create Account</button>
+    <button type="submit" class="button text-center" id = "create-account-button">Create Account</button>
     <p class="light-text">Already have an account? <a href="#">Log in</a></p>
 </form>
 

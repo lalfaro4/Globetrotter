@@ -20,19 +20,6 @@ var routeProtectors = require('../../middleware/routeProtectors');
 
 
 /*************************************************************************************
- * Renders the page at URL '/accountmanagement'
- *************************************************************************************/
- router.get('/update', routeProtectors.userIsLoggedIn, (req, res, next) => {
-    res.render("accountmanagement", {
-      layout: 'globetrotter',
-      filename: "accountmanagement",
-      title: "Account Management"
-    });
-  });
-
-
-
-/*************************************************************************************
  * Make the router usable from other modules (mainly app.js).
  *************************************************************************************/
 module.exports = router;

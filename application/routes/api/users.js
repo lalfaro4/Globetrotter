@@ -51,11 +51,11 @@ router.post('/me/update', async (req, res, next) => {
   console.log('Update');
   console.log(req.body);
   if (req.session && req.session.user) {
-    if (req.body.username && req.body.firstName && req.body.lastName &&
-      req.body.gender && req.body.birthdayYear && req.body.birthdayMonth &&
-      req.body.birthdayDay && req.body.addressLine1 && req.body.addressLine2 &&
-      req.body.city && req.body.state && req.body.postalCode &&
-      req.body.primaryPhoneNumber && req.body.secondaryPhoneNumber) {
+    // if (req.body.username && req.body.firstName && req.body.lastName &&
+    //   req.body.gender && req.body.birthdayYear && req.body.birthdayMonth &&
+    //   req.body.birthdayDay && req.body.addressLine1 && req.body.addressLine2 &&
+    //   req.body.city && req.body.state && req.body.postalCode &&
+    //   req.body.primaryPhoneNumber && req.body.secondaryPhoneNumber) {
       try {
         console.log('Attempting update');
         var result = await database.updateUserProfile(req.session.user.user_id, req.body.username, req.body.firstName, req.body.lastName,
@@ -74,10 +74,10 @@ router.post('/me/update', async (req, res, next) => {
         log(error, "fail");
         res.send({ result: "Error finding user." });
       }
-    } else {
-      log("Missing parameters.", "fail");
-      res.send({ result: "Missing parameters." })
-    }
+    // } else {
+    //   log("Missing parameters.", "fail");
+    //   res.send({ result: "Missing parameters." })
+    // }
   } else {
     log("Not logged in.", "fail");
     res.send({ result: "Not logged in." });

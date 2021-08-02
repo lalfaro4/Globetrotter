@@ -146,12 +146,15 @@ header {
     opacity: 0;
 }
 .planner-activity > label > [type=radio]:first-of-type:checked + div {
-    background-color: #d5d5d5;
+    /* background-color: #d5d5d5; */
     /* background-color: var(--green-color); */
+    background-color: var(--green-color);
+    
 }
 .planner-activity-header {
     padding: 2em;
     cursor: pointer;
+    border: 1px solid silver;
     background-color: white;
     grid-template-columns: min-content 1fr;
     display: grid;
@@ -236,7 +239,7 @@ input[type="time"] {
 }
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #e6e6e6;
+    border-top: 16px solid var(--green-color);
     border-radius: 50%;
     width: 4em;
     height: 4em;

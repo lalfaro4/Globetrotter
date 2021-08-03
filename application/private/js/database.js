@@ -542,13 +542,19 @@ async function getInvitedPhotoAlbumUsers(photo_album_id) {
  * Invite a user to collaborate on a photo_album using their username and photo_album_id.
  *************************************************************************************/
 async function inviteUserToPhotoAlbum(username, photoAlbumId) {
-    var query = 'CALL usp_invite_to_photo_album(?, ?)';
-    var params = [username, photoAlbumId];
-    var result = await runQuery(query, params);
-    if (result) {
-        return result;
-    } else {
+    var photoAlbumOwner = await getPhotoAlbumOwner(photoAlbumId);
+    if (photoAlbumOwner == username) {
+        log(photoAlbumOwner + " is the owner of the album.", 'fail');
         return null;
+    } else {
+        var query = 'CALL usp_invite_to_photo_album(?, ?)';
+        var params = [username, photoAlbumId];
+        var result = await runQuery(query, params);
+        if (result) {
+            return result;
+        } else {
+            return null;
+        }
     }
 }
 
@@ -651,6 +657,21 @@ async function updateUserProfile(userId, username, firstName, lastName, gender, 
 
 }
 
+/*************************************************************************************
+ * Get owner of a photo_album
+ *************************************************************************************/
+ async function getPhotoAlbumOwner(albumId) {
+    var query = 'SELECT username FROM registered_user INNER JOIN photo_album ON registered_user.`user` = photo_album.trip_owner WHERE photo_album.`photo_album_id` = ?;'
+    var params = [albumId];
+    var result = await runQuery(query, params);
+    if (result) {
+        return result[0].username;
+    } else {
+        return null;
+    }
+}
+
+
 
 
 /*************************************************************************************
@@ -690,6 +711,7 @@ module.exports.uninviteUserFromPhotoAlbum = uninviteUserFromPhotoAlbum;
 module.exports.updateFlightActivity = updateFlightActivity;
 module.exports.updateUserProfile = updateUserProfile;
 module.exports.updateTrip = updateTrip;
+module.exports.getPhotoAlbumOwner = getPhotoAlbumOwner;
 
 
 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration page</title>
+    <link rel="stylesheet" href="../css/registration.css">
+</head>
+
+<body>
+    <div class="nav">
+        <input type="checkbox" id="nav-check">
+        <div class="nav-header">
+            <div class="nav-title">
+                Globetrotter
+            </div>
+        </div>
+        <div class="nav-btn">
+            <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+        <div class="nav-links">
+            <a href="#" target="_blank">About</a>
+            <a href="#" target="_blank">Previous Trips</a>
+            <a href="#" target="_blank">Saved Trips</a>
+            <div class="dropdown">
+                <button class="dropbtn">Profile 
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                <div class="dropdown-content">
+                    <a href="#">Account Management</a>
+                    <a href="#">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="center">
+        <h1>Create an account to access Globetrotter</h1>
+        <p class="light-text">Fill the form below to create an account with Globetrotter</p>
+
+        <div class="row">
+            <label>First Name:</label>
+            <input type="text" name="firstName" placeholder=" Jane" required>
+        </div>
+        <div class="row">
+            <label>Last Name:</label>
+            <input type="text" name="lastName" placeholder=" Doe" required>
+        </div>
+        <div>
+            <label for="emailAddress">Email Address:</label>
+            <input type="email" name="emailAddress" class="form-control" placeholder=" abc@xyz.com" required>
+        </div>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" class="form-control" placeholder=" Janedoe1" required>
+        </div>
+        <div>
+            <label for="username">Password:</label>
+            <input type="password" name="password" class="form-control" placeholder=" Password" required>
+        </div>
+        <div>
+            <label for="username">Confirm Password:</label>
+            <input type="password" name="confirmPassword" class="form-control" placeholder=" Password" required>
+        </div>
+
+        <div class="row">
+            <label>Birthday:</label>
+            <input type="date" id="birthday" name="birthday" required>
+        </div>
+        <div class="row">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender">
+            <option value="none" selected disabled hidden>
+                    Select
+            </option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        </div>
+        <div>
+            <label for="address">Address Line 1:</label>
+            <input type="text" name="address" class="form-control" placeholder=" 123 Elm St" required>
+        </div>
+        <div>
+            <label for="address2">Address Line 2:</label>
+            <input type="text" name="address2" class="form-control" placeholder=" Apt 2" required>
+        </div>
+        <div class="row">
+            <label>City:</label>
+            <input type="text" name="city" placeholder=" San Francisco" required>
+        </div>
+        <div class="row">
+            <label>State:</label>
+            <input type="text" name="state" placeholder=" California" required>
+        </div>
+        <div class="row">
+            <label>Zip Code:</label>
+            <input type="text" name="zipcode" placeholder=" xxxxx" required>
+        </div>
+        <div class="row">
+            <label>Phone Number:</label>
+            <input type="text" name="phoneNumber" placeholder=" +x-xxx-xxx-xxxx" required>
+        </div>
+        <div>
+            <p class="light-text">By creating an account you agree with our terms & conditions. This site is protected by Globetrotter
+                <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.
+            </p>
+        </div>
+        <button type="submit" class="button text-center">Create Account</button>
+        <p class="light-text">Already have an account? <a href="#">Log in</a></p>
+    </form>
+</body>
+
+</html>

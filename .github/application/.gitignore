@@ -1,0 +1,4 @@
+*.bak
+*.idea
+*.DS_Store
+application/node_modules/bcrypt

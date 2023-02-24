@@ -1,0 +1,40 @@
+<section>
+    <div class="content">
+        <div class="accordion"><br><br>
+            <div class="accordion-item" id="ex{{@index}}">
+                <a class="accordion-link" href="#ex{{@index}}">
+                    <div class="accordion-title">
+                        {{trip_name}}
+                    </div>
+                    {{!-- <a href="/planner?trip_id={{trip_id}}">
+                        <i class='fas fa-pen'></i>
+                    </a> --}}
+                </a>
+                <div class="answer">
+                    {{!-- <p>
+                        Departure Time: 
+                        <span class="deptime">
+                            <input type="time" value="{{Time trip_start}}" disabled>
+                        </span>
+                    </p>
+                    <p>
+                        Arrival Time: 
+                        <span class="arrtime">
+                            <input type="time" value="{{Time trip_end}}" disabled>
+                        </span>
+                    </p>
+                    <p>Airline: <span class="airline">--</span></p>
+                    <p>Type: <span class="flighttype">One-Way</span></p>
+                    <p>Price: <span class="totalprice">$ --.--</span></p> --}}
+                    <div class="buttons">
+                        <button class="savedtrips-edit-button delbtn" data-tripid="{{trip_id}}">Edit</button>
+                        <button class="savedtrips-delete-button delbtn" data-tripid="{{trip_id}}" value="Delete" class="delbtn">Delete</button>
+                        {{!-- <form action="/checkout"> 
+                            <button type="submit" value="Check Availability" class="checkbtn">Checkout</button>
+                        </form> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

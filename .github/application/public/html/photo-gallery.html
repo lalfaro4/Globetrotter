@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globetrotters | Photo Gallery</title>
+    <link rel="stylesheet" href="../css/photo-gallery.css">
+</head>
+<body>
+
+    <!-- <div class="page-header">
+        <h1>Photo Gallery</h2>
+
+    </div> -->
+
+    <!-- This div is used as a container to hold the image. The idea is that it will be centered in
+        its container using display flex in hopes that it will aligned in the middle of the screen. -->
+    <div id = "profile-photo-container" class = "profile-photo-container">
+        <img id = "profile-photo" class = "profile-photo" src="../images/person.jpg">
+    </div>
+
+
+    <!-- This div is used as a container to hold the description of a trip photo gallery. The idea is that it will be centered in
+        its container using display flex in hopes that it will aligned in the middle of the screen. -->
+    <div id="gallery-description-container" >
+        <p id = "gallery-description" class = "gallery-description">
+           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga tempore laudantium nulla a officiis libero facilis quasi deserunt possimus, aliquam natus.
+           Minus sit facilis fuga cum veritatis aliquid quaerat, assumenda ipsum maiores non inventore fugiat quam optio expedita ullam earum necessitatibus. 
+           Tenetur minima quaerat laudantium hic delectus architecto modi ab?
+    </div>
+
+
+    <!-- This div container is used to hold the grid so that it can be centered in the screen using
+        display flex. The grid will hold all the images that get uploaded by the user. -->
+    <div class = "grid-container"></div>
+        <div id="images-container" class = "images-container">
+
+    </div>
+    <button id = "add-img-btn" class = "add-img-btn"> + </button>
+    
+</body>
+<script src="../js/photo-gallery.js"></script>
+</html>

@@ -1,0 +1,60 @@
+
+.rounded-image{
+  width: 70%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.team-mate-container{
+  position: relative;
+  width: 50%;
+  height: 90%;
+  border-radius: .45rem;
+  left: 30%;
+  box-shadow: 1px 5px 20px gray;
+  font-family: 'Lato', sans-serif;
+  margin-bottom: 5%;
+  margin-top: 100px;
+
+}
+
+.container-body{
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-header{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  height: 5rem;
+  background-color:#7a3233;
+  border-top-right-radius: 0.45rem;
+  border-top-left-radius: 0.45rem;
+  color: #fff;
+  
+}
+
+.member-name{
+  position: absolute;
+}
+
+.member-role{
+  position: absolute;
+  top: 60%;
+
+}
+
+.member-image{
+  left: 30%;
+  margin: 8% 15%;
+}
+
+
+.member-bio{
+ padding: 2rem 10rem;
+ padding-bottom: 4rem; 
+ line-height: 1.5rem;
+}

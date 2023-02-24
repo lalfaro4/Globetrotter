@@ -1,0 +1,263 @@
+/* *::before, *::after{
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+li, a, button{
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: 500;
+	font-size: 16px;
+	text-decoration: none;
+} */
+
+a:link, 
+a:visited, 
+a:hover, 
+a:active{
+	color:black;
+	text-decoration: none;
+}
+
+/* header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 30px 10%;
+	border-bottom: 3px solid grey;
+} */
+
+/* .logo{
+	cursor: pointer;
+} */
+
+/* button{
+	padding: 9px 25px;
+	background-color:rgba(173, 42, 173, 0.849);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+} */
+
+/* button:hover{
+	background-color:rgba(173, 42, 173, 0.849);
+} */
+
+
+
+/* body{
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 17px;
+} */
+
+/* title{
+	color: grey;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: medium;
+	letter-spacing: 0;
+	line-height: 30px;
+	min-height: 42px;
+	min-width: 213px;
+	white-space: nowrap;
+} */
+
+
+
+/* 
+.cardinfo{
+	display: inline-block;
+} */
+
+.flightdetails{
+	width:auto;
+	height: 200px;
+	overflow: scroll;
+}
+
+.row {
+	display: -ms-flexbox; /* IE10 */
+	display: flex;
+	-ms-flex-wrap: wrap; /* IE10 */
+	flex-wrap: wrap;
+	margin: 0 -16px;
+  }
+
+  .col-50 {
+	flex:auto;
+  }
+ 
+
+  .container {
+	padding: 30px 20px 15px 20px;
+	
+  }
+
+  /* .btn {
+	background-color: rgba(173, 42, 173, 0.849);
+	color: white;
+	padding: 12px;
+	margin: 0 auto;
+	display: block;
+	border: none;
+	width: 200px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 17px;
+	
+  } */
+  
+  /* .delbtn:hover,
+  .checkbtn:hover {
+	background-color: purple;
+  } */
+
+  .delbtn,
+  .checkbtn{
+	background-color: rgba(173, 42, 173, 0.849);
+	color: white;
+	padding: 12px;
+	margin: 10px;
+	border: none;
+	width: 200px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 17px;
+  }
+
+  .buttons{
+	  display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+
+  /* label {
+	  width: 240px;
+	margin-bottom: 10px;
+	display:inline-block;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-align: right;
+  } */
+
+  /* input {
+	width: 300px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	position: relative;
+	display:inline-block;
+  } */
+/* 
+  input.expdate{
+	  width:40px;
+	  margin-bottom: 20px;
+
+  } */
+
+
+  span.numflight,
+  span.tax,
+  span.totalprice,
+  span.deptime,
+  span.arrtime,
+  span.airline,
+  span.flighttype {
+	float: right;
+	color: grey;
+  }
+
+  .terms{
+	  text-align: center;
+
+  }
+
+
+section{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.content{
+	width: 75%;
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+.accordion-item{
+	border: 3px solid grey;
+	border-radius: .4rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	box-shadow: .5rem 2px .5rem rgba(0,0,0,.1);
+}
+
+.accordion-link{
+	font-size: 1.6rem;
+	text-decoration: none;
+	width: 100%;
+	display: inline;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 0;
+}
+
+.accordion-title{
+	text-align: center;
+	position: relative;
+	font-weight: 500;
+	padding: 10px;
+}
+
+.accordion-link i{
+	padding: .5rem;
+	font-size:24px;
+}
+
+.accordion-link .fas{
+	display: none;
+}
+ 
+
+.answer{
+	max-height: 0;
+	overflow: hidden;
+	position: relative;
+	transition: max-height 650ms;
+}
+
+.answer::before{
+	content: "";
+	position:absolute;
+	width: .6rem;
+	height: 90%;
+	background-color: rgba(173, 42, 173, 0.849);
+	top:50%;
+	left: 0;
+	transform: translateY(-50%);
+	
+}
+
+.answer p{
+	font-size: 1em;
+	padding-left: 1em;
+	background-color: rgba(255, 255, 255, 0.582);
+}
+
+.accordion-item:target .answer{
+	max-height: 2000rem;
+}
+
+.accordion-item:target .accordion-link .fas{
+	display: block;
+	float:right;
+}

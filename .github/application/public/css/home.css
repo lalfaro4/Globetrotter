@@ -1,0 +1,122 @@
+*{
+    padding: 0;
+    margin: 0;
+    /* overflow-x: hidden; */
+}
+
+.main-content {
+    background-color: black;
+}
+
+.image-container{
+    background:url("../images/plane.jpg");
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(50%);
+}
+
+.text{
+    color: #fff;
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+}
+
+.home-text-alignment{
+    position: absolute;
+    display: block;
+    /* border: solid white 1px; */
+    text-align: center;
+    width: 100%;
+}
+
+.team-name{
+    top: 20%;
+    font-size: 4rem;
+    background-color: rgba(22, 145, 102, 0.7);
+}
+
+.slogan{
+    top: 37%;
+    font-size: 3rem;
+    font-style: italic;
+}
+
+.description{
+    margin-left: 5%;
+    width: 70%;
+    top: 55%;
+    font-size: 20px;
+    padding: 10px 50px;
+    background-color: rgba(22, 145, 102, 0.7);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.search-section{
+    top: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+}
+
+.input{
+    width: 400px;
+    margin: 20px auto;
+    border-radius: 1rem;
+    padding: 10px;
+}
+
+.input:focus{
+    outline: none;
+    transform: scale(1.05) perspective(1px);
+    transition: 0.5s;
+}
+
+.search-button{
+    width: 200px;
+    padding: 10px 15px;
+    background-color: transparent;
+    border: solid white 1px;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    margin: 0 auto;
+}
+
+.search-button:hover{
+    background: white;
+    color: black;
+    transition: 0.8s;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 1000px){
+
+    .input{
+        margin: 10px;
+    }
+
+    .search-section{
+        display: flex;
+        flex-direction: row;
+        top: 70%;
+    }
+
+    .search-fields{
+        margin: 0 auto;
+    }
+
+    .search-button{
+        padding: 10px 15px;
+        margin-left: 30px;
+    }
+
+    .description{
+        margin-left: 10%;
+        
+    }
+    
+    
+}

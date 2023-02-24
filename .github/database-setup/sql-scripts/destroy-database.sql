@@ -1,0 +1,2 @@
+DROP DATABASE GlobetrotterV1;
+DROP USER team2;

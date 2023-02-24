@@ -1,0 +1,26 @@
+{
+  "name": "travel-planner",
+  "version": "1.0.0",
+  "description": "The purpose of this folder is to store all the source code and related files for your team's application. Source code MUST NOT be in any of folder. <strong>YOU HAVE BEEN WARNED</strong>",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amadeus": "^5.7.0",
+    "bcrypt": "^5.0.1",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "express-mysql-session": "^2.1.6",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "mysql-await": "^2.1.8",
+    "nodemon": "^2.0.9",
+    "sharp": "^0.28.3"
+  }
+}

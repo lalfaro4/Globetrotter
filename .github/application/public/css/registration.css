@@ -1,0 +1,124 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* This is the styling for the container that holds the password requirements. */
+.message {  
+    border: solid lightgrey 1px;
+    color: #000;
+    padding: 20px 60px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    transition: 0.5s;
+    border-radius: 0.5rem;
+}
+  
+/* Any p tags that are in a tag that contains the .message class will have the following style. */
+.message p {
+    padding: 2px 20px;
+    font-size: 18px;
+}
+
+/* Will be used to change any text green. */
+.passed {
+    color: green;
+}
+  
+/* Any class that has a class of failed will begin green as soon as the page loads */
+.passed:before {
+    position: relative;
+    content: "\2713";
+    left: -35px;
+
+}
+  
+/* Will be used to change any text red. */
+.failed {
+    color: red;
+}
+  
+/* Any class that has a class of failed will begin red as soon as the page loads */
+.failed:before {
+    left: -35px;
+    content: "\2717";
+    position: relative;
+
+}
+
+
+/* Center*/
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 5px solid #ffffff;
+    padding: 10px;
+}
+
+.row {
+    display: inline-block;
+    width: 49.5%;
+}
+
+.row input {
+    display: block;
+    width: 100%;
+    border: 1px solid;
+    border-radius: .25rem;
+    height: 30px;
+    border-color: #e4e9f2;
+    margin: 10px 0;
+}
+
+.row label {
+    display: block;
+    width: 100%;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    border: 1px solid;
+    border-radius: .25rem;
+    height: 30px;
+    border-color: #e4e9f2;
+    margin: 10px 0;
+}
+
+.light-text {
+    color: #808080;
+}
+
+.button {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 10px;
+    width: 100%;
+    border-radius: .25rem;
+    font-size: 1rem;
+    color: #000000;
+    background-color: #AFEDBA;
+    border: #AFEDBA;
+}
+
+.topnav-right {
+    float: right;
+}
+
+#gender {
+    width: 100%;
+    border: 1px solid #e4e9f2;
+    border-radius: 0.25rem;
+    height: 30px;
+    margin: 10px 0px;
+}

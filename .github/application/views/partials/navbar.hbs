@@ -1,0 +1,35 @@
+<div class="nav">
+    <input type="checkbox" id="nav-check">
+    <div class="nav-header">
+        <a href='/'>
+            <img class="navbar-logo" src="/public/images/logo_full.png">
+        </a>
+    </div>
+     <div class="nav-btn">
+        <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    </div>
+    <div class="nav-links">
+        <a href="/about">About</a>
+        {{#if logged}}
+        <a href="/trips/create?tripName=NewTrip">New Trip</a>
+        <a href="/previoustrips">Previous Trips</a>
+        <a href="/savedtrips">Saved Trips</a>
+        <a href="/sharedalbums">Shared Albums</a>
+        <div class="dropdown">
+            <button class="dropbtn">{{session.username}}
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/accountmanagement">Account Management</a>
+                <a href="/users/logout">Sign Out</a>
+            </div>
+        </div>
+        {{else }}
+        <a href="/login">Login</a>
+        {{/if}}
+    </div>
+</div>
